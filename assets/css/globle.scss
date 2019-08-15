@@ -1,0 +1,119 @@
+// $bgc :#eee;
+body{
+    // background: url('../image/bj.png') repeat top left scroll;
+    background: url(../image/bl.png) no-repeat fixed bottom left, url(../image/tr.png) no-repeat fixed top right, #f0f2f7;
+    z-index: -2;
+    font-size: 14px;
+    // background: #fafafa;
+}
+ul,ol{
+    list-style: none;
+}
+
+.box-bj-sd,.lanmu{
+    box-shadow: 0 0 10px 5px #eaeaea;
+    background-color: #fff;
+}
+.section-warp{
+    margin: auto;
+    width: 1200px;
+    padding-top: 120px;
+    display: flex;
+    justify-content: space-between;
+}
+section{
+    width: 915px;
+}
+aside{
+    width: 270px;
+}
+
+h3 {
+    padding: 15px;
+    padding-bottom: 10px;
+    border-radius: 3px 3px 0 0;
+    background-color: #fff;
+    border-bottom: #ddd 1px solid;
+    font-size: 16px;
+    position: relative;
+    i {
+      margin-right: 5px;
+    }
+}
+h3::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 90px;
+    height: 2px;
+    background-color: #3F51B5;
+    bottom: 0px;
+    left: 13px;
+    transition: all .3s ease;
+}
+.article-meta .inner pre {
+    border-radius: 3px !important;
+    border: 1px solid #eee !important;
+    background-color: #f6f6f6 !important;
+    padding: 10px 15px !important;
+}
+.box-bj-sd:hover h3::before ,.article_list:hover h3::before{
+    width: 120px;
+}
+.inner h3{
+    border-left: 5px solid #ff926f;
+    background-color: #f7f7f7;
+    padding: 8px 15px;
+    font-size: 18px;
+    border-radius: 0;
+    border-bottom:0px;
+    margin-top:15px;
+}
+.inner h3::before {
+    width: 0;
+    height: 0;
+}
+.ivu-page {
+    margin-top: 50px;
+    padding: 15px 0 60px 0px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+}
+
+.whitebg {
+    background: #fff;
+    padding: 18px 18px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    img {
+        height: 100px;
+        float: left;
+        margin-right: 20px;
+    }
+    h1 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+    p {
+        color: #666;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.page-enter-active, .page-leave-active {
+    transition: opacity .2s;
+}
+.page-enter, .page-leave-active {
+    opacity: 0;
+}
