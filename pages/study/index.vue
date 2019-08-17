@@ -1,13 +1,13 @@
 <template>
-  <div class="section-warp">
+  <div>
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-        <img src="http://www.vipshan.com/skin/images/lm07.png" />
-        <h1>技术专栏</h1>
-        <p>深山SEO博客,分享网站建设周边知识,建站搭建常用软件工具下载。好玩的网站资源、实用的建站技巧分享。</p>
+        <img src="../../assets/image/default.jpg" />
+        <h1>{{type}}</h1>
+        <p>本专栏中记录了自己在闲暇期间吸取的一些技术知识点，以及在开发过程中所遇到的技术问题，在此做下总结，以备不时之需。同时也希望可以帮到那些和我遇到同样问题的朋友！ ٩(๑&gt;◡&lt;๑)۶ 。</p>
       </div>
-      <ArticleList />
+        <ArticleList :type="type"/>
     </section>
     <!-- 右半部分 -->
    <AsideMain :configure="asideConfig" />
@@ -19,14 +19,14 @@ import ArticleList from "../../components/ArticleList";
 // import TabsList from "../components/TabsList";
 // import { goBack } from "../assets/js/gloable.js";
 export default {
-  name: "contents",
+  name: "study",
   components: {
     AsideMain,
     ArticleList
     // TabsList
   },
   data: () => ({
-    type: '技术杂谈',
+    type: '技术专栏',
      asideConfig: {
       isSay: true,   //每日一句
       // isInfo: true,   //名片

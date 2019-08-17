@@ -38,7 +38,8 @@ module.exports = {
   */
   plugins: [
     { src: '@/plugins/iview' },
-    { src: "~/plugins/vue-swiper.js", ssr: false }
+    { src: "~/plugins/vue-swiper.js", ssr: false },
+    { src: "~/plugins/back.js", ssr: false }
   ],
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000'

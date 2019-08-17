@@ -2,12 +2,7 @@
   <div>
     <!-- 左半部分 -->
     <section>
-      <div class="whitebg lanmu">
-        <img src="../../assets/image/default.jpg" />
-        <h1>{{type}}</h1>
-        <p>此专栏主要记录一些有关 Linux 操作系统、Git、NPM 等知识点。另外还包括一些其他的技术要点。</p>
-      </div>
-        <ArticleList :type="type"/>
+        <ArticleList :type="type" :mark="true"/>
     </section>
     <!-- 右半部分 -->
    <AsideMain :configure="asideConfig" />
@@ -16,14 +11,17 @@
 <script>
 import AsideMain from "../../components/AsideMain";
 import ArticleList from "../../components/ArticleList";
+// import TabsList from "../components/TabsList";
+// import { goBack } from "../assets/js/gloable.js";
 export default {
-  name: "other",
+  name: "base",
   components: {
     AsideMain,
     ArticleList
+    // TabsList
   },
   data: () => ({
-    type: '技术杂谈',
+    type: '数据库',
      asideConfig: {
       isSay: true,   //每日一句
       // isInfo: true,   //名片

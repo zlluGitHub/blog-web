@@ -1,11 +1,11 @@
 <template>
   <div class="box-bj-sd">
-    <h3>
+    <h3 class="h3-style">
       <i class="fa fa-map-signs"></i>本站推荐
     </h3>
     <ul class="article-list">
       <li v-for="item in titleData" @click="handleLook(item.bid)" :key="item.title">
-        <a :title="item.title" href="javascript:void(0);">{{item.title}}</a>
+      <nuxt-link :to="'/detail/'+item.bid">{{item.title}}</nuxt-link>
       </li>
     </ul>
   </div>
@@ -58,7 +58,8 @@ export default {
       }
       // this.titleData = data;
       // console.log(this.titleData);
-    }
+    },
+    handleLook(){}
   }
 };
 </script>

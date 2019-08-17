@@ -89,7 +89,7 @@
 export default {
   name: "viwephotos",
   data: () => ({
-    URL: "URL",
+    URL: process.env.BASE_URL,
     imgUrl: "getUrl()",
     replyData: [],
     total: 0,

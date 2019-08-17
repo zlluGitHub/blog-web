@@ -2,43 +2,56 @@
   <div class="tab">
     <h3 class="htitle">
       <a
-        @click="handleTab(1,'程序人生')"
+        @click="handleTab(1,'JavaScript')"
         :class="[mark===1?'newscurrent':'']"
         href="javascript:void(0);"
-      >程序人生</a>
+      >JavaScript</a>
       <a
-        @click="handleTab(2,'SEO优化')"
+        @click="handleTab(2,'Vue/React')"
         :class="[mark===2?'newscurrent':'']"
         href="javascript:void(0);"
-      >SEO优化</a>
+      >Vue/React</a>
       <a
-        @click="handleTab(3,'网站建设')"
+        @click="handleTab(3,'NodeJs')"
         :class="[mark===3?'newscurrent':'']"
         href="javascript:void(0);"
-      >网站建设</a>
+      >NodeJs</a>
       <a
-        @click="handleTab(4,'技术杂谈')"
+        @click="handleTab(4,'Echarts')"
         :class="[mark===4?'newscurrent':'']"
         href="javascript:void(0);"
-      >技术杂谈</a>
+      >Echarts</a>
     </h3>
     <!-- tab1 -->
     <div class="newstab">
       <div class="newsitem">
-        <ul>
-          <li v-for="(item,index) in singleData" v-key="index">
-            <img :src="URL+item.imgSrc" :alt="item.title"/>
+        <ul v-if="tabsData">
+          <li v-for="item in tabsData" :key="item.title">
+            <img :src="URL+item.imgSrc" :alt="item.title" />
             <div>
               <p>
-                <a href="javascript:void(0);" @click="handleTo(item.bid,'','',item.title)">{{item.title}}</a>
-                <span>{{item.publishTime.slice(0,10)}}</span>
+                  <nuxt-link
+                :to="'/detail/'+item.bid"
+                @click.native="handleTo(item.bid)"
+              >{{item.title}}</nuxt-link>
+                <!-- <a
+                  href="javascript:void(0);"
+                  @click="handleTo(item.bid,'','',item.title)"
+                >{{item.title}}</a> -->
+                <span>{{item.publishTime}}</span>
               </p>
               <p>{{item.description}}</p>
             </div>
           </li>
         </ul>
+        <div v-else class="demo-spin-col" span="8">
+          <Spin fix>
+            <Icon type="ios-loading" size="18" class="demo-spin-icon-load"></Icon>
+            <div>Loading</div>
+          </Spin>
+        </div>
         <!-- <ol>
-          <li v-for="item in singleData.leftData">
+          <li v-for="item in tabsData.leftData">
             <a href="javascript:void(0);" @click="handleTo(item.bid,'','',item.title)">
               <img :src="URL+item.imgSrc" :alt="item.title" />
               <span>{{item.title}}</span>
@@ -46,7 +59,7 @@
           </li>
         </ol>
         <ul>
-          <li v-for="item in singleData.rightData">
+          <li v-for="item in tabsData.rightData">
             <h4>
               <i class="fa fa-hand-o-right fa-lg"></i>
               <a
@@ -58,10 +71,10 @@
           </li>
         </ul>-->
       </div>
-      <p>
+      <p v-if="total>6">
         <i class="fa fa-angle-double-right"></i>
         <i class="fa fa-angle-double-right"></i>
-        <span @click="handleRouter">加载更多</span>
+        <span @click.stop="handleRouter">加载更多</span>
         <i class="fa fa-angle-double-left"></i>
         <i class="fa fa-angle-double-left"></i>
       </p>
@@ -69,66 +82,66 @@
   </div>
 </template>
 <script>
-import { URL } from "../constant/constant.js";
+// import { URL } from "../constant/constant.js";
 export default {
   name: "tab",
   data: () => ({
-    URL: URL,
-    mark: 3,
-    articleData: [],
-    singleData: {},
-    type: ""
+    URL: process.env.BASE_URL,
+    mark: 1,
+    // articleData: [],
+    tabsData: [],
+    total:0,
+    type: "JavaScript"
   }),
   computed: {
-    article() {
-      return this.$store.state.article.article.list;
+    articleData() {
+      return this.$store.state.article.articleAll;
     }
   },
   watch: {
-    article(value) {
-      this.articleData = value;
-      this.handleTab(3, "网站建设");
+    articleData() {
+      this.getArticle();
     }
   },
-  mounted() {
-    this.articleData = this.$store.state.article.article.list;
-    this.handleTab(3, "网站建设");
+  created() {
+    this.getArticle();
   },
   methods: {
+    getArticle() {
+      this.$store.commit("setTab", this.type);
+      let data = this.$store.getters.getTabList(1, 6);
+      if (data) {
+        this.tabsData = data.list;
+        this.total = data.total;
+      }
+    },
     handleTo(bid, nav, url, title) {
       // 将bid存储到store中
-      this.$store.dispatch("setRouter", { nav, url, title });
-      this.$store.dispatch("setSingleArtile", bid);
-      this.$router.push({
-        path: "/article",
-        query: {
-          bid: bid
-        }
-      });
+      // this.$store.dispatch("setRouter", { nav, url, title });
+      // this.$store.dispatch("setSingleArtile", bid);
+      // this.$router.push({
+      //   path: "/article",
+      //   query: {
+      //     bid: bid
+      //   }
+      // });
     },
     handleTab(val, tabName) {
       this.type = tabName;
       this.mark = val;
-      if (this.articleData) {
-        let data = this.articleData.filter(item => {
-          if (item.typeName.indexOf(tabName) != -1) {
-            return item;
-          }
-        });
-        this.singleData = data.slice(0, 6);
-      }
+      this.getArticle();
     },
     handleRouter() {
-      let nav = this.type;
-      let pageData = this.$store.getters.getTypeData(nav);
-      this.$store.dispatch("setArticleTypeData", pageData);
-      this.$store.dispatch("setRouter", { nav, url: "/type", title: "" });
-      this.$router.push({ path: "/type" });
-      this.$store.dispatch("setChangingOver", {
-        position: true
-      });
-      //侧边栏配置
-      this.$store.dispatch("setAsideSingleConfigsData", "b");
+      // let nav = this.type;
+      // let pageData = this.$store.getters.getTypeData(nav);
+      // this.$store.dispatch("setArticleTypeData", pageData);
+      // this.$store.dispatch("setRouter", { nav, url: "/type", title: "" });
+      this.$router.push({ path: "/tabs" });
+      // this.$store.dispatch("setChangingOver", {
+      //   position: true
+      // });
+      // //侧边栏配置
+      // this.$store.dispatch("setAsideSingleConfigsData", "b");
     }
   }
 };
@@ -254,7 +267,7 @@ export default {
           // padding-left: 0px;
           border: 1px solid #f3f3f3;
           margin: 4px 4px;
-          transition: all .5s ease;
+          transition: all 0.5s ease;
           img {
             display: block;
             width: 112px;

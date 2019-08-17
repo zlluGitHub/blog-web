@@ -1,0 +1,43 @@
+<template>
+  <div>
+    <!-- 左半部分 -->
+    <section>
+        <ArticleList :type="type" :mark="true"/>
+    </section>
+    <!-- 右半部分 -->
+   <AsideMain :configure="asideConfig" />
+  </div>
+</template>
+<script>
+import AsideMain from "../../components/AsideMain";
+import ArticleList from "../../components/ArticleList";
+// import TabsList from "../components/TabsList";
+// import { goBack } from "../assets/js/gloable.js";
+export default {
+  name: "tags",
+  components: {
+    AsideMain,
+    ArticleList
+    // TabsList
+  },
+  data: () => ({
+    type: '标签',
+     asideConfig: {
+      isSay: true,   //每日一句
+      // isInfo: true,   //名片
+      isRecommend: true, //本站推荐
+      isClick: true, //点击排行
+      // isComment: true, //评论
+      // isArticle:true, //最新文章
+      isCount: true, //统计
+      isTags: true //标签
+    },
+  }),
+  created() {
+    this.$store.commit("setType", this.type);
+  },
+
+  methods: {
+  }
+};
+</script>

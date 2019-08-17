@@ -1,6 +1,6 @@
 <template>
   <div class="box-bj-sd">
-    <h3>
+    <h3 class="h3-style">
       <i class="fa fa-slideshare"></i>每日一语
     </h3>
     <div class="panel-body">

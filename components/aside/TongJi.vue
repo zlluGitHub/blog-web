@@ -1,6 +1,6 @@
 <template>
   <div class="box-bj-sd">
-    <h3>
+    <h3 class="h3-style">
       <i class="fa fa-bar-chart"></i>站点信息
     </h3>
     <ul class="tongji">

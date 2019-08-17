@@ -1,5 +1,5 @@
 <template>
-  <div class="section-warp">
+  <div>
     <!-- 左半部分 -->
     <section>
       <div class="swiper-warp">
@@ -31,12 +31,14 @@
           </div>
         </div>
       </div>
+     <!-- tab页文章 -->
+      <TabsList />
       <!-- <div class="article_list">
         <h3>
           <i class="fa fa-list-ul"></i>
           <span>最新文章</span>
       </h3>-->
-      <ArticleList />
+      <ArticleList :type="type"/>
       <!-- <Page
           show-total
           @on-change="changePage"
@@ -46,8 +48,7 @@
       />-->
       <!-- </div> -->
       <!-- </div> -->
-      <!-- tab页文章 -->
-      <!-- <TabsList /> -->
+     
       <!-- 最新文章 -->
       <!-- <h3>
       <i class="fa fa-list-ul"></i>
@@ -72,15 +73,15 @@
 import Swiper from "../components/Swiper";
 import AsideMain from "../components/AsideMain";
 import ArticleList from "../components/ArticleList";
-// import TabsList from "../components/TabsList";
+import TabsList from "../components/TabsList";
 // import { goBack } from "../assets/js/gloable.js";
 export default {
-  name: "contents",
+  name: "warp",
   components: {
     Swiper,
     AsideMain,
-    ArticleList
-    // TabsList
+    ArticleList,
+    TabsList
   },
   data: () => ({
     asideConfig: {
@@ -93,6 +94,7 @@ export default {
       isCount: true, //统计
       isTags: true //标签
     },
+    type:"最新文章",
     URL: "",
     value2: 0,
     dataList: [],

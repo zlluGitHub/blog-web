@@ -1,13 +1,13 @@
 <template>
-  <div class="section-warp">
+  <div>
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-        <img src="http://www.vipshan.com/skin/images/lm07.png" />
-        <h1>前端技术</h1>
-        <p>深山SEO博客,分享网站建设周边知识,建站搭建常用软件工具下载。好玩的网站资源、实用的建站技巧分享。</p>
+       <img src="../../assets/image/default.jpg" />
+        <h1>{{type}}</h1>
+        <p>记录 pc端 和 移动端 开发周边技术栈。比如 html5、css3、JavaScript 以及目前比较火的 Vue、React 等框架。常用的 UI 框架及建站 CMS。另外总结了在使用 Echarts、D3、Three 等框架时所遇到的技术问题等。</p>
       </div>
-      <ArticleList />
+         <ArticleList :type="type"/>
     </section>
     <!-- 右半部分 -->
      <AsideMain :configure="asideConfig" />
@@ -17,13 +17,13 @@
 import AsideMain from "../../components/AsideMain";
 import ArticleList from "../../components/ArticleList";
 export default {
-  name: "contents",
+  name: "reception",
   components: {
     AsideMain,
     ArticleList
   },
   data: () => ({
-    type: '技术杂谈',
+    type: '前端技术',
      asideConfig: {
       isSay: true,   //每日一句
       // isInfo: true,   //名片

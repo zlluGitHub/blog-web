@@ -34,12 +34,19 @@
         </p>
         <p class="tags">
           <i data-v-0994aea9 class="fa fa-tags"></i>
-          <a
+          <!-- <a
             href="javascript:void(0);"
             v-for="(tag,index) in articleData.keywords"
             :key="index"
             :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'"
-          >{{tag}}</a>
+          >{{tag}}</a>-->
+          <nuxt-link
+            v-for="(tag,index) in articleData.keywords"
+            :key="index"
+            to="/tags"
+            @click.native="handleTo(tag,'/tags')"
+            :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'"
+          >{{tag}}</nuxt-link>
         </p>
         <p class="share">
           <!-- <b>转载：</b>
@@ -187,6 +194,12 @@ export default {
     // this.getPrevNext();
   },
   methods: {
+    handleTo(name, url) {
+      this.$store.commit("setSearchValue", { name, url });
+      // 返回顶部
+      this.$goBack();
+    },
+
     handleData(bid) {
       this.id = bid;
       var data = this.$store.state.article.articleAll;
@@ -392,7 +405,6 @@ article {
         margin-left: 25px;
       }
     }
- 
   }
 
   .say-box {

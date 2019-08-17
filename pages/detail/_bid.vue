@@ -1,5 +1,5 @@
 <template>
-  <div class="section-warp">
+  <div>
     <!-- 左半部分 -->
     <section>
       <Article :bid="bid"/>
@@ -14,7 +14,7 @@ import Article from "../../components/Article";
 // import TabsList from "../components/TabsList";
 // import { goBack } from "../assets/js/gloable.js";
 export default {
-  name: "article",
+  name: "detail",
   components: {
     AsideMain,
     Article

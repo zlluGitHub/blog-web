@@ -1,13 +1,13 @@
 <template>
-  <div class="section-warp">
+  <div>
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-        <img src="http://www.vipshan.com/skin/images/lm07.png" />
+       <img src="../../assets/image/default.jpg" />
         <h1>{{type}}</h1>
-        <p>深山SEO博客,分享网站建设周边知识,建站搭建常用软件工具下载。好玩的网站资源、实用的建站技巧分享。</p>
+        <p>记录在建站开发中用到的一些后端技术知识点，比如 NodeJs、Java、PHP 等后端开发语言。希望在这里重温的同时可以为需要的朋友提供一些参考。</p>
       </div>
-      <ArticleList />
+         <ArticleList :type="type"/>
     </section>
     <!-- 右半部分 -->
    <AsideMain :configure="asideConfig" />
@@ -19,7 +19,7 @@ import ArticleList from "../../components/ArticleList";
 // import TabsList from "../components/TabsList";
 // import { goBack } from "../assets/js/gloable.js";
 export default {
-  name: "contents",
+  name: "backstage",
   components: {
     AsideMain,
     ArticleList

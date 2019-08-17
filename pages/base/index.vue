@@ -1,13 +1,13 @@
 <template>
-  <div class="section-warp">
+  <div>
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-        <img src="http://www.vipshan.com/skin/images/lm07.png" />
-        <h1>技术专栏</h1>
-        <p>深山SEO博客,分享网站建设周边知识,建站搭建常用软件工具下载。好玩的网站资源、实用的建站技巧分享。</p>
+        <img src="../../assets/image/default.jpg" />
+        <h1>{{type}}</h1>
+        <p>此专栏主要记录一些关于数据库的一些相关内容。比如 MySQL 数据库、mongoDB 数据库等。</p>
       </div>
-      <ArticleList />
+        <ArticleList :type="type"/>
     </section>
     <!-- 右半部分 -->
    <AsideMain :configure="asideConfig" />
@@ -19,14 +19,14 @@ import ArticleList from "../../components/ArticleList";
 // import TabsList from "../components/TabsList";
 // import { goBack } from "../assets/js/gloable.js";
 export default {
-  name: "contents",
+  name: "base",
   components: {
     AsideMain,
     ArticleList
     // TabsList
   },
   data: () => ({
-    type: '技术杂谈',
+    type: '数据库',
      asideConfig: {
       isSay: true,   //每日一句
       // isInfo: true,   //名片

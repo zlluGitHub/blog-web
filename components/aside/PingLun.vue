@@ -1,6 +1,6 @@
 <template>
   <div class="box-bj-sd">
-    <h3>
+    <h3 class="h3-style">
       <i class="fa fa-commenting-o"></i>最新评论
     </h3>
     <ul class="plul">

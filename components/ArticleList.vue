@@ -1,8 +1,15 @@
 <template>
   <div class="article_list box-bj-sd">
-    <h3>
-      <i class="fa fa-list-ul"></i>
-      <span>最新文章</span>
+    <h3 class="h3-style" :class="[mark?'default':'']">
+      <p v-if="mark">
+        关于
+        <span>{{searchVal}}</span> 关键词共检索到
+        <span>{{total}}</span> 条记录
+      </p>
+      <span v-else>
+        <i class="fa fa-list-ul"></i>
+        {{type}}
+      </span>
     </h3>
     <div class="article-box">
       <div v-if="dataList.length===0" class="article_tip">
@@ -18,7 +25,10 @@
           <div class="list-right">
             <h2>
               <span>{{item.typeName}}</span>
-              <nuxt-link :to="'/detail/'+item.bid" @click.native="handleLook(item.bid)">{{item.title}}</nuxt-link>
+              <nuxt-link
+                :to="'/detail/'+item.bid"
+                @click.native="handleLook(item.bid)"
+              >{{item.title}}</nuxt-link>
               <!-- <a href="javascript:void(0);">{{item.title}}</a> -->
             </h2>
             <p>{{item.description}}</p>
@@ -51,10 +61,14 @@
                   >【{{item.typeName}}】</a>-->
                 </span>
               </p>
-              <span class="read" @click="handleLook(item.bid)">
+              <nuxt-link
+                class="read"
+                :to="'/detail/'+item.bid"
+                @click.native="handleLook(item.bid)"
+              >
                 阅读全文
                 <i class="fa fa-chevron-circle-right"></i>
-              </span>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -73,26 +87,47 @@
 // import { URL } from "../constant/constant.js";
 export default {
   data: () => ({
-    URL: "",
+    URL: process.env.baseUrl,
     dataList: [],
     pageNo: 0,
     pageSize: 10,
-    total: 0
+    total: 0,
+    searchVal: "未知内容"
   }),
-  // props: {
-  //   type: {
-  //     type: String,
-  //     default: ""
-  //   }
-  // },
-  
+  props: {
+    type: {
+      type: String,
+      default: "分类标题"
+    },
+    mark: {
+      type: Boolean,
+      default: false
+    },
+    tabs: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   computed: {
     articleData() {
       return this.$store.state.article.articleAll;
+    },
+    typeMark() {
+      return this.$store.state.article.typeMark;
+    },
+    searchValue() {
+      return this.$store.state.article.search;
     }
   },
   watch: {
-    articleData(data) {
+    articleData() {
+      this.getArticle();
+    },
+    typeMark() {
+      this.getArticle();
+    },
+    searchValue() {
       this.getArticle();
     }
   },
@@ -106,7 +141,18 @@ export default {
   },
   methods: {
     getArticle() {
-      let data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
+      let data = [];
+      //判断是否为首页tabs列表
+      if (this.tabs) {
+       
+        
+        data = this.$store.getters.getTabList(this.pageNo, this.pageSize);
+         console.log(data);
+      } else {
+        this.searchVal = this.$store.state.article.search.name;
+        data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
+      }
+
       if (data) {
         this.dataList = data.list;
         this.total = data.total;
@@ -137,6 +183,21 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+h3 {
+  p {
+    span {
+      color: red;
+    }
+  }
+}
+h3.default {
+  display: flex;
+  align-items: center;
+}
+h3.default::before {
+  width: 0;
+  height: 0;
+}
 .article-box {
   .article_tip {
     text-align: center;

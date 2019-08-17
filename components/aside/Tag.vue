@@ -1,15 +1,21 @@
 <template>
   <div class="box-bj-sd">
-    <h3>
+    <h3 class="h3-style">
       <i class="fa fa-tags"></i>热门标签
     </h3>
     <ul class="tag">
       <li v-for="item in tagsData" :key="item.name">
-        <a
+        <!-- <nuxt-link :to="'/detail/'+item.bid">{{item.name}}</nuxt-link> -->
+        <nuxt-link
+          to="/tags"
+          @click.native="handleTo(item.name,'/tags')"
+          :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'"
+        >{{item.name}}</nuxt-link>
+        <!-- <a
           :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'"
           href="javascript:void(0);"
           @click="handleTo(item.name,'/type')"
-        >{{item.name}}</a>
+        >{{item.name}}</a>-->
       </li>
     </ul>
   </div>
@@ -44,16 +50,19 @@ export default {
         )
       );
     },
-    handleTo(nav, url, title) {
-      let pageData = this.$store.getters.getTagsData(nav);
-      this.$store.dispatch("setArticleTypeData", pageData);
-      this.$store.dispatch("setRouter", { nav, url, title });
-      this.$router.push({ path: url });
-      this.$store.dispatch("setChangingOver", {
-        notice: false,
-        position: true
-      });
-      // goBack();
+    handleTo(name, url) {
+      this.$store.commit("setSearchValue", { name, url });
+      // 返回顶部
+      this.$goBack();
+      // this.$router.push({ path: "/search" });
+      // let pageData = this.$store.getters.getTagsData(nav);
+      // this.$store.dispatch("setArticleTypeData", pageData);
+      // this.$store.dispatch("setRouter", { nav, url, title });
+      // this.$router.push({ path: url });
+      // this.$store.dispatch("setChangingOver", {
+      //   notice: false,
+      //   position: true
+      // });
     }
   }
 };

@@ -1,12 +1,12 @@
 <template>
   <div class="box-bj-sd">
-    <h3>
+    <h3 class="h3-style">
       <i class="fa fa-th-list"></i>最新文章
     </h3>
     <ul class="article-list-new">
-      <li v-for="item in titleData" @click="handleLookAll(item.bid)" :key="item.title">
+      <li v-for="item in titleData" @click="handleLook(item.bid)" :key="item.title">
         <i class="fa fa-angle-double-right fa-lg"></i>
-        <a :title="item.title" href="javascript:void(0);">{{item.title}}</a>
+        <nuxt-link :to="'/detail/'+item.bid">{{item.title}}</nuxt-link>
       </li>
     </ul>
   </div>
@@ -40,15 +40,15 @@ export default {
         this.titleData = arr.slice(0, 8);
       }
     },
-    handleLookAll(bid) {
+    handleLook(bid) {
       // 将bid存储到store中
-      this.$store.dispatch("setSingleArtile", bid);
-      this.$router.push({
-        path: "/article",
-        query: {
-          bid: bid
-        }
-      });
+      // this.$store.dispatch("setSingleArtile", bid);
+      // this.$router.push({
+      //   path: "/article",
+      //   query: {
+      //     bid: bid
+      //   }
+      // });
     }
   }
 };

@@ -1,12 +1,13 @@
 <template>
   <div class="box-bj-sd">
-    <h3>
+    <h3 class="h3-style">
       <i class="fa fa-line-chart"></i>点击排行
     </h3>
     <ul class="dianji-list">
-      <li v-for="item in titleData" @click="handleLookAll(item.bid)" :key="item.title">
+      <li v-for="item in titleData" @click="handleLook(item.bid)" :key="item.bid">
         <img :src="URL+item.imgSrc" :alt="item.title" />
-        <a :title="item.title" href="javascript:void(0);">{{item.title}}</a>
+         <nuxt-link :to="'/detail/'+item.bid">{{item.title}}</nuxt-link>
+        <!-- <a :title="item.title" href="javascript:void(0);">{{item.title}}</a> -->
       </li>
     </ul>
   </div>
@@ -14,9 +15,9 @@
 <script>
 // import { URL } from "../../constant/constant.js";
 export default {
-  name: "tuijian",
+  name: "dianji",
   data: () => ({
-    URL: "",
+    URL: process.env.baseUrl,
     titleData: []
   }),
   computed: {
@@ -52,15 +53,15 @@ export default {
       }
       // // this.titleData = data;
     },
-    handleLookAll(bid) {
+    handleLook(bid) {
       // 将bid存储到store中
-      this.$store.dispatch("setSingleArtile", bid);
-      this.$router.push({
-        path: "/article",
-        query: {
-          bid: bid
-        }
-      });
+      // this.$store.dispatch("setSingleArtile", bid);
+      // this.$router.push({
+      //   path: "/article",
+      //   query: {
+      //     bid: bid
+      //   }
+      // });
     }
   }
 };

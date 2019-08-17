@@ -1,20 +1,23 @@
 <template>
   <div class="footer">
     <footer>
-      <p>CopyRight © 2018-{{year}} <a href="https://zhenglinglu.cn">luBlogの博客</a> 版权所有。<br>备案号：冀ICP备18004100号</p>
+      <p>
+        CopyRight © 2018-{{year}}
+        <a href="https://zhenglinglu.cn">luBlogの博客</a> 版权所有。
+        <br />备案号：冀ICP备18004100号
+      </p>
     </footer>
-    <BackTop></BackTop>
   </div>
 </template>
 <script>
 export default {
   name: "footers",
-  data:()=>({
-    year:''
+  data: () => ({
+    year: ""
   }),
-  mounted(){
+  mounted() {
     let myDate = new Date();
-   this.year = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+    this.year = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
   }
 };
 </script>
