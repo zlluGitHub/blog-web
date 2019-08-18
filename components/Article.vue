@@ -5,31 +5,30 @@
       <ul class="meta">
         <li>
           <i class="fa fa-calendar"></i>
-          时间：{{articleData.publishTime}}
-        </li>
-
-        <li class="viewNum">
-          <i class="fa fa-eye fa-lg"></i>
-          围观：{{articleData.viweNum}}
+          发布时间：{{articleData.publishTime}}
         </li>
         <li>
           <i class="fa fa-user fa-lg"></i>
-          发布：{{articleData.author}}
+          发布者：{{articleData.author}}
         </li>
-        <li>
+        <li class="viewNum">
+          <i class="fa fa-eye fa-lg"></i>
+          围观数：{{articleData.viweNum}}
+        </li>
+        <!-- <li>
           <i class="fa fa-heartbeat fa-lg"></i>
           点赞：{{starNum}}
-        </li>
+        </li>-->
       </ul>
       <div class="article-meta">
         <div class="inner" v-html="articleData.content"></div>
         <p style="text-align: center;margin-top: 25px;">
-          <font color="#888888">- - END - -</font>
+          <font> - - - END - - - </font>
         </p>
-        <p style="text-align: center; ">
-          <font color="#888888">
+        <p style="text-align: center;margin-top: 15px;">
+          <font>
             浏览完了？你可以
-            <a href="#pinglun" style="text-decoration: none;color: #096">点我去评论</a>留下观点！
+            <a href="#word" style="text-decoration: none;color: #096"> 点我去评论 </a>留下观点！
           </font>
         </p>
         <p class="tags">
@@ -64,7 +63,7 @@
         </div>-->
       </div>
     </div>
-    <div class="page box-bj-sd">
+    <div class="page box-bj-sd"  id="word">
       <p>
         上一篇：
         <a
@@ -101,6 +100,23 @@ export default {
   components: {
     ArticleWord
   },
+  head() {
+    return {
+      title: this.articleData.title,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.articleData.description
+        },
+        {
+          hid: "keywords",
+          name: "keywords",
+          content: this.articleData.keywords
+        }
+      ]
+    };
+  },
   data: () => ({
     articleData: {},
     id: "",
@@ -119,23 +135,12 @@ export default {
     bid: {
       type: String,
       default: ""
+    },
+    article: {
+      type: Array,
+      default: {}
     }
   },
-  // async asyncData(context) {
-  //   console.log(context,'11111111111111111');
-
-  // if (isStatic) {
-  //   return await {
-  //     user: params.iad,
-  //     description: payload.description
-  //   };
-  // } else {
-  //   return await {
-  //     id: params.iad,
-  //     description: "asdas"
-  //   };
-  // }
-  // },
   computed: {
     // tagsArr() {
     //   return this.data.keywords.split("、"); //字符分割 ;
@@ -148,6 +153,9 @@ export default {
     // }
   },
   watch: {
+    article(data) {
+      this.handleData(this.bid, data);
+    },
     bid(bid) {
       //监听文章数据
       this.handleData(bid);
@@ -156,32 +164,10 @@ export default {
       //监听文章数据
       this.handleData(this.bid);
     }
-    // data(value) {
-    //   // Vue.directive("highlight", function(el) {
-    //   //   setTimeout(() => {
-    //   //     let blocks = el.querySelectorAll("pre");
-    //   //     for (let index = 0; index < blocks.length; index++) {
-    //   //       hljs.highlightBlock(blocks[index]);
-    //   //     }
-    //   //   }, 50);
-    //   // });
-    // },
-    // singleArticle(value) {
-    //   if (!value) {
-    //     this.$router.push({
-    //       path: "/404"
-    //     });
-    //   }
-    //   this.data = value;
-    //   this.starNum = this.data.starNum;
-    //   this.bid = value.bid;
-    //   this.title = value.title;
-    //   //上下文判断
-    //   this.getPrevNext();
-    // }
   },
+
   created() {
-    this.handleData(this.bid);
+    this.handleData(this.bid, this.article);
     // this.$store.dispatch("setSingleArtile", this.$route.query.bid);
     // //首页通知
     // this.$store.dispatch("setChangingOver", { notice: false, position: true });
@@ -194,44 +180,49 @@ export default {
     // this.getPrevNext();
   },
   methods: {
+    handleData(bid, article) {
+      console.log(article);
+      
+      if (article.content) {
+        article.keywords = article.keywords.replace("、", "，");
+        this.articleData = article;
+      } else {
+        this.id = bid;
+        var data = this.$store.state.article.articleAll;
+        if (data.length !== 0 && bid) {
+          this.articleData = data.find(params => {
+            return params.bid === bid;
+          });
+          this.title = this.articleData.title;
+        }
+      }
+    },
     handleTo(name, url) {
       this.$store.commit("setSearchValue", { name, url });
       // 返回顶部
       this.$goBack();
     },
 
-    handleData(bid) {
-      this.id = bid;
-      var data = this.$store.state.article.articleAll;
-      if (data.length !== 0 && bid) {
-        this.articleData = data.find(params => {
-          return params.bid === bid;
-        });
-        this.title = this.articleData.title;
-      }
-      console.log(this.articleData);
-    },
-
-    handleClick() {
-      if (this.count <= 1) {
-        this.count = this.count + 1;
-        this.starNum = this.starNum * 1 + 1;
-        this.axios
-          .post(
-            URL + "article/upd.article.php",
-            Qs.stringify({ starNum: this.starNum, bid: this.bid })
-          )
-          .then(function(res) {})
-          .catch(function(error) {
-            console.log(error);
-          });
-      } else {
-        this.$Modal.info({
-          title: "友情提示",
-          content: "您已成功点赞，谢谢您的支持哦！(๑*◡*๑)"
-        });
-      }
-    },
+    // handleClick() {
+    //   if (this.count <= 1) {
+    //     this.count = this.count + 1;
+    //     this.starNum = this.starNum * 1 + 1;
+    //     this.axios
+    //       .post(
+    //         URL + "article/upd.article.php",
+    //         Qs.stringify({ starNum: this.starNum, bid: this.bid })
+    //       )
+    //       .then(function(res) {})
+    //       .catch(function(error) {
+    //         console.log(error);
+    //       });
+    //   } else {
+    //     this.$Modal.info({
+    //       title: "友情提示",
+    //       content: "您已成功点赞，谢谢您的支持哦！(๑*◡*๑)"
+    //     });
+    //   }
+    // },
     getPrevNext() {
       const _this = this;
       let listData = this.$store.state.article.article.list;
@@ -317,7 +308,7 @@ article {
     // background-color: #f8f8f8;
     border-top: 1px dashed #999;
     border-bottom: 1px dashed #999;
-    color: #ac5a24;
+    // color: #ac5a24;
     padding: 5px 0px;
     display: flex;
     // margin-bottom: 15px;
@@ -326,24 +317,25 @@ article {
     justify-content: center;
     li {
       padding: 0 20px;
+      margin: 0px 20px;
       // color: #606060;
       font-size: 13px;
       i {
         margin-right: 5px;
       }
     }
-    li:nth-child(1) i {
-      color: #009966;
-    }
-    li:nth-child(2) i {
-      color: #f8b06b;
-    }
-    li:nth-child(3) i {
-      color: #add895;
-    }
-    li:nth-child(4) i {
-      color: #e4aeae;
-    }
+    // li:nth-child(1) i {
+    //   color: #009966;
+    // }
+    // li:nth-child(2) i {
+    //   color: #f8b06b;
+    // }
+    // li:nth-child(3) i {
+    //   color: #add895;
+    // }
+    // li:nth-child(4) i {
+    //   color: #e4aeae;
+    // }
   }
   .article-meta {
     padding-top: 25px;

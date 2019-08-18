@@ -17,7 +17,7 @@
 export default {
   name: "dianji",
   data: () => ({
-    URL: process.env.baseUrl,
+    URL: process.env.baseUrl+'/adminblog/',
     titleData: []
   }),
   computed: {

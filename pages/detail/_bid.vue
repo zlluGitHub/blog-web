@@ -2,7 +2,7 @@
   <div>
     <!-- 左半部分 -->
     <section>
-      <Article :bid="bid"/>
+      <Article :bid="bid" :article="article"/>
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" />
@@ -35,19 +35,14 @@ export default {
     },
   }),
    async asyncData(context) {
-    console.log(context);
-    
-    // if (isStatic) {
-    //   return await {
-    //     user: params.iad,
-    //     description: payload.description
-    //   };
-    // } else {
-    //   return await {
-    //     id: params.iad,
-    //     description: "asdas"
-    //   };
-    // }
+     console.log(context.isStatic);
+     
+    if (context.isStatic) {
+      return await {
+        // user: params.iad,
+        article: context.payload
+      };
+    }
   },
   computed: {
     // articleData() {

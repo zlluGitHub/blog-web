@@ -67,7 +67,7 @@ export default {
   name: "viwephoto",
   data() {
     return {
-      URL: process.env.baseUrl,
+       URL: process.env.baseUrl+'/adminblog/',
       data: {}
     };
   },

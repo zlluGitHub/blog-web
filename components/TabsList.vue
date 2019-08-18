@@ -11,16 +11,17 @@
         :class="[mark===2?'newscurrent':'']"
         href="javascript:void(0);"
       >Vue/React</a>
-      <a
-        @click="handleTab(3,'NodeJs')"
+        <a
+        @click="handleTab(3,'Echarts')"
         :class="[mark===3?'newscurrent':'']"
         href="javascript:void(0);"
-      >NodeJs</a>
+      >Echarts</a>
       <a
-        @click="handleTab(4,'Echarts')"
+        @click="handleTab(4,'NodeJs')"
         :class="[mark===4?'newscurrent':'']"
         href="javascript:void(0);"
-      >Echarts</a>
+      >NodeJs</a>
+    
     </h3>
     <!-- tab1 -->
     <div class="newstab">
@@ -86,7 +87,7 @@
 export default {
   name: "tab",
   data: () => ({
-    URL: process.env.BASE_URL,
+   URL: process.env.baseUrl+'/adminblog/',
     mark: 1,
     // articleData: [],
     tabsData: [],

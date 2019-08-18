@@ -44,7 +44,7 @@
                 </span>-->
                 <span>
                   <i class="fa fa-eye"></i>
-                  {{item.viweNum}} 次阅读
+                  {{item.viweNum}} 次围观
                 </span>
                 <span class="tags-a">
                   <i class="fa fa-tag"></i>
@@ -87,7 +87,7 @@
 // import { URL } from "../constant/constant.js";
 export default {
   data: () => ({
-    URL: process.env.baseUrl,
+    URL: process.env.baseUrl+'/adminblog/',
     dataList: [],
     pageNo: 0,
     pageSize: 10,

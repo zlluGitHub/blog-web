@@ -2,7 +2,7 @@
   <div>
     <!-- 左半部分 -->
     <section>
-      <Say :data="data"/>
+      <Say :data="data" />
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" />
@@ -30,23 +30,35 @@ export default {
     },
     data: []
   }),
+  computed: {
+    sayAll() {
+      return this.$store.state.say.sayAll;
+    }
+  },
+  watch: {
+    sayAll(value) {
+      this.data = value;
+    }
+  },
   created() {
     // 请求微语数据
 
-    if (this.$store.state.say.sayAll.length === 0) {
-      this.$axios
-        .get(process.env.baseUrl + "/adminblog/say/get.say.php")
-        .then(res => {
-          let data = res.data.list;
-          data.forEach(ele => {
-            ele.sendTime = ele.sendTime.slice(0, 10);
-          });
-          this.data = data;
-          this.$store.commit("setSayAll", data);
-        });
-    } else {
+    // if (this.$store.state.say.sayAll.length === 0) {
+    //   this.$axios
+    //     .get(process.env.baseUrl + "/adminblog/say/get.say.php")
+    //     .then(res => {
+    //       let data = res.data.list;
+    //       data.forEach(ele => {
+    //         ele.sendTime = ele.sendTime.slice(0, 10);
+    //       });
+    //       this.data = data;
+    //       this.$store.commit("setSayAll", data);
+    //     });
+    // } else {
+    if (this.data) {
       this.data = this.$store.state.say.sayAll;
     }
+    // }
   }
 };
 </script>

@@ -52,7 +52,7 @@
 export default {
   name: "say",
   data: () => ({
-    URL: process.env.baseUrl,
+    URL: process.env.baseUrl+'/adminblog/',
     sayList: [],
     content: [],
     pageNo: 0,
@@ -62,14 +62,14 @@ export default {
   props: ["data"],
   watch: {
     data(value) {
-      this.getArticle(value);
+      this.getSay(value);
     }
   },
   created() {
-    this.getArticle(this.data);
+    this.getSay(this.data);
   },
   methods: {
-    getArticle(data) {
+    getSay(data) {
       this.content = data;
       this.sayList = data.slice(0, 15);
       this.total = data.length;

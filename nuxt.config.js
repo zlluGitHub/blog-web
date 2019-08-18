@@ -32,6 +32,7 @@ module.exports = {
     // 文章样式
     { src: "~/assets/css/editorCss/content.min.css" },
     { src: "~/assets/css/editorCss/content.mobile.min.css" },
+    { src: "~/assets/css/APlayer.min.css" },
   ],
   /*
   ** Plugins to load before mounting the App
@@ -39,7 +40,8 @@ module.exports = {
   plugins: [
     { src: '@/plugins/iview' },
     { src: "~/plugins/vue-swiper.js", ssr: false },
-    { src: "~/plugins/back.js", ssr: false }
+    { src: "~/plugins/back.js", ssr: false },
+    { src: "~/plugins/apiayer.js", ssr: false }
   ],
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000'
@@ -103,26 +105,26 @@ module.exports = {
 
     //方法二
     async routes() {
-      let data1 = await axios.get(process.env.BASE_URL + '/zllublogAdmin/article/get.article.php')
+      let data = await axios.get('https://zhenglinglu.cn/zllublogAdmin/article/get.article.php')
         .then((res) => {
-          return res.data.list.map((user) => {
+          return res.data.list.map(data=> {
             return {
-              route: '/detail/' + user.bid,
-              payload: user
+              route: '/detail/' + data.bid,
+              payload: data
             }
           })
         })
 
-      let data2 = await axios.get(process.env.BASE_URL + '/zllublogAdmin/article/get.article.php')
-        .then((res) => {
-          return res.data.list.map((user) => {
-            return {
-              route: '/detail/' + user.id,
-              payload: user
-            }
-          })
-        })
-      return [...data1, ...data2]
+      // let data2 = await axios.get(process.env.BASE_URL + '/zllublogAdmin/article/get.article.php')
+      //   .then((res) => {
+      //     return res.data.list.map((user) => {
+      //       return {
+      //         route: '/detail/' + user.id,
+      //         payload: user
+      //       }
+      //     })
+      //   })
+      return [ ...data]
     }
   }
 }
