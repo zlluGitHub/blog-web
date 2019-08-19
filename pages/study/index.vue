@@ -7,7 +7,7 @@
         <h1>{{type}}</h1>
         <p>本专栏中记录了自己在闲暇期间吸取的一些技术知识点，以及在开发过程中所遇到的技术问题，在此做下总结，以备不时之需。同时也希望可以帮到那些和我遇到同样问题的朋友！ ٩(๑&gt;◡&lt;๑)۶ 。</p>
       </div>
-        <ArticleList :type="type"/>
+        <ArticleList :type="type" :static="isStatic"/>
     </section>
     <!-- 右半部分 -->
    <AsideMain :configure="asideConfig" />
@@ -27,6 +27,7 @@ export default {
   },
   data: () => ({
     type: '技术专栏',
+      isStatic:false,
      asideConfig: {
       isSay: true,   //每日一句
       // isInfo: true,   //名片
@@ -38,6 +39,13 @@ export default {
       isTags: true //标签
     },
   }),
+    async asyncData(context) {
+    if (context.isStatic) {
+      return await {
+        isStatic: context.isStatic,
+      };
+    }
+  },
   computed: {
     // articleData() {
     //   return this.$store.state.article.article;

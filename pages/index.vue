@@ -38,7 +38,7 @@
           <i class="fa fa-list-ul"></i>
           <span>最新文章</span>
       </h3>-->
-      <ArticleList :type="type"/>
+      <ArticleList :type="type" :static="isStatic"/>
       <!-- <Page
           show-total
           @on-change="changePage"
@@ -94,6 +94,7 @@ export default {
       isCount: true, //统计
       isTags: true //标签
     },
+    isStatic:false,
     type:"最新文章",
     URL: "",
     value2: 0,
@@ -114,6 +115,13 @@ export default {
       }
     ] //精选数据
   }),
+   async asyncData(context) {
+    if (context.isStatic) {
+      return await {
+        isStatic: context.isStatic,
+      };
+    }
+  },
   computed: {
     articleData() {
       return this.$store.state.article.articleAll;

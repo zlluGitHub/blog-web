@@ -2,7 +2,7 @@
   <div>
     <!-- 左半部分 -->
     <section>
-      <ArticleList :type="type" :tabs="true" />
+      <ArticleList :type="type" :tabs="true" :static="isStatic"/>
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" />
@@ -22,6 +22,7 @@ export default {
   },
   data: () => ({
     type: "标签",
+      isStatic:false,
     asideConfig: {
       isSay: true, //每日一句
       // isInfo: true,   //名片
@@ -33,6 +34,13 @@ export default {
       isTags: true //标签
     }
   }),
+    async asyncData(context) {
+    if (context.isStatic) {
+      return await {
+        isStatic: context.isStatic,
+      };
+    }
+  },
   // computed: {
   //   tabName() {
   //     return this.$store.state.article.tabName;

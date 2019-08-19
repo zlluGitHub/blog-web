@@ -107,10 +107,15 @@ module.exports = {
     async routes() {
       let data = await axios.get('https://zhenglinglu.cn/zllublogAdmin/article/get.article.php')
         .then((res) => {
-          return res.data.list.map(data=> {
+          let totle = res.data.list.length - 1;
+          return res.data.list.map((data, index, oldArr) => {
             return {
               route: '/detail/' + data.bid,
-              payload: data
+              payload: {
+                prev: index !== 0 ? oldArr[index - 1] : false,
+                middle: data,
+                next: index !== totle ? oldArr[index + 1] : false
+              }
             }
           })
         })
@@ -124,7 +129,7 @@ module.exports = {
       //       }
       //     })
       //   })
-      return [ ...data]
+      return [...data]
     }
   }
 }

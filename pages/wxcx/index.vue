@@ -7,7 +7,7 @@
         <h1>{{type}}</h1>
         <p>在这里记录了一些有关微信小程序的一些相关知识点。</p>
       </div>
-         <ArticleList :type="type"/>
+         <ArticleList :type="type" :static="isStatic"/>
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" />
@@ -27,6 +27,7 @@ export default {
   },
   data: () => ({
     type: "微信程序",
+      isStatic:false,
      asideConfig: {
       isSay: true,   //每日一句
       // isInfo: true,   //名片
@@ -38,6 +39,13 @@ export default {
       isTags: true //标签
     },
   }),
+    async asyncData(context) {
+    if (context.isStatic) {
+      return await {
+        isStatic: context.isStatic,
+      };
+    }
+  },
   computed: {
     // articleData() {
     //   return this.$store.state.article.article;

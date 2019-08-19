@@ -7,7 +7,7 @@
         <h1>{{type}}</h1>
         <p>记录 pc端 和 移动端 开发周边技术栈。比如 html5、css3、JavaScript 以及目前比较火的 Vue、React 等框架。常用的 UI 框架及建站 CMS。另外总结了在使用 Echarts、D3、Three 等框架时所遇到的技术问题等。</p>
       </div>
-         <ArticleList :type="type"/>
+         <ArticleList :type="type" :static="isStatic"/>
     </section>
     <!-- 右半部分 -->
      <AsideMain :configure="asideConfig" />
@@ -24,6 +24,7 @@ export default {
   },
   data: () => ({
     type: '前端技术',
+      isStatic:false,
      asideConfig: {
       isSay: true,   //每日一句
       // isInfo: true,   //名片
@@ -35,6 +36,13 @@ export default {
       isTags: true //标签
     },
   }),
+    async asyncData(context) {
+    if (context.isStatic) {
+      return await {
+        isStatic: context.isStatic,
+      };
+    }
+  },
   computed: {
     // articleData() {
     //   return this.$store.state.article.article;

@@ -23,14 +23,15 @@
       <div class="article-meta">
         <div class="inner" v-html="articleData.content"></div>
         <p style="text-align: center;margin-top: 25px;">
-          <font> - - - END - - - </font>
+          <font>- - - END - - -</font>
         </p>
         <p style="text-align: center;margin-top: 15px;">
           <font>
             浏览完了？你可以
-            <a href="#word" style="text-decoration: none;color: #096"> 点我去评论 </a>留下观点！
+            <a href="#word" style="text-decoration: none;color: #096">点我去评论</a>留下观点！
           </font>
         </p>
+        <!-- tag标签 -->
         <p class="tags">
           <i data-v-0994aea9 class="fa fa-tags"></i>
           <!-- <a
@@ -40,7 +41,7 @@
             :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'"
           >{{tag}}</a>-->
           <nuxt-link
-            v-for="(tag,index) in articleData.keywords"
+            v-for="(tag,index) in articleData.keywordsArr"
             :key="index"
             to="/tags"
             @click.native="handleTo(tag,'/tags')"
@@ -52,7 +53,7 @@
           本站原创文章由LING☆璐个人发表，如需转载敬请将本文链接作为出处标注，谢谢合作！
           <br />-->
           <span>本文链接地址：</span>
-          {{'https://zhenglinglu.cn/article?bid='+bid}}
+          {{URL+articleData.bid}}
           <!-- <a :href="'https://zhenglinglu.cn/article?bid='+bid" target="_blank">{{articleData.title}}</a> -->
         </p>
         <!-- <div>
@@ -63,22 +64,22 @@
         </div>-->
       </div>
     </div>
-    <div class="page box-bj-sd"  id="word">
+    <div class="page box-bj-sd" id="word">
       <p>
         上一篇：
         <a
-          v-if="prevArticle.title"
-          @click="handleNext(prevArticle.bid,nextArticle.title)"
-          href="javascript:void(0);"
+          v-if="prevArticle"
+          @click="handleLook(prevArticle.bid,isStatic,nextArticle.title)"
+          :href="isStatic?URL+prevArticle.bid:'javascript:void(0);'"
         >{{prevArticle.title}}</a>
         <a v-else href="javascript:void(0);">没有了！</a>
       </p>
       <p>
         下一篇：
         <a
-          v-if="nextArticle.title"
-          @click="handleNext(nextArticle.bid,nextArticle.title)"
-          href="javascript:void(0);"
+          v-if="nextArticle"
+          @click="handleLook(nextArticle.bid,isStatic,nextArticle.title)"
+          :href="isStatic?URL+nextArticle.bid:'javascript:void(0);'"
         >{{nextArticle.title}}</a>
         <a v-else href="javascript:void(0);">没有了！</a>
       </p>
@@ -96,38 +97,40 @@ import ArticleWord from "./ArticleWord";
 // import { goBack } from "../assets/gloable.js";
 // import Qs from "qs";
 export default {
-  name: "article",
+  name: "article-sing",
   components: {
     ArticleWord
   },
   head() {
     return {
-      title: this.articleData.title,
+      title: this.articleData ? this.articleData.title : "",
       meta: [
         {
           hid: "description",
           name: "description",
-          content: this.articleData.description
+          content: this.articleData ? this.articleData.description : ""
         },
         {
           hid: "keywords",
           name: "keywords",
-          content: this.articleData.keywords
+          content: this.articleData ? this.articleData.keywords : ""
         }
       ]
     };
   },
   data: () => ({
     articleData: {},
-    id: "",
-    title: "",
-    // -------------
-    data: {},
-    URL: "",
-
-    index: 0,
     prevArticle: {},
     nextArticle: {},
+    id: "",
+    title: "",
+    isStatic: false,
+    URL: process.env.baseUrl + "/detail/",
+    // -------------
+    data: {},
+
+    index: 0,
+
     starNum: 0,
     count: 1 //点赞计数
   }),
@@ -137,8 +140,12 @@ export default {
       default: ""
     },
     article: {
-      type: Array,
+      type: Object,
       default: {}
+    },
+    static: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -153,6 +160,9 @@ export default {
     // }
   },
   watch: {
+    static(data) {
+      this.isStatic = data;
+    },
     article(data) {
       this.handleData(this.bid, data);
     },
@@ -167,6 +177,7 @@ export default {
   },
 
   created() {
+    this.isStatic = this.static;
     this.handleData(this.bid, this.article);
     // this.$store.dispatch("setSingleArtile", this.$route.query.bid);
     // //首页通知
@@ -181,22 +192,49 @@ export default {
   },
   methods: {
     handleData(bid, article) {
-      console.log(article);
-      
-      if (article.content) {
-        article.keywords = article.keywords.replace("、", "，");
-        this.articleData = article;
+      if (this.isStatic) {
+        article.middle.keywords = article.middle.keywords.replace("、", "，");
+        article.middle.keywordsArr = article.middle.keywords.split("，");
+        this.prevArticle = article.prev;
+        this.articleData = article.middle;
+        this.nextArticle = article.next;
       } else {
         this.id = bid;
         var data = this.$store.state.article.articleAll;
-        if (data.length !== 0 && bid) {
-          this.articleData = data.find(params => {
-            return params.bid === bid;
-          });
-          this.title = this.articleData.title;
+        let length = data.length;
+        if (length !== 0 && bid) {
+          for (let index = 0; index < length; index++) {
+            if (data[index].bid === bid) {
+              this.prevArticle = index !== 0 ? data[index - 1] : false;
+              this.articleData = data[index];
+              //  console.log(this.articleData);
+              // this.articleData.keywords = this.articleData.keywords.replace("、","，");
+              this.articleData.keywordsArr = this.articleData.keywords;
+              this.nextArticle = index !== length - 1 ? data[index + 1] : false;
+              break;
+            }
+          }
+
+          // this.title = this.articleData.title;
         }
       }
     },
+    // 标签跳转
+    handleLook(bid, isStatic) {
+      // 将bid存储到store中
+      this.$store.commit("setBid", bid);
+      if (!isStatic) {
+        this.$router.push({ path: "/detail/" + bid });
+      }
+      // this.$store.dispatch("setSingleArtile", bid);
+      // this.$router.push({
+      //   path: "/article",
+      //   query: {
+      //     bid: bid
+      //   }
+      // });
+    },
+    //跳转到详情页
     handleTo(name, url) {
       this.$store.commit("setSearchValue", { name, url });
       // 返回顶部
@@ -223,51 +261,51 @@ export default {
     //     });
     //   }
     // },
-    getPrevNext() {
-      const _this = this;
-      let listData = this.$store.state.article.article.list;
-      for (let index = 0; index < listData.length; index++) {
-        if (listData[index].bid === _this.bid) {
-          _this.index = index;
-        }
-      }
-      if (this.index === 0) {
-        this.data = listData[0];
-        this.nextArticle = listData[this.index + 1];
-        this.prevArticle = {};
-      } else if (this.index === listData.length - 1) {
-        this.data = listData[listData.length - 1];
-        this.prevArticle = listData[this.index - 1];
-        this.nextArticle = {};
-      } else {
-        this.prevArticle = listData[this.index - 1];
-        this.nextArticle = listData[this.index + 1];
-      }
-    },
-    handleNext(bid, title) {
-      this.$store.dispatch("setSingleArtile", bid);
-      this.bid = bid;
-      this.title = title;
-      this.$router.push({
-        path: "/article",
-        query: {
-          bid: bid
-        }
-      });
-      // 返回顶部
-      // goBack();
-    },
-    handlePrev(bid) {
-      this.$store.dispatch("setSingleArtile", bid);
-      this.bid = bid;
-      this.title = title;
-      this.$router.push({
-        path: "/article",
-        query: {
-          bid: bid
-        }
-      });
-    },
+    // getPrevNext() {
+    //   const _this = this;
+    //   let listData = this.$store.state.article.articleAll;
+    //   for (let index = 0; index < listData.length; index++) {
+    //     if (listData[index].bid === _this.bid) {
+    //       _this.index = index;
+    //     }
+    //   }
+    //   if (this.index === 0) {
+    //     this.data = listData[0];
+    //     this.nextArticle = listData[this.index + 1];
+    //     this.prevArticle = {};
+    //   } else if (this.index === listData.length - 1) {
+    //     this.data = listData[listData.length - 1];
+    //     this.prevArticle = listData[this.index - 1];
+    //     this.nextArticle = {};
+    //   } else {
+    //     this.prevArticle = listData[this.index - 1];
+    //     this.nextArticle = listData[this.index + 1];
+    //   }
+    // },
+    // handleNext(bid, title) {
+    //   this.$store.dispatch("setSingleArtile", bid);
+    //   this.bid = bid;
+    //   this.title = title;
+    //   this.$router.push({
+    //     path: "/article",
+    //     query: {
+    //       bid: bid
+    //     }
+    //   });
+    //   // 返回顶部
+    //   // goBack();
+    // },
+    // handlePrev(bid) {
+    //   this.$store.dispatch("setSingleArtile", bid);
+    //   this.bid = bid;
+    //   this.title = title;
+    //   this.$router.push({
+    //     path: "/article",
+    //     query: {
+    //       bid: bid
+    //     }
+    //   });
+    // },
     // 获取随机颜色
     getRandomColor() {
       return (

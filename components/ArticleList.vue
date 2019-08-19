@@ -18,17 +18,22 @@
       <div v-else class="article_list" v-for="item in dataList" :key="item.title">
         <div class="list-box">
           <div class="img-box">
-            <img v-if="item.imgSrc" :src="URL+item.imgSrc" :alt="item.title" />
+            <img v-if="item.imgSrc" :src="imgUrl+item.imgSrc" :alt="item.title" />
             <img v-else src="../assets/image/moren.jpg" :alt="item.title" />
             <!-- <span class="is_category">{{item.typeName}}</span> -->
           </div>
           <div class="list-right">
             <h2>
               <span>{{item.typeName}}</span>
-              <nuxt-link
+              <!-- <nuxt-link
                 :to="'/detail/'+item.bid"
                 @click.native="handleLook(item.bid)"
-              >{{item.title}}</nuxt-link>
+              >{{item.title}}</nuxt-link>-->
+              <a
+                @click="handleLook(item.bid,isStatic,item.title)"
+                :href="isStatic?URL+item.bid:'javascript:void(0);'"
+              >{{item.title}}</a>
+
               <!-- <a href="javascript:void(0);">{{item.title}}</a> -->
             </h2>
             <p>{{item.description}}</p>
@@ -48,27 +53,29 @@
                 </span>
                 <span class="tags-a">
                   <i class="fa fa-tag"></i>
-                  <a
+
+                  <nuxt-link
+                    v-for="(tag,index) in item.keywords"
+                    :key="index"
+                    to="/tags"
+                    @click.native="handleTo(tag,'/tags')"
+                  >{{tag}} {{index!==item.keywords.length-1?'、':''}}</nuxt-link>
+
+                  <!-- <a
                     href="javascript:void(0);"
                     v-for="(tag,index) in item.keywords"
                     :key="index"
                     @click="handleTo(tag,'/type','')"
-                  >{{tag}} {{index!==item.keywords.length-1?'、':''}}</a>
-                  <!-- <a
-                  class="typeName"
-                  @click="handleTo(item.typeName,'/type','')"
-                  href="javascript:void(0);"
-                  >【{{item.typeName}}】</a>-->
+                  >{{tag}} {{index!==item.keywords.length-1?'、':''}}</a>-->
                 </span>
               </p>
-              <nuxt-link
-                class="read"
-                :to="'/detail/'+item.bid"
-                @click.native="handleLook(item.bid)"
+              <a
+                @click="handleLook(item.bid,isStatic,item.title)"
+                :href="isStatic?URL+item.bid:'javascript:void(0);'"
               >
                 阅读全文
                 <i class="fa fa-chevron-circle-right"></i>
-              </nuxt-link>
+              </a>
             </div>
           </div>
         </div>
@@ -87,7 +94,9 @@
 // import { URL } from "../constant/constant.js";
 export default {
   data: () => ({
-    URL: process.env.baseUrl+'/adminblog/',
+    isStatic: false,
+    imgUrl: process.env.baseUrl + "/adminblog/",
+    URL: process.env.baseUrl + "/detail/",
     dataList: [],
     pageNo: 0,
     pageSize: 10,
@@ -106,6 +115,10 @@ export default {
     tabs: {
       type: Boolean,
       default: false
+    },
+    static: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -121,6 +134,9 @@ export default {
     }
   },
   watch: {
+    static(data) {
+      this.isStatic = data;
+    },
     articleData() {
       this.getArticle();
     },
@@ -132,6 +148,7 @@ export default {
     }
   },
   created() {
+    this.isStatic = this.static;
     this.getArticle();
   },
   mounted() {
@@ -144,15 +161,11 @@ export default {
       let data = [];
       //判断是否为首页tabs列表
       if (this.tabs) {
-       
-        
         data = this.$store.getters.getTabList(this.pageNo, this.pageSize);
-         console.log(data);
       } else {
         this.searchVal = this.$store.state.article.search.name;
         data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
       }
-
       if (data) {
         this.dataList = data.list;
         this.total = data.total;
@@ -168,9 +181,13 @@ export default {
       this.getArticle();
       // goBack();
     },
-    handleLook(bid) {
+    //跳转到详情页
+    handleLook(bid, isStatic) {
       // 将bid存储到store中
       this.$store.commit("setBid", bid);
+      if (!isStatic) {
+        this.$router.push({ path: "/detail/" + bid });
+      }
       // this.$store.dispatch("setSingleArtile", bid);
       // this.$router.push({
       //   path: "/article",
@@ -178,6 +195,12 @@ export default {
       //     bid: bid
       //   }
       // });
+    },
+    //标签跳转
+    handleTo(name, url) {
+      this.$store.commit("setSearchValue", { name, url });
+      // 返回顶部
+      this.$goBack();
     }
   }
 };
