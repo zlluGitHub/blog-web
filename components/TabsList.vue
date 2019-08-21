@@ -11,7 +11,7 @@
         :class="[mark===2?'newscurrent':'']"
         href="javascript:void(0);"
       >Vue/React</a>
-        <a
+      <a
         @click="handleTab(3,'Echarts')"
         :class="[mark===3?'newscurrent':'']"
         href="javascript:void(0);"
@@ -21,7 +21,6 @@
         :class="[mark===4?'newscurrent':'']"
         href="javascript:void(0);"
       >NodeJs</a>
-    
     </h3>
     <!-- tab1 -->
     <div class="newstab">
@@ -31,14 +30,14 @@
             <img :src="URL+item.imgSrc" :alt="item.title" />
             <div>
               <p>
-                  <nuxt-link
-                :to="'/detail/'+item.bid"
-                @click.native="handleTo(item.bid)"
-              >{{item.title}}</nuxt-link>
+                <nuxt-link
+                  :to="'/detail/'+item.bid"
+                  @click.native="handleTo(item.bid)"
+                >{{item.title}}</nuxt-link>
                 <!-- <a
                   href="javascript:void(0);"
                   @click="handleTo(item.bid,'','',item.title)"
-                >{{item.title}}</a> -->
+                >{{item.title}}</a>-->
                 <span>{{item.publishTime}}</span>
               </p>
               <p>{{item.description}}</p>
@@ -87,11 +86,11 @@
 export default {
   name: "tab",
   data: () => ({
-   URL: process.env.baseUrl+'/adminblog/',
+    URL: process.env.baseUrl + "/adminblog/",
     mark: 1,
     // articleData: [],
     tabsData: [],
-    total:0,
+    total: 0,
     type: "JavaScript"
   }),
   computed: {
@@ -128,8 +127,24 @@ export default {
       // });
     },
     handleTab(val, tabName) {
-      this.type = tabName;
+      // this.type = tabName;
       this.mark = val;
+      switch (val) {
+        case 1:
+          this.type = "JavaScript";
+          break;
+        case 2:
+          this.type = "前端框架";
+          break;
+        case 3:
+          this.type = "Echarts";
+          break;
+        case 3:
+          this.type = "NodeJs";
+          break;
+        default:
+          break;
+      }
       this.getArticle();
     },
     handleRouter() {

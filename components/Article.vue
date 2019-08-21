@@ -33,7 +33,7 @@
         </p>
         <!-- tag标签 -->
         <p class="tags">
-          <i data-v-0994aea9 class="fa fa-tags"></i>
+          <i data-v-0994aea9 class="fa fa-tags"></i>：
           <!-- <a
             href="javascript:void(0);"
             v-for="(tag,index) in articleData.keywords"
@@ -390,7 +390,7 @@ article {
       a {
         font-size: 13px;
         padding: 5px 10px;
-        margin-left: 10px;
+        margin-right: 10px;
         border-radius: 3px;
         color: #fff;
       }

@@ -10,6 +10,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
@@ -41,7 +42,8 @@ module.exports = {
     { src: '@/plugins/iview' },
     { src: "~/plugins/vue-swiper.js", ssr: false },
     { src: "~/plugins/back.js", ssr: false },
-    { src: "~/plugins/apiayer.js", ssr: false }
+    { src: "~/plugins/apiayer.js", ssr: false },
+    { src: "~/plugins/jquery.js", ssr: false },
   ],
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000'
