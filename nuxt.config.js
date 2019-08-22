@@ -20,7 +20,7 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: 'red', height: '5px' },
+  loading: { color: '#4B75D8', height: '5px' },
   /*
   ** 全局 CSS 样式
   */

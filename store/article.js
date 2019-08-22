@@ -7,7 +7,7 @@ const state = {
   bid: '',
   search: {},
   isSearchShow: false,
-  tabName:''
+  tabName: ''
   // singleArticle: {},
   // artileListData: [],
   // articleTypeData: [],
@@ -112,7 +112,7 @@ const getters = {
           return element.keywords.indexOf(state.tabName) > -1;
           // return element.typeName === state.type;
         });
-        return  {
+        return {
           list: list.slice(start, end),
           total: list.length
         }
@@ -120,7 +120,7 @@ const getters = {
     };
   },
   //分类分页文章列表
-  getTypeArticle(state) {
+  getTypeArticle(state, a) {
     return function (pageNo, pageSize) {
       if (state.articleAll.length !== 0) {
         let start = pageNo, end = pageSize;
@@ -141,7 +141,8 @@ const getters = {
             // return element.typeName === state.type;
           });
           // state.isTags = false;
-          // state.searchValue = '';
+          //清空tag信息
+
         } else if (state.typeMark) {
           list = state.articleAll.filter(element => {
             return element.typeName.indexOf(state.typeMark) > -1;

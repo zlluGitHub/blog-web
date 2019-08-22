@@ -158,6 +158,8 @@ export default {
   },
   methods: {
     getArticle() {
+      console.log();
+      
       let data = [];
       //判断是否为首页tabs列表
       if (this.tabs) {
@@ -202,6 +204,9 @@ export default {
       // 返回顶部
       this.$goBack();
     }
+  },
+  beforeDestroy(){
+    this.$store.commit("setSearchValue", {});
   }
 };
 </script>

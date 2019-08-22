@@ -116,7 +116,8 @@
                     </li>
                    
                     <li>
-                      <a @click="handleTo('电子相册','/photo','','d')" href="javascript:void(0);">电子相册</a>
+                        <nuxt-link to="/album" @click.native="handleTo('电子相册','/album','d')">电子相册</nuxt-link>
+                      <!-- <a @click="handleTo('电子相册','/photo','','d')" href="javascript:void(0);">电子相册</a> -->
                     </li>
                      <!-- <li>
                       <a @click="handleTo('音乐盒','/type','','d')" href="javascript:void(0);">音乐盒</a>
@@ -147,9 +148,7 @@
                   </ul>
                 </li>
                 <li :class="[active==='f'?'active':'']">
-                  <a @click="handleTo('踩脚印','/word','','f')" href="javascript:void(0);">
-                    <i class="fa fa-pencil-square-o"></i>踩脚印
-                  </a>
+                   <nuxt-link to="/word" @click.native="handleTo('留言板','/word','f')">留言板</nuxt-link>
                 </li>
               </ul>
             </nav>

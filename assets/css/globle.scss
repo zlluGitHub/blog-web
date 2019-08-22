@@ -73,16 +73,16 @@ h3.h3-style::before {
     margin-top:15px;
 }
 .ivu-page {
-    margin-top: 50px;
-    padding: 30px 0 35px 0px;
-    border-top: 1px solid #eee;
+    // margin-top: 50px;
+    padding: 10px 0 12px 0px;
+    // border-top: 1px solid #eee;
     display: flex;
     justify-content: center;
 }
 
 .whitebg {
     background: #fff;
-    padding: 18px 18px;
+    padding: 26px 18px;
     margin-bottom: 15px;
     overflow: hidden;
     img {
@@ -100,7 +100,9 @@ h3.h3-style::before {
     }
 }
 
-
+.article_list{
+    padding-bottom: 35px;
+}
 
 
 .demo-spin-icon-load{
@@ -124,9 +126,56 @@ h3.h3-style::before {
 
 
 
-.page-enter-active, .page-leave-active {
-    transition: opacity .2s;
+// .page-enter-active, .page-leave-active {
+//     margin-top: 6px;
+//   transition: all .2s;
+
+// }
+// .page-enter, .page-leave-active {
+//     opacity: 0; 
+     
+//     margin-top:0px;
+// }
+
+.page-enter-active{
+   transition:all 0.25s ease-in;
 }
-.page-enter, .page-leave-active {
+.page-enter,
+.page-leave-to {
+    /* transform: scale(0.9); */
     opacity: 0;
+    margin-top: -6px;
+}
+.page-enter-to,
+.page-leave{
+    opacity: 1;
+    /* transform: scale(1); */
+    margin-top:0px;
+}
+
+.carousel-enter-active,.carousel-leave-active{
+   transition:all 0.25s ease-in;
+}
+.carousel-enter,
+.carousel-leave-to {
+   transform: scale(0);
+    opacity: 0;
+     /* margin-top: -6px; */
+}
+.carousel-enter-to,
+.carousel-leave{
+    opacity: 1;
+    transform: scale(1);
+   /*  margin-top:0px; */
+}
+.carouselBgc-enter-active,.carouselBgc-leave-active{
+   transition:opacity 0.25s ease-in;
+}
+.carouselBgc-enter,
+.carouselBgc-leave-to {
+    opacity: 0;
+}
+.carouselBgc-enter-to,
+.carouselBgc-leave{
+    opacity: 0.5;
 }

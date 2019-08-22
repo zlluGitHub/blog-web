@@ -4,7 +4,7 @@
       <i class="fa fa-slideshare"></i>每日一语
     </h3>
     <div class="panel-body">
-      <p>{{Value}}</p>
+      <p><i class="fa fa-quote-left fa-lg"></i>{{Value}}<i class="fa fa-quote-right fa-lg"></i></p>
     </div>
   </div>
 </template>
@@ -32,13 +32,38 @@ export default {
 </script>
 <style lang="scss" scoped>
 .panel-body{
-  text-indent: 2em;
-  p{
-    padding: 20px 15px;
+
+  margin: 5px 0px;
+  padding-bottom: 10px;
+  p{  
+    // text-indent: 2em;
+    padding: 20px 20px;
     font-size: 13px;
     line-height: 1.8;
     color:#777;
-
+    i{
+      // width: 0;
+      display: inline-block;
+      color: rgba(121, 120, 120,0.6);
+      // position: absolute;
+    }
+    .fa-quote-left{
+    //   top: 18px;
+    // left: 14px;
+      margin-left: 5px;
+      margin-right: 8px;
+      margin-bottom: 3px;
+      transform:translateY(-8px);
+     
+    }
+    .fa-quote-right{
+      margin-left: 5px;
+      margin-right: 8px;
+      margin-bottom: 3px;
+      transform:translateY(8px);
+    //      bottom: 18px;
+    // right: 14px;
+    }
   }
 }
 </style>

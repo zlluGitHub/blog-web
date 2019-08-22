@@ -2,42 +2,42 @@
   <div>
     <!-- 左半部分 -->
     <section>
-      <ArticleList :type="type" :mark="true" :static="isStatic" />
+        <Word />
     </section>
     <!-- 右半部分 -->
-    <AsideMain :configure="asideConfig" />
+   <AsideMain :configure="asideConfig" />
   </div>
 </template>
 <script>
 import AsideMain from "../../components/AsideMain";
-import ArticleList from "../../components/ArticleList";
+import Word from "../../components/Word";
 // import TabsList from "../components/TabsList";
 // import { goBack } from "../assets/js/gloable.js";
 export default {
-  name: "tags",
+  name: "word",
   components: {
     AsideMain,
-    ArticleList
+    Word
     // TabsList
   },
   data: () => ({
-    type: "标签",
-    isStatic: false, //判断是否是服务器端渲染
-    asideConfig: {
-      isSay: true, //每日一句
+    type: '标签',
+      isStatic:false,
+     asideConfig: {
+      // isSay: true,   //每日一句
       // isInfo: true,   //名片
-      isRecommend: true, //本站推荐
+      // isRecommend: true, //本站推荐
       isClick: true, //点击排行
       // isComment: true, //评论
-      // isArticle:true, //最新文章
+      isArticle:true, //最新文章
       isCount: true, //统计
-      isTags: true //标签
-    }
+      // isTags: true //标签
+    },
   }),
-  async asyncData(context) {
+    async asyncData(context) {
     if (context.isStatic) {
       return await {
-        isStatic: context.isStatic
+        isStatic: context.isStatic,
       };
     }
   },
@@ -45,6 +45,7 @@ export default {
     this.$store.commit("setType", this.type);
   },
 
-  methods: {}
+  methods: {
+  }
 };
 </script>
