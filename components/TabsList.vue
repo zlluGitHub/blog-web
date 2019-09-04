@@ -7,69 +7,60 @@
         href="javascript:void(0);"
       >JavaScript</a>
       <a
-        @click="handleTab(2,'Vue/React')"
+        @click="handleTab(2,'Vue')"
         :class="[mark===2?'newscurrent':'']"
         href="javascript:void(0);"
-      >Vue/React</a>
+      >Vue</a>
       <a
-        @click="handleTab(3,'Echarts')"
+        @click="handleTab(3,'React')"
         :class="[mark===3?'newscurrent':'']"
+        href="javascript:void(0);"
+      >React</a>
+      <a
+        @click="handleTab(4,'Echarts')"
+        :class="[mark===4?'newscurrent':'']"
         href="javascript:void(0);"
       >Echarts</a>
       <a
-        @click="handleTab(4,'NodeJs')"
-        :class="[mark===4?'newscurrent':'']"
+        @click="handleTab(5,'NodeJs')"
+        :class="[mark===5?'newscurrent':'']"
         href="javascript:void(0);"
       >NodeJs</a>
     </h3>
     <!-- tab1 -->
     <div class="newstab">
       <div class="newsitem">
-        <ul v-if="tabsData">
-          <li v-for="item in tabsData" :key="item.title">
-            <img :src="URL+item.imgSrc" :alt="item.title" />
-            <div>
-              <p>
-                <nuxt-link
-                  :to="'/detail/'+item.bid"
-                  @click.native="handleTo(item.bid)"
-                >{{item.title}}</nuxt-link>
-                <!-- <a
-                  href="javascript:void(0);"
-                  @click="handleTo(item.bid,'','',item.title)"
-                >{{item.title}}</a>-->
-                <span>{{item.publishTime}}</span>
-              </p>
-              <p>{{item.description}}</p>
-            </div>
-          </li>
-        </ul>
+        <div v-if="tabsData">
+          <ul v-if="tabsData.length!==0">
+            <li v-for="item in tabsData" :key="item.title">
+              <img :src="imgUrl+item.imgSrc" :alt="item.title" />
+              <div>
+                <p>
+                  <!-- <nuxt-link
+                    :to="'/detail/'+item.bid"
+                    @click.native="handleTo(item.bid)"
+                  >{{item.title}}</nuxt-link>-->
+
+                  <a
+                    @click="handleLook(item.bid,isStatic,item.title)"
+                    :href="isStatic?URL+item.bid:'javascript:void(0);'"
+                  >{{item.title}}</a>
+                  <span>{{item.publishTime}}</span>
+                </p>
+                <p>{{item.description}}</p>
+              </div>
+            </li>
+          </ul>
+          <div v-else class="no-content">
+            <span>暂无内容！</span>
+          </div>
+        </div>
         <div v-else class="demo-spin-col" span="8">
           <Spin fix>
             <Icon type="ios-loading" size="18" class="demo-spin-icon-load"></Icon>
             <div>Loading</div>
           </Spin>
         </div>
-        <!-- <ol>
-          <li v-for="item in tabsData.leftData">
-            <a href="javascript:void(0);" @click="handleTo(item.bid,'','',item.title)">
-              <img :src="URL+item.imgSrc" :alt="item.title" />
-              <span>{{item.title}}</span>
-            </a>
-          </li>
-        </ol>
-        <ul>
-          <li v-for="item in tabsData.rightData">
-            <h4>
-              <i class="fa fa-hand-o-right fa-lg"></i>
-              <a
-                href="javascript:void(0);"
-                @click="handleTo(item.bid,'','',item.title)"
-              >{{item.title}}</a>
-            </h4>
-            <p>{{item.description}}</p>
-          </li>
-        </ul>-->
       </div>
       <p v-if="total>6">
         <i class="fa fa-angle-double-right"></i>
@@ -86,13 +77,21 @@
 export default {
   name: "tab",
   data: () => ({
-    URL: process.env.baseUrl + "/adminblog/",
+    isStatic: false,
+    imgUrl: process.env.baseUrl + "/zllublogAdmin/",
+    URL: process.env.baseUrl + "/detail/",
     mark: 1,
     // articleData: [],
     tabsData: [],
     total: 0,
     type: "JavaScript"
   }),
+  props: {
+    static: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     articleData() {
       return this.$store.state.article.articleAll;
@@ -101,9 +100,13 @@ export default {
   watch: {
     articleData() {
       this.getArticle();
+    },
+    static(data) {
+      this.isStatic = data;
     }
   },
   created() {
+    this.isStatic = this.static;
     this.getArticle();
   },
   methods: {
@@ -115,49 +118,21 @@ export default {
         this.total = data.total;
       }
     },
-    handleTo(bid, nav, url, title) {
-      // 将bid存储到store中
-      // this.$store.dispatch("setRouter", { nav, url, title });
-      // this.$store.dispatch("setSingleArtile", bid);
-      // this.$router.push({
-      //   path: "/article",
-      //   query: {
-      //     bid: bid
-      //   }
-      // });
-    },
     handleTab(val, tabName) {
-      // this.type = tabName;
+      this.type = tabName;
       this.mark = val;
-      switch (val) {
-        case 1:
-          this.type = "JavaScript";
-          break;
-        case 2:
-          this.type = "前端框架";
-          break;
-        case 3:
-          this.type = "Echarts";
-          break;
-        case 3:
-          this.type = "NodeJs";
-          break;
-        default:
-          break;
-      }
       this.getArticle();
     },
+    //跳转到详情页
+    handleLook(bid, isStatic) {
+      // 将bid存储到store中
+      this.$store.commit("setBid", bid);
+      if (!isStatic) {
+        this.$router.push({ path: "/detail/" + bid });
+      }
+    },
     handleRouter() {
-      // let nav = this.type;
-      // let pageData = this.$store.getters.getTypeData(nav);
-      // this.$store.dispatch("setArticleTypeData", pageData);
-      // this.$store.dispatch("setRouter", { nav, url: "/type", title: "" });
       this.$router.push({ path: "/tabs" });
-      // this.$store.dispatch("setChangingOver", {
-      //   position: true
-      // });
-      // //侧边栏配置
-      // this.$store.dispatch("setAsideSingleConfigsData", "b");
     }
   }
 };
@@ -168,13 +143,19 @@ export default {
   // padding: 10px;
   background-color: #fff;
   border-radius: 5px;
+  .no-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
   h3.htitle {
     border-bottom: 1px solid #ddd;
     display: flex;
     padding: 0px 15px;
     > a {
       padding: 15px;
-      margin-right: 10px;
+      margin-right: 20px;
       color: #666;
       font-weight: 400;
       font-size: 16px;
@@ -277,7 +258,7 @@ export default {
           border-radius: 3px;
         }
         li {
-          width: 412px;
+          width: 428px;
           display: flex;
           padding: 10px 5px;
           // padding-left: 0px;
@@ -292,6 +273,7 @@ export default {
             border: 1px solid #f3f3f3;
           }
           > div {
+            width: 315px;
             margin-left: 10px;
             margin-right: 10px;
             p:nth-child(1) {

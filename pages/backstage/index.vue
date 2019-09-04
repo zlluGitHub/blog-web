@@ -3,14 +3,14 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-       <img src="../../assets/image/default.jpg" />
+        <img src="../../assets/image/default.jpg" />
         <h1>{{type}}</h1>
         <p>记录在建站开发中用到的一些后端技术知识点，比如 NodeJs、Java、PHP 等后端开发语言。希望在这里重温的同时可以为需要的朋友提供一些参考。</p>
       </div>
-         <ArticleList :type="type" :static="isStatic"/>
+      <ArticleList :type="type" :static="isStatic" />
     </section>
     <!-- 右半部分 -->
-   <AsideMain :configure="asideConfig" />
+    <AsideMain :configure="asideConfig" :static="isStatic" />
   </div>
 </template>
 <script>
@@ -26,10 +26,10 @@ export default {
     // TabsList
   },
   data: () => ({
-    type: '后端基础',
-      isStatic:false,
-     asideConfig: {
-      isSay: true,   //每日一句
+    type: "后端基础",
+    isStatic: false,
+    asideConfig: {
+      isSay: true, //每日一句
       // isInfo: true,   //名片
       isRecommend: true, //本站推荐
       isClick: true, //点击排行
@@ -37,12 +37,12 @@ export default {
       // isArticle:true, //最新文章
       isCount: true, //统计
       isTags: true //标签
-    },
+    }
   }),
-    async asyncData(context) {
+  async asyncData(context) {
     if (context.isStatic) {
       return await {
-        isStatic: context.isStatic,
+        isStatic: context.isStatic
       };
     }
   },

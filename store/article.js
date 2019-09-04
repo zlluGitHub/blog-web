@@ -29,19 +29,19 @@ const mutations = {
   setType(state, type) {
     switch (type) {
       case '前端技术':
-        state.typeMark = 'a';
+        state.typeMark = '前端技术';
         break;
       case '后端基础':
-        state.typeMark = 'b';
+        state.typeMark = '后端基础';
         break;
       case '数据库':
-        state.typeMark = 'c';
+        state.typeMark = '数据库';
         break;
       case '微信程序':
-        state.typeMark = 'd';
+        state.typeMark = '微信程序';
         break;
       case '技术杂谈':
-        state.typeMark = 'e';
+        state.typeMark = '技术杂谈';
         break;
       default:
         state.typeMark = '';

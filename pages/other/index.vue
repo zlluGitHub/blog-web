@@ -7,10 +7,10 @@
         <h1>{{type}}</h1>
         <p>此专栏主要记录一些有关 Linux 操作系统、Git、NPM 等知识点。另外还包括一些其他的技术要点。</p>
       </div>
-        <ArticleList :type="type" :static="isStatic"/>
+      <ArticleList :type="type" :static="isStatic" />
     </section>
     <!-- 右半部分 -->
-   <AsideMain :configure="asideConfig" />
+    <AsideMain :configure="asideConfig" :static="isStatic" />
   </div>
 </template>
 <script>
@@ -23,10 +23,10 @@ export default {
     ArticleList
   },
   data: () => ({
-    type: '技术杂谈',
-      isStatic:false,
-     asideConfig: {
-      isSay: true,   //每日一句
+    type: "技术杂谈",
+    isStatic: false,
+    asideConfig: {
+      isSay: true, //每日一句
       // isInfo: true,   //名片
       isRecommend: true, //本站推荐
       isClick: true, //点击排行
@@ -34,12 +34,12 @@ export default {
       // isArticle:true, //最新文章
       isCount: true, //统计
       isTags: true //标签
-    },
+    }
   }),
-    async asyncData(context) {
+  async asyncData(context) {
     if (context.isStatic) {
       return await {
-        isStatic: context.isStatic,
+        isStatic: context.isStatic
       };
     }
   },
@@ -74,7 +74,6 @@ export default {
     this.$store.commit("setType", this.type);
   },
 
-  methods: {
-  }
+  methods: {}
 };
 </script>

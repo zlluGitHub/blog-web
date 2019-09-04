@@ -2,10 +2,10 @@
   <div>
     <!-- 左半部分 -->
     <section>
-      <About/>
+      <About />
     </section>
     <!-- 右半部分 -->
-    <AsideMain :configure="asideConfig" />
+    <AsideMain :configure="asideConfig" :static="isStatic" />
   </div>
 </template>
 <script>
@@ -28,14 +28,21 @@ export default {
       isCount: true, //统计
       isTags: true //标签
     },
-    data: []
+    data: [],
+    isStatic: false
   }),
+  async asyncData(context) {
+    if (context.isStatic) {
+      return await {
+        isStatic: context.isStatic
+      };
+    }
+  },
   created() {
     // 请求微语数据
-
     // if (this.$store.state.say.sayAll.length === 0) {
     //   this.$axios
-    //     .get(process.env.baseUrl + "/adminblog/say/get.say.php")
+    //     .get(process.env.baseUrl + "/zllublogAdmin/say/get.say.php")
     //     .then(res => {
     //       let data = res.data.list;
     //       data.forEach(ele => {

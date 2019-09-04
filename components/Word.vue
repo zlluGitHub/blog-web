@@ -1,26 +1,9 @@
 <template>
-  <div class="word box-bj-sd">
-    <div class="word-title">
-      <h1>留言板</h1>
-      <!-- <p>
-        <span>
-          <i class="fa fa-calendar">{{time}}</i>
-        </span>
-        <span>
-          <i class="fa fa-calendar">{{total}}</i>条评论
-        </span>
-      </p>-->
-    </div>
-    <div class="massage public">
-      <span>发表留言</span>
-      <p class="email-span">
-        <span>下述邮件地址不会被公开，只作为回复时的联系方式！</span>
-      </p>
-    </div>
+  <div class="word">
+    <!-- 输入框开始 -->
     <div class="comments-box">
       <div class="comments-img">
-        <!-- <img :src="URL+imgUrl" /> -->
-        <img src="https://zhenglinglu.cn/static/img/touxiang0.ff5a451.jpg" />
+        <img :src="imgUrl" />
       </div>
       <div class="inner" @click="makeFaceClose">
         <div class="input-box">
@@ -42,17 +25,10 @@
           </label>
         </div>
         <div class="comments-warp">
-          <!-- <textarea
-            class="textarea"
-            v-model="content"
-            placeholder="客官，来都来了，怎么也不留个脚印呢，有什么想说的，尽情畅言吧..."
-          ></textarea>-->
-
           <!-- 发布内容输入框，利用Html5的新属性contenteditable，实现可编辑文本 ，会自动将插入的IMG标签解析-->
           <div class="publish_container">
             <p contenteditable="true" id="input_conta"></p>
           </div>
-
           <div class="comments-textarea">
             <!-- 表情容器 ，包裹生成的表情，绑定点击表情事件-->
             <div class="face-warp">
@@ -64,14 +40,7 @@
                   v-show="isFaceShow"
                   @click.stop="choiceFace($event)"
                 >
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/wx.gif" title="微笑" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/pz.gif" title="撇嘴" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/se.gif" title="色" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/fd.gif" title="发呆" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/ku.gif" title="酷" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/ll.gif" title="流泪" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/hx.gif" title="害羞" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/bz.gif" title=",闭嘴" />
+                  <img v-for="(itemIcon,ind) in arrIcon" :src="itemIcon.name" :key="ind+'icons'" />
                 </div>
               </transition>
             </div>
@@ -80,6 +49,7 @@
         </div>
       </div>
     </div>
+    <!-- 输入框结束 -->
     <div class="massage">
       <span>留言内容</span>
       <p>
@@ -89,9 +59,104 @@
     <div v-if="sayList.length!==0">
       <div class="leave-list">
         <ul>
-          <li v-for="item in sayList" :key="item.name">
-            <div class="list">
+          <li v-for="(ele,i) in sayList" :key="'box'+i">
+            <div
+              v-for="(item,index) in ele.data"
+              :key="item.bid+index"
+              class="list"
+              :style="'margin-left:'+(item.depth-1)*60+'px'"
+            >
               <!-- <img :src="URL+item.url" alt="头像" /> -->
+              <img :src="imgUrl" />
+              <div class="text-box">
+                <div class="user-name">
+                  <h3>{{item.name}} <span>lv{{index+1}}</span> </h3>
+                  <div>
+                    <span>发布于：</span>
+                    {{item.time.slice(0,10)}}
+                  </div>
+                </div>
+                <div class="text" v-html="item.content"></div>
+                <div class="repy">
+                  <span @click="handleRepy(ele.bid,item.name,item.bid)">{{item.bid===uid?'收起':'回复'}}</span>
+                  <!--  <span>  <i class="fa fa-thumbs-o-up"></i>0</span>-->
+                </div>
+                <!-- 回复开始 -->
+                <div class="repy-box" v-if="item.bid===uid">
+                  <p>
+                    <span>
+                      回复
+                      <i>@{{item.name}}</i>
+                    </span>
+                  </p>
+
+                  <div class="comments-box">
+                    <div class="comments-img">
+                      <img :src="imgUrl" />
+                    </div>
+                    <div class="inner" @click="makeFaceClose">
+                      <div class="input-box">
+                        <label>
+                          <Input
+                            prefix="ios-contact"
+                            v-model="repyname"
+                            placeholder="请输入您的称呼..."
+                            class="input-width"
+                          />
+                          <i>*</i>
+                        </label>
+                        <label>
+                          <Input
+                            prefix="ios-mail"
+                            v-model="repyemail"
+                            placeholder="请输入您的邮箱..."
+                            class="input-width"
+                          />
+                          <i>*</i>
+                        </label>
+                        <label>
+                          <Input
+                            prefix="md-at"
+                            v-model="repywebUrl"
+                            placeholder="请输入您的网址..."
+                            class="input-width"
+                          />
+                        </label>
+                      </div>
+                      <div class="comments-warp">
+                        <!-- 发布内容输入框，利用Html5的新属性contenteditable，实现可编辑文本 ，会自动将插入的IMG标签解析-->
+                        <div class="publish_container">
+                          <p contenteditable="true" :id="'input_conta'+item.bid"></p>
+                        </div>
+                        <div class="comments-textarea">
+                          <!-- 表情容器 ，包裹生成的表情，绑定点击表情事件-->
+                          <div class="face-warp">
+                            <i @click.stop="makeFace" :class="repyisFaceShow?'i1':'i2'"></i>
+                            <transition name="show-face">
+                              <div
+                                id="face"
+                                class="box-bj-sd"
+                                v-show="repyisFaceShow"
+                                @click.stop="choiceFace($event)"
+                              >
+                                <img
+                                  v-for="(itemIcon,ind) in arrIcon"
+                                  :src="itemIcon.name"
+                                  :key="ind+'icon'"
+                                />
+                              </div>
+                            </transition>
+                          </div>
+                          <span class="submit" @click="handlePublic">发布</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="list">
               <img src="https://zhenglinglu.cn/static/img/touxiang0.ff5a451.jpg" />
               <div class="text-box">
                 <div class="user-name">
@@ -102,12 +167,11 @@
                   </div>
                 </div>
                 <div class="text" v-html="item.content"></div>
-                <!-- <div class="repy">
+                <div class="repy">
                   <span>回复</span>
-                  <span><i class="fa fa-thumbs-o-up"></i>0</span>
-                </div>-->
+                </div>
               </div>
-            </div>
+            </div>-->
           </li>
         </ul>
       </div>
@@ -126,31 +190,50 @@
 </template>
 <script>
 // import { URL } from "../constant/constant.js";
-import { dateTime, getUrl, checkEmail } from "../assets/js/globle";
+import {
+  dateTime,
+  getUrl,
+  checkEmail,
+  getuid,
+  analysisString,
+  icon
+} from "../assets/js/globle";
 // import Qs from "qs";
 export default {
   name: "viwephotos",
   data: () => ({
-    sayList: [],
-    content: [],
+    sayList: [], //部分数据
+    content: [], //全部数据
     pageNo: 0,
     pageSize: 10,
     total: 0,
+    bid: "",
+    repybid: "", //回复id 用于判断
+    uid: "", ///回复id传向后台修改
+    repyNameHou: "", //回复谁
+    arrIcon: [],
+    colorArr:[],
     //----------------
     isFaceShow: false,
+    repyisFaceShow: false,
     // content: "",
     replyData: [],
     // total: 0,
     email: "",
     name: "",
     webUrl: "",
-    URL: process.env.baseUrl + "/adminblog/",
+    repyemail: "",
+    repyname: "",
+    repywebUrl: "",
+
+    URL: process.env.baseUrl + "/zllublogAdmin/",
+    imgUrl: process.env.baseUrl + "/zllublogAdmin/images/headimg/mo.jpg",
     //--------------------
-    imgUrl: "getUrl()",
 
     time: dateTime(),
     mark: true
   }),
+  props: ["config"],
   computed: {
     commentAll() {
       return this.$store.state.comment.commentAll;
@@ -163,17 +246,28 @@ export default {
   },
 
   created() {
-    // this.artBid = this.bid;
-
+    this.bid = getuid();
+    // console.log(this.bid);
     // this.artBid = this.$route.params.bid;
-
     this.handleData();
+    this.handleIcon();
   },
+
   methods: {
+    handleIcon() {
+      this.arrIcon = icon.map(item => {
+        // item.name = "https://zhenglinglu.cn/staticimg/icon/" + item.name;
+        return {
+          name: "https://zhenglinglu.cn/staticimg/icon/" + item.name
+        };
+      });
+    },
     handleData() {
       let data = this.$store.state.comment.commentAll;
+      // console.log(data);
       this.content = data;
       this.total = data.length;
+
       this.sayList = data.slice(0, 10);
     },
     changePage(event) {
@@ -194,10 +288,18 @@ export default {
       this.sayList = this.content.slice(start, end);
     },
     makeFaceClose() {
-      this.isFaceShow = false;
+      if (this.repybid) {
+        this.repyisFaceShow = false;
+      } else {
+        this.isFaceShow = false;
+      }
     },
     makeFace() {
-      this.isFaceShow = !this.isFaceShow; //显示表情容器
+      if (this.repybid) {
+        this.repyisFaceShow = !this.repyisFaceShow; //显示表情容器
+      } else {
+        this.isFaceShow = !this.isFaceShow; //显示表情容器
+      }
       if ($("#face>img").length == 0) {
         //动态生成表情，如果现在没有表情则生成
         for (var i = 1; i <= 75; i++) {
@@ -210,118 +312,216 @@ export default {
       if (e.target.nodeName == "IMG") {
         var choice = e.target;
         var cEle = choice.cloneNode(true); //深度复制，复制节点下面所有的子节点 ，直接将整个表情的IMG标签复制，并添加到发布框的<p></p>里面
-        $("p#input_conta").append(cEle);
+        $("p#input_conta" + this.uid).append(cEle);
         this.makeFaceClose();
       }
     },
     // 请求留言数据
     getContent() {
-      this.$axios.get(this.URL + "comment/get.comment.php").then(res => {
+      this.$axios.get(this.URL + this.config.commentUrl).then(res => {
         let data = res.data.list;
-        data.forEach(ele => {
-          ele.time = ele.time.slice(0, 10);
+        data.forEach(item1 => {
+          //最外层循环
+          if (item1.data.indexOf("},{") === -1) {
+            item1.data = [
+              analysisString(
+                item1.data.substring(
+                  item1.data.indexOf("[{") + 2,
+                  item1.data.indexOf("}]")
+                )
+              )
+            ];
+          } else {
+            var arr = item1.data;
+            arr = arr
+              .substring(arr.indexOf("[{") + 2, arr.indexOf("}]"))
+              .split("},{");
+            item1.data = arr.map(item2 => {
+              // console.log(item2,'121212121');
+              // console.log(analysisString(item2.toString()));
+              return analysisString(item2.toString());
+            });
+          }
         });
-        // this.show = false;
+        $("#input_conta" + this.uid).html(""); //清除发布框的文本内容
+        this.name = "";
+        this.email = "";
+        this.webUrl = "";
+        this.repyname = "";
+        this.repyemail = "";
+        this.repywebUrl = "";
+        this.uid = "";
+        this.repybid = "";
         this.$store.commit("setCommentAll", data);
         this.handleData();
+        this.bid = getuid();
       });
     },
-    handlePublic() {
-      let text = $("#input_conta").html(); //获得发布框的文本内容，表情会以整个img标签文本显示
-
-      this.content = text;
-      if (this.name === "") {
-        this.$Modal.info({
-          title: "温馨提示",
-          content: "请输入您的称呼！"
-        });
-      } else if (!this.email) {
-        this.$Modal.info({
-          title: "温馨提示",
-          content: "请输入您的邮箱地址！"
-        });
-      } else if (!checkEmail(this.email)) {
-        this.$Modal.info({
-          title: "温馨提示",
-          content: "邮箱格式不正确！"
-        });
-      } else if (!this.content) {
-        this.$Modal.info({
-          title: "温馨提示",
-          content: "请输入评论内容！"
-        });
+    //回复按钮
+    handleRepy(bid, name, uid) {
+      this.repyNameHou = name;
+      this.bid = getuid();
+      if (this.repybid) {
+        this.uid = "";
+        this.repybid = "";
       } else {
-        let data = {
-          name: this.name,
-          content: this.content,
-          email: this.email,
-          url: this.webUrl,
-          uid: this.artBid,
-          time: this.time,
-          title: this.artTitle
-        };
-        if (this.mark) {
-          this.$Message.loading({
-            content: "数据正在提交...",
-            duration: 0
+        this.repybid = bid;
+        this.uid = uid; //用于匹配回复内容
+      }
+    },
+    //提交数据
+    handlePublic() {
+      let text = $("#input_conta" + this.uid).html(); //获得发布框的文本内容，表情会以整个img标签文本显示
+      let time = dateTime();
+      let data = {
+        time: time,
+        bid: this.bid
+      };
+      if (this.repybid) {
+        if (this.repyname === "") {
+          this.$Modal.info({
+            title: "温馨提示",
+            content: "请输入您的称呼！"
           });
-          this.mark = false;
-
-          //   JSON.stringify({
-          //       name: this.name,
-          //       content: this.content,
-          //       email: this.email,
-          //       url: this.webUrl,
-          //       uid: this.artBid,
-          //       time: this.time,
-          //       title: this.artTitle
-          //     }),
-          let data = {
-            name: this.name,
-            content: this.content,
-            email: this.email,
-            // url: this.imgUrl,
-            time: dateTime()
-          };
-          this.$axios
-            .post(
-              this.URL + "comment/add.comment.php",
-              this.$qs.stringify(data)
-            )
-            .then(res => {
-              this.name = "";
-              this.content = "";
-              this.email = "";
-              //   this.url = "";
-              this.time = "";
-              this.getContent();
-              this.$Message.destroy();
-              this.$Message.success("留言成功！");
-              $("#input_conta").html(""); //清除发布框的文本内容
-              this.mark = true;
-            })
-            .catch(error => {
-              console.log(error);
-            });
+        } else if (!this.repyemail) {
+          this.$Modal.info({
+            title: "温馨提示",
+            content: "请输入您的邮箱地址！"
+          });
+        } else if (!checkEmail(this.repyemail)) {
+          this.$Modal.info({
+            title: "温馨提示",
+            content: "邮箱格式不正确！"
+          });
+        } else if (!text) {
+          this.$Modal.info({
+            title: "温馨提示",
+            content: "请输入评论内容！"
+          });
         } else {
-          this.$Message.error("数据正在提交...");
+          if (this.mark) {
+            this.$Message.loading({
+              content: "数据正在提交...",
+              duration: 0
+            });
+            this.mark = false;
+            data.name = this.repyname;
+            data.content = text;
+            data.email = this.repyemail;
+            data.url = this.repyimgUrl;
+            data.web = this.repywebUrl;
+            data.uid = this.repybid;
+            let newData = [];
+
+            for (let index = 0; index < this.content.length; index++) {
+              if (this.content[index].bid === this.repybid) {
+                let depth = this.repyNameHou.split("回复@").length + 1;
+                let pushData = {
+                  depth: depth.toString(),
+                  name: this.repyname + "回复@" + this.repyNameHou,
+                  content: text,
+                  bid: this.bid,
+                  time: time,
+                  url: this.repyimgUrl
+                };
+
+                newData = [...this.content[index].data];
+
+                //查找元素插入的位置
+                let startIndex = 0;
+                for (let i = 0; i < newData.length; i++) {
+                  if (newData[i].bid === this.uid) {
+                    startIndex = i + 1;
+                  }
+                }
+                //在指定位置添加元素,第一个参数指定位置,第二个参数指定要删除的元素,如果为0,则追加
+                newData.splice(startIndex, 0, pushData);
+                break;
+              }
+            }
+
+            data.data = JSON.stringify(newData);
+
+            this.submitData(data);
+          } else {
+            this.$Message.error("数据正在提交...");
+          }
+        }
+      } else {
+        if (this.name === "") {
+          this.$Modal.info({
+            title: "温馨提示",
+            content: "请输入您的称呼！"
+          });
+        } else if (!this.email) {
+          this.$Modal.info({
+            title: "温馨提示",
+            content: "请输入您的邮箱地址！"
+          });
+        } else if (!checkEmail(this.email)) {
+          this.$Modal.info({
+            title: "温馨提示",
+            content: "邮箱格式不正确！"
+          });
+        } else if (!text) {
+          this.$Modal.info({
+            title: "温馨提示",
+            content: "请输入评论内容！"
+          });
+        } else {
+          if (this.mark) {
+            this.$Message.loading({
+              content: "数据正在提交...",
+              duration: 0
+            });
+            this.mark = false;
+            data.name = this.name;
+            data.content = text;
+            data.email = this.email;
+            data.url = this.imgUrl;
+            data.web = this.webUrl;
+            data.uid = "";
+            data.data = JSON.stringify([
+              {
+                depth: "1",
+                name: this.name,
+                content: text,
+                bid: this.bid,
+                time: time,
+                url: this.imgUrl
+              }
+            ]);
+
+            // data.bid = this.bid;
+            this.submitData(data);
+          } else {
+            this.$Message.error("数据正在提交...");
+          }
         }
       }
+    },
+    submitData(data) {
+      this.$axios
+        .post(this.URL + this.config.submitUrl, this.$qs.stringify(data))
+        .then(res => {
+          this.getContent();
+          this.$Message.destroy();
+          this.$Message.success("留言成功！");
+
+          this.mark = true;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
-
-
 </script>
 <style lang="scss" scoped>
 .word {
   padding: 15px;
-  .word-title {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    h1 {
-      text-align: center;
-    }
+  img {
+    display: inline-block;
   }
   .show-face-enter-active {
     transition: all 0.25s ease-in;
@@ -338,15 +538,23 @@ export default {
     /* transform: scale(1); */
     margin-top: 0px;
   }
+  #input_conta,
+  .text,
+  .publish_container p,
+  #face {
+    img {
+      width: 28px;
+    }
+  }
   .comments-box {
-    margin: 40px 10px;
+    margin: 0px 10px;
     display: flex;
     .comments-img {
       margin-right: 10px;
       img {
         display: block;
-        width: 100px;
-        height: 100px;
+        width: 60px;
+        height: 60px;
         border-radius: 12px;
       }
     }
@@ -427,8 +635,8 @@ export default {
           margin-top: 10px;
           margin-bottom: 20px;
           > img {
-            width: 50px;
-            height: 50px;
+            width: 35px;
+            height: 35px;
             border-radius: 10px;
           }
           .text-box {
@@ -442,7 +650,7 @@ export default {
               h3 {
                 margin: 0px;
                 font-size: 14px;
-                color: #d32;
+                color: #6d757a;
                 font-weight: 600;
               }
               div {
@@ -455,6 +663,7 @@ export default {
             }
             .repy {
               text-align: right;
+
               span {
                 margin-left: 20px;
                 cursor: pointer;
@@ -465,6 +674,15 @@ export default {
               }
               span:hover {
                 color: #33aba0;
+              }
+            }
+            .repy-box {
+              > p {
+                border-bottom: 1px solid #eee;
+                padding: 10px;
+              }
+              .comments-box {
+                margin-top: 25px;
               }
             }
           }
@@ -546,9 +764,9 @@ export default {
       position: absolute;
       top: 36px;
       left: 0;
+      z-index: 10;
       padding: 10px;
-      width: 270px;
-
+      width: 480px;
       border-radius: 5px;
       background-color: #fff;
       border: 1px solid #ddd;

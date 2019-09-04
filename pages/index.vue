@@ -31,8 +31,8 @@
           </div>
         </div>
       </div>
-     <!-- tab页文章 -->
-      <TabsList />
+      <!-- tab页文章 -->
+      <TabsList :static="isStatic" />
       <!-- <div class="article_list">
         <h3>
           <i class="fa fa-list-ul"></i>
@@ -48,7 +48,7 @@
       />-->
       <!-- </div> -->
       <!-- </div> -->
-     
+
       <!-- 最新文章 -->
       <!-- <h3>
       <i class="fa fa-list-ul"></i>
@@ -66,7 +66,7 @@
       </div>-->
     </section>
     <!-- 右半部分 -->
-    <AsideMain :configure="asideConfig" />
+    <AsideMain :configure="asideConfig" :static="isStatic" />
   </div>
 </template>
 <script>
@@ -86,16 +86,16 @@ export default {
   data: () => ({
     asideConfig: {
       // isSay: true,   //每日一句
-      isInfo: true,   //名片
+      isInfo: true, //名片
       isRecommend: true, //本站推荐
       isClick: true, //点击排行
-      isComment: true, //评论
+      // isComment: true, //评论
       // isArticle:true, //最新文章
       isCount: true, //统计
       isTags: true //标签
     },
-    isStatic:false,
-    type:"最新文章",
+    isStatic: false,
+    type: "最新文章",
     URL: "",
     value2: 0,
     dataList: [],
@@ -106,19 +106,19 @@ export default {
     isBanner: "yes",
     AdataArr: [
       {
-        imgSrc: "https://zhenglinglu.cn/zllublogAdmin/images/logo.png",
-        title: "LING☆璐"
+        imgSrc: "https://zhenglinglu.cn/staticimg/default.jpg",
+        title: "有所珍惜，才会有所真心。有所懂得，才会有所值得。"
       },
       {
-        imgSrc: "https://zhenglinglu.cn/zllublogAdmin/images/logo.png",
-        title: "LING☆璐"
+        imgSrc: "https://zhenglinglu.cn/staticimg/moren.jpg",
+        title: "人生就像蒲公英，最终落到哪里都是个未知数。"
       }
     ] //精选数据
   }),
-   async asyncData(context) {
+  async asyncData(context) {
     if (context.isStatic) {
       return await {
-        isStatic: context.isStatic,
+        isStatic: context.isStatic
       };
     }
   },
@@ -156,7 +156,7 @@ export default {
   },
   mounted() {
     // this.$axios
-    //   .get(process.env.baseUrl + "/adminblog/article/get.article.php")
+    //   .get(process.env.baseUrl + "/zllublogAdmin/article/get.article.php")
     //   .then(res => {
     //     console.log(res);
     //     this.dataList = res.data.list;
@@ -232,6 +232,9 @@ export default {
 
   .swiper-left {
     width: 65%;
+    > div {
+      height: 100%;
+    }
   }
   .swiper-right {
     width: 34%;
@@ -253,12 +256,13 @@ export default {
         position: absolute;
         display: block;
         width: 100%;
+      
         height: 100%;
       }
       span {
         padding: 10px 30px;
         text-align: center;
-        z-index: 5;
+          z-index: 100;
         font-size: 16px;
         color: #fff;
         /*flex 布局*/

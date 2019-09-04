@@ -67,7 +67,7 @@ export default {
   name: "viwephoto",
   data() {
     return {
-       URL: process.env.baseUrl+'/adminblog/',
+       URL: process.env.baseUrl+'/zllublogAdmin/',
       data: {}
     };
   },
@@ -85,7 +85,7 @@ export default {
     if (this.$store.state.share.shareData.length === 0) {
       // 请求在线文档数据
       this.$axios
-        .get(process.env.baseUrl + "/adminblog/navurl/get.navurl.php")
+        .get(process.env.baseUrl + "/zllublogAdmin/navurl/get.navurl.php")
         .then(res => {
           this.$store.commit("setShareData", res.data.list);
         })

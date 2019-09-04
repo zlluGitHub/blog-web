@@ -4,12 +4,12 @@
       <span>发表评论</span>
       <!-- <p class="email-span">
         <span>下述邮件地址不会被公开，只作为回复时的联系方式！</span>
-      </p> -->
+      </p>-->
     </div>
     <div class="comments-box">
       <div class="comments-img">
         <!-- <img :src="URL+imgUrl" /> -->
-        <img src="https://zhenglinglu.cn/static/img/touxiang0.ff5a451.jpg" />
+        <img :src="imgUrl" />
       </div>
       <div class="inner" @click="makeFaceClose">
         <div class="input-box">
@@ -26,22 +26,11 @@
             <Input prefix="ios-mail" v-model="email" placeholder="请输入您的邮箱..." class="input-width" />
             <i>*</i>
           </label>
-          <!-- <label>
-            <Input prefix="md-at" v-model="webUrl" placeholder="请输入您的网址..." class="input-width" />
-          </label> -->
         </div>
         <div class="comments-warp">
-          <!-- <textarea
-            class="textarea"
-            v-model="content"
-            placeholder="客官，来都来了，怎么也不留个脚印呢，有什么想说的，尽情畅言吧..."
-          ></textarea>-->
-
-          <!-- 发布内容输入框，利用Html5的新属性contenteditable，实现可编辑文本 ，会自动将插入的IMG标签解析-->
           <div class="publish_container">
             <p contenteditable="true" id="input_conta"></p>
           </div>
-
           <div class="comments-textarea">
             <!-- 表情容器 ，包裹生成的表情，绑定点击表情事件-->
             <div class="face-warp">
@@ -54,18 +43,10 @@
                   v-show="isFaceShow"
                   @click.stop="choiceFace($event)"
                 >
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/wx.gif" title="微笑" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/pz.gif" title="撇嘴" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/se.gif" title="色" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/fd.gif" title="发呆" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/ku.gif" title="酷" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/ll.gif" title="流泪" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/hx.gif" title="害羞" />
-                  <img src="http://www.vipshan.com/plus/dedemao-comment/face/bz.gif" title=",闭嘴" />
+                  <img v-for="(itemIcon,ind) in arrIcon" :src="itemIcon.name" :key="ind+'icon'" />
                 </div>
               </transition>
             </div>
-
             <span class="submit" @click="handlePublic">发布</span>
           </div>
         </div>
@@ -83,7 +64,7 @@
           <li v-for="item in replyData" :key="item.name">
             <div class="list">
               <!-- <img :src="URL+item.url" alt="头像" /> -->
-             <img src="https://zhenglinglu.cn/static/img/touxiang0.ff5a451.jpg" />
+              <img :src="imgUrl" />
               <div class="text-box">
                 <div class="user-name">
                   <h3>{{item.name}}</h3>
@@ -117,7 +98,7 @@
 </template>
 <script>
 // import { URL } from "../constant/constant.js";
-import { dateTime, getUrl, checkEmail } from "../assets/js/globle";
+import { dateTime, getUrl, checkEmail, icon } from "../assets/js/globle";
 // import Qs from "qs";
 export default {
   name: "viwephotos",
@@ -129,9 +110,10 @@ export default {
     email: "",
     name: "",
     webUrl: "",
-    URL: process.env.baseUrl + "/adminblog/",
+    URL: process.env.baseUrl + "/zllublogAdmin/",
+    arrIcon: [],
+    imgUrl: process.env.baseUrl + "/zllublogAdmin/images/headimg/mo.jpg",
     //--------------------
-    imgUrl: "getUrl()",
 
     time: dateTime(),
     mark: true,
@@ -153,11 +135,18 @@ export default {
 
     this.artBid = this.$route.params.bid;
 
-    console.log(this.artBid);
-
     this.getReplyData();
+    this.handleIcon();
   },
   methods: {
+    handleIcon() {
+      this.arrIcon = icon.map(item => {
+        // item.name = "https://zhenglinglu.cn/staticimg/icon/" + item.name;
+        return {
+          name: "https://zhenglinglu.cn/staticimg/icon/" + item.name
+        };
+      });
+    },
     makeFaceClose() {
       this.isFaceShow = false;
     },
@@ -302,7 +291,6 @@ export default {
 <style lang="scss" scoped>
 .word {
   padding: 15px;
-
   .show-face-enter-active {
     transition: all 0.25s ease-in;
   }
@@ -325,8 +313,8 @@ export default {
       margin-right: 10px;
       img {
         display: block;
-        width: 100px;
-        height: 100px;
+        width: 60px;
+        height: 60px;
         border-radius: 12px;
       }
     }
@@ -404,7 +392,7 @@ export default {
           padding-left: 20px;
           margin-top: 10px;
           margin-bottom: 20px;
-          >img {
+          > img {
             width: 50px;
             height: 50px;
             border-radius: 10px;
@@ -477,14 +465,18 @@ export default {
       min-height: 100px;
       border-style: none; /*  此步是必须的  */
     }
+    img{
+      width: 28px;
+      height: 28px;
+    }
   }
   .face-warp {
     position: relative;
     display: flex;
     align-items: center;
-    span{
+    span {
       font-size: 14px;
-        margin-left: 5px;
+      margin-left: 5px;
     }
     > i {
       display: block;
@@ -519,18 +511,19 @@ export default {
       position: absolute;
       top: 36px;
       left: 0;
+      z-index: 10;
       padding: 10px;
-      width: 270px;
-
+      width: 480px;
       border-radius: 5px;
       background-color: #fff;
       border: 1px solid #ddd;
       box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.17);
-
       transition: all 0.3s ease;
       img {
         float: left;
         margin: 5px;
+        width: 28px;
+        height: 28px;
         cursor: pointer;
         transition: all 0.3s ease;
       }

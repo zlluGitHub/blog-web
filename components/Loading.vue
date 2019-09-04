@@ -10,15 +10,7 @@
   </div>
 </template>
 <style lang="scss" scoped>
-.loading {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  background-color: #fff;
-  z-index: 10000;
-}
+
 #preloader_1 {
   position: relative;
   top: 48%;
@@ -28,7 +20,8 @@
   display: block;
   bottom: 0px;
   width: 9px;
-  height: 5px;
+  height: 8px;
+  border-radius: 8px;
   background: #9b59b6;
   position: absolute;
   animation: preloader_1 1.5s infinite ease-in-out;
@@ -56,7 +49,7 @@
     background: #9b59b6;
   }
   25% {
-    height: 30px;
+    height: 50px;
     transform: translateY(15px);
     background: #3498db;
   }

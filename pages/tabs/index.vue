@@ -5,7 +5,7 @@
       <ArticleList :type="type" :tabs="true" :static="isStatic" />
     </section>
     <!-- 右半部分 -->
-    <AsideMain :configure="asideConfig" />
+    <AsideMain :configure="asideConfig" :static="isStatic"/>
   </div>
 </template>
 <script>

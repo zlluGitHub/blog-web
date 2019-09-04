@@ -6,13 +6,20 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: process.env.npm_package_name || '',
+    title: "月光下的露珠_技术博客 - 记录生活点滴 | luBlog个人博客原创作品分享",
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'keywords', name: 'keywords', content: '个人网站,小程序,web前端,个人博客,技术分享,月光下的露珠,原创博客,luBlog,郑玲璐' },
+      { hid: 'description', name: 'description', content: '月光下的露珠、luBlog个人博客网站专注于个人原创技术作品分享，记录生活点滴，分享web前端开发相关技术，追求用户体验设计的个人原创博客IT技术分享，欢迎关注luBlog博客！。' }
     ],
+    // title: process.env.npm_package_name || '',
+    // meta: [
+    //   { charset: 'utf-8' },
+    //   { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    //   { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
+    //   { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+    // ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
@@ -44,6 +51,7 @@ module.exports = {
     { src: "~/plugins/back.js", ssr: false },
     { src: "~/plugins/apiayer.js", ssr: false },
     { src: "~/plugins/jquery.js", ssr: false },
+    { src: "~/plugins/particles.js", ssr: false },
   ],
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000'

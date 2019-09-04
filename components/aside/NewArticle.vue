@@ -4,9 +4,13 @@
       <i class="fa fa-th-list"></i>最新文章
     </h3>
     <ul class="article-list-new">
-      <li v-for="item in titleData" @click="handleLook(item.bid)" :key="item.title">
+      <li v-for="item in titleData" :key="item.bid+'21'">
         <i class="fa fa-angle-double-right fa-lg"></i>
-        <nuxt-link :to="'/detail/'+item.bid">{{item.title}}</nuxt-link>
+        <a
+          @click="handleLook(item.bid,isStatic,item.title)"
+          :href="isStatic?URL+item.bid:'javascript:void(0);'"
+        >{{item.title}}</a>
+        <!-- <nuxt-link :to="'/detail/'+item.bid">{{item.title}}</nuxt-link> -->
       </li>
     </ul>
   </div>
@@ -15,8 +19,16 @@
 export default {
   name: "rtuijian",
   data: () => ({
-    titleData: []
+    URL: process.env.baseUrl + "/detail/",
+    titleData: [],
+    isStatic: false
   }),
+  props: {
+    static: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     articleAll() {
       return this.$store.state.article.articleAll;
@@ -25,14 +37,18 @@ export default {
   watch: {
     articleAll() {
       this.handleData();
+    },
+    static(data) {
+      this.isStatic = data;
     }
   },
 
   created() {
+    this.isStatic = this.static;
     this.handleData();
   },
   methods: {
-     handleData() {
+    handleData() {
       var data = [...this.$store.state.article.articleAll];
       let arr = [];
       if (data.length !== 0) {
@@ -40,27 +56,24 @@ export default {
         this.titleData = arr.slice(0, 8);
       }
     },
-    handleLook(bid) {
+    //跳转到详情页
+    handleLook(bid, isStatic) {
       // 将bid存储到store中
-      // this.$store.dispatch("setSingleArtile", bid);
-      // this.$router.push({
-      //   path: "/article",
-      //   query: {
-      //     bid: bid
-      //   }
-      // });
+      this.$store.commit("setBid", bid);
+      if (!isStatic) {
+        this.$router.push({ path: "/detail/" + bid });
+      }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-
 .article-list-new li {
   display: flex;
   align-items: center;
   padding-left: 10px;
   border-bottom: 1px dashed #ccc;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .article-list-new li a {

@@ -175,10 +175,10 @@ export default {
       this.handleData(this.bid);
     }
   },
-
   created() {
     this.isStatic = this.static;
     this.handleData(this.bid, this.article);
+
     // this.$store.dispatch("setSingleArtile", this.$route.query.bid);
     // //首页通知
     // this.$store.dispatch("setChangingOver", { notice: false, position: true });
@@ -321,12 +321,13 @@ export default {
 <style lang="scss" scoped>
 article {
   word-wrap: break-word;
-  color: #666;
+  color: #657487;
+  line-height: 1.9;
+  font-size: 15px;
   .warp {
     padding: 12px;
     margin-bottom: 12px;
   }
-  line-height: 24px;
   border-radius: 3px;
   margin-bottom: 20px;
   h1 {
@@ -346,7 +347,7 @@ article {
     // background-color: #f8f8f8;
     border-top: 1px dashed #999;
     border-bottom: 1px dashed #999;
-    // color: #ac5a24;
+    font-size: 14px;
     padding: 5px 0px;
     display: flex;
     // margin-bottom: 15px;
@@ -357,7 +358,6 @@ article {
       padding: 0 20px;
       margin: 0px 20px;
       // color: #606060;
-      font-size: 13px;
       i {
         margin-right: 5px;
       }
@@ -381,18 +381,16 @@ article {
     // .code-highlight {
     //   padding-bottom: 70px;
     // }
-    font-size: 15px;
     p.tags {
       padding-left: 20px;
-      font-size: 15px;
       margin-top: 15px;
       font-weight: 600;
       a {
-        font-size: 13px;
         padding: 5px 10px;
         margin-right: 10px;
         border-radius: 3px;
         color: #fff;
+        font-size: 13px;
       }
       a:hover {
         opacity: 1 !important;
@@ -401,7 +399,6 @@ article {
     }
     .inner {
       padding: 0 10px;
-      font-size: 15px;
       p {
         display: block;
         text-indent: 2em;
@@ -413,7 +410,6 @@ article {
 
     .explain {
       width: 95%;
-      font-size: 13px;
       border-radius: 3px;
       line-height: 28px;
       padding: 15px 10px;
@@ -423,7 +419,6 @@ article {
       margin: 0 8px;
       a {
         color: #666;
-        font-size: 16px;
       }
     }
     .share {
@@ -466,10 +461,10 @@ article {
     justify-content: space-between;
     p {
       a {
-        color: #ac5a24;
+        color: #666;
       }
       a:hover {
-        color: #e2523a;
+        color: #2196F3;
       }
     }
   }

@@ -7,13 +7,13 @@
     <Info v-if="configure.isInfo" />
 
     <!-- 最新文章 -->
-    <NewArticle v-if="configure.isArticle" />
+    <NewArticle v-if="configure.isArticle" :static="isStatic"/>
 
     <!-- 本站推荐 -->
-    <TuiJian v-if="configure.isRecommend" />
+    <TuiJian v-if="configure.isRecommend" :static="isStatic"/>
 
     <!-- 点击排行 -->
-    <dianji v-if="configure.isClick" />
+    <dianji v-if="configure.isClick" :static="isStatic"/>
 
     <!-- 标签 -->
     <Tag v-if="configure.isTags" />
@@ -58,7 +58,18 @@ export default {
     dianji
     // RiLi
   },
-  props: ["configure"]
+  data: () => ({
+    isStatic: false
+  }),
+  props: ["configure", "static"],
+  watch: {
+    static(data) {
+      this.isStatic = data;
+    }
+  },
+  created() {
+    this.isStatic = this.static;
+  }
 };
 </script>
 <style lang="scss">

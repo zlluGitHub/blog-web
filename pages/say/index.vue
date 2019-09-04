@@ -5,7 +5,7 @@
       <Say :data="data" />
     </section>
     <!-- 右半部分 -->
-    <AsideMain :configure="asideConfig" />
+    <AsideMain :configure="asideConfig" :static="isStatic" />
   </div>
 </template>
 <script>
@@ -18,6 +18,7 @@ export default {
     Say
   },
   data: () => ({
+     isStatic: false,
     asideConfig: {
       isSay: true, //每日一句
       // isInfo: true,   //名片
@@ -40,12 +41,19 @@ export default {
       this.data = value;
     }
   },
+    async asyncData(context) {
+    if (context.isStatic) {
+      return await {
+        isStatic: context.isStatic
+      };
+    }
+  },
   created() {
     // 请求微语数据
 
     // if (this.$store.state.say.sayAll.length === 0) {
     //   this.$axios
-    //     .get(process.env.baseUrl + "/adminblog/say/get.say.php")
+    //     .get(process.env.baseUrl + "/zllublogAdmin/say/get.say.php")
     //     .then(res => {
     //       let data = res.data.list;
     //       data.forEach(ele => {

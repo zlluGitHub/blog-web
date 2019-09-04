@@ -95,7 +95,7 @@
 export default {
   data: () => ({
     isStatic: false,
-    imgUrl: process.env.baseUrl + "/adminblog/",
+    imgUrl: process.env.baseUrl + "/zllublogAdmin/",
     URL: process.env.baseUrl + "/detail/",
     dataList: [],
     pageNo: 0,
@@ -158,8 +158,7 @@ export default {
   },
   methods: {
     getArticle() {
-      console.log();
-      
+   
       let data = [];
       //判断是否为首页tabs列表
       if (this.tabs) {
@@ -169,6 +168,8 @@ export default {
         data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
       }
       if (data) {
+           console.log(data.list);
+      
         this.dataList = data.list;
         this.total = data.total;
       }
@@ -190,13 +191,6 @@ export default {
       if (!isStatic) {
         this.$router.push({ path: "/detail/" + bid });
       }
-      // this.$store.dispatch("setSingleArtile", bid);
-      // this.$router.push({
-      //   path: "/article",
-      //   query: {
-      //     bid: bid
-      //   }
-      // });
     },
     //标签跳转
     handleTo(name, url) {

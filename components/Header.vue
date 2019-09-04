@@ -34,15 +34,16 @@
                   GitHub
                 </a>
               </li>
-              <!-- <li class="yijian-li">
+              <li class="yijian-li">
                 <a href="javascript:void(0);" @click="handleClikFeedBack">
                   <i class="fa fa-heartbeat"></i>
-                  意见反馈
+                  爱的小屋
                 </a>
-              </li> -->
+              </li>
               <li class="seach-li">
                 <a class="seach" @click="SearchShow" href="javascript:void(0);">
-                  <Icon type="ios-search" size="22" />搜索
+                  <Icon type="ios-search" size="22" />
+                  搜索
                 </a>
               </li>
               <!-- <li class="login-li">
@@ -92,14 +93,15 @@
                         <nuxt-link to="/links" @click.native="handleTo('在线文档','/links','c')">在线文档</nuxt-link>
                       <!-- <a @click="handleTo('在线文档','/links','','c')" href="javascript:void(0);">在线文档</a> -->
                     </li>
-                    <li>
+                    <!-- <li>
                       <a @click="handleTo('资源下载','/type','','c')" href="javascript:void(0);">资源下载</a>
-                    </li>
+                    </li> -->
                     <!-- <li>
                       <a @click="handleTo('网站模板','/type','','c')" href="javascript:void(0);">网站模板</a>
                     </li> -->
                     <li>
-                      <a @click="handleTo('作品欣赏','/type','','c')" href="javascript:void(0);">作品欣赏</a>
+                       <nuxt-link to="/works" @click.native="handleTo('作品欣赏','/works','c')">作品欣赏</nuxt-link>
+                      <!-- <a @click="handleTo('作品欣赏','/works','','c')" href="javascript:void(0);">作品欣赏</a> -->
                     </li>
                   </ul>
                 </li>
@@ -125,9 +127,10 @@
                   </ul>
                 </li>
                 <li :class="[active==='h'?'active':'']">
-                  <a @click="handleTo('音乐盒','/friends','','h')" href="javascript:void(0);">
+                   <nuxt-link to="/music" @click.native="handleTo('音乐盒','/music','h')"><i class="fa fa-music"></i>音乐盒</nuxt-link>
+                  <!-- <a @click="handleTo('音乐盒','/friends','','h')" href="javascript:void(0);">
                     <i class="fa fa-music"></i>音乐盒
-                  </a>
+                  </a> -->
                 </li>
                 <li :class="[active==='i'?'active':'']" class="li">
                   <a @click="handleActive('i')" href="javascript:void(0);">
@@ -143,12 +146,13 @@
                         <nuxt-link to="/about" @click.native="handleTo('关于我','/about','i')">关于我</nuxt-link>
                     </li>
                     <li>
-                      <a @click="handleTo('本站统计','/About','','i')" href="javascript:void(0);">本站统计</a>
+                       <nuxt-link to="/statistics" @click.native="handleTo('本站统计','/statistics','i')">本站统计</nuxt-link>
+                      <!-- <a @click="handleTo('本站统计','/statistics','','i')" href="javascript:void(0);">本站统计</a> -->
                     </li>
                   </ul>
                 </li>
                 <li :class="[active==='f'?'active':'']">
-                   <nuxt-link to="/word" @click.native="handleTo('留言板','/word','f')">留言板</nuxt-link>
+                   <nuxt-link to="/word" @click.native="handleTo('留言板','/word','f')"><i class="fa fa-edit"></i>留言板</nuxt-link>
                 </li>
               </ul>
             </nav>
@@ -448,6 +452,7 @@ export default {
             a {
               margin: 0px 2px;
               font-size: 15px;
+              padding-right: 0px;
               transition: color 0.25s ease-in;
             }
             ul.nav-two {
@@ -499,7 +504,7 @@ export default {
           }
           li:hover:nth-child(3) ul.nav-two {
             opacity: 1;
-            height: 110px;
+            height: 80px;
           }
           li:hover:nth-child(4) ul.nav-two {
             opacity: 1;

@@ -1,6 +1,9 @@
 <template>
   <div id="album" class="album w95">
-    <ul class="wall">
+    <div v-if="isShow" class="box-bj-sd warp">
+      <span>此专栏升级中，暂无内容</span>
+    </div>
+    <ul v-else class="wall">
       <li class="wall-column">
         <div>
           <div>
@@ -315,7 +318,7 @@ export default {
       this.$router.push({
         path: "/albumlist",
         query: {
-          bid: 'bid'
+          bid: "bid"
         }
       });
     }
@@ -324,6 +327,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .album {
+  .warp {
+    padding: 20px;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   ul {
     display: flex;
     flex-wrap: wrap;

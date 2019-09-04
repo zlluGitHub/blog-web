@@ -1,11 +1,24 @@
 // $bgc :#eee;
 body{
     // background: url('../image/bj.png') repeat top left scroll;
-    background: url(../image/bl.png) no-repeat fixed bottom left, url(../image/tr.png) no-repeat fixed top right, #f0f2f7;
+    background: url('../image/bl.png') no-repeat fixed bottom left, url('../image/tr.png') no-repeat fixed top right, #f0f2f7;
     z-index: -2;
     font-size: 14px;
     // background: #fafafa;
+   .section-warp img{
+        max-width: none;
+    }
 }
+.loading {
+    background:  #f0f2f7;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    // background-color: #fff;
+    z-index: 10000;
+  }
 ul,ol{
     list-style: none;
 }
@@ -57,7 +70,7 @@ h3.h3-style::before {
 .article-meta .inner pre {
     border-radius: 3px !important;
     border: 1px solid #eee !important;
-    background-color: #f6f6f6 !important;
+    background-color: #f6f6f67d !important;
     padding: 10px 15px !important;
 }
 .box-bj-sd:hover h3::before ,.article_list:hover h3::before{
@@ -66,11 +79,12 @@ h3.h3-style::before {
 .inner h3{
     border-left: 5px solid #ff926f;
     background-color: #f7f7f7;
-    padding: 8px 15px;
+    padding: 2px 10px;
     font-size: 18px;
     border-radius: 0;
     border-bottom:0px;
     margin-top:15px;
+    margin-bottom: 5px;
 }
 .ivu-page {
     // margin-top: 50px;
@@ -120,25 +134,9 @@ h3.h3-style::before {
 
 }
 
-
-
-
-
-
-
-// .page-enter-active, .page-leave-active {
-//     margin-top: 6px;
-//   transition: all .2s;
-
-// }
-// .page-enter, .page-leave-active {
-//     opacity: 0; 
-     
-//     margin-top:0px;
-// }
-
+//路由切换动画
 .page-enter-active{
-   transition:all 0.25s ease-in;
+   transition:all 0.35s ease-in;
 }
 .page-enter,
 .page-leave-to {
@@ -152,9 +150,9 @@ h3.h3-style::before {
     /* transform: scale(1); */
     margin-top:0px;
 }
-
-.carousel-enter-active,.carousel-leave-active{
-   transition:all 0.25s ease-in;
+//相册控制动画
+.carousel-enter-active,.carousel-leave-active,.loading-enter-active,.loading-leave-active{
+   transition:all 0.3s ease-in;
 }
 .carousel-enter,
 .carousel-leave-to {
@@ -168,8 +166,24 @@ h3.h3-style::before {
     transform: scale(1);
    /*  margin-top:0px; */
 }
+// 加载动画
+ .loading-enter,
+ .loading-leave-to {
+    // transform: scale(0);
+     opacity: 0;
+      /* margin-top: -6px; */
+ }
+ .loading-enter-to,
+ .loading-leave{
+     opacity: 1;
+    //  transform: scale(1);
+    /*  margin-top:0px; */
+ }
+
+
+
 .carouselBgc-enter-active,.carouselBgc-leave-active{
-   transition:opacity 0.25s ease-in;
+   transition:opacity 0.3s ease-in;
 }
 .carouselBgc-enter,
 .carouselBgc-leave-to {
@@ -178,4 +192,36 @@ h3.h3-style::before {
 .carouselBgc-enter-to,
 .carouselBgc-leave{
     opacity: 0.5;
+}
+
+
+
+.swiper-button-prev,.swiper-button-next{
+    background-image:none !important;
+    opacity: 0;
+    color: #fff;
+    transition: all .25s ease;
+}
+.swiper-button-prev{
+    transform: translateX(40px);
+   
+}
+.swiper-button-next{
+    transform: translateX(-40px);
+}
+.swiper:hover .swiper-button-prev,.swiper:hover .swiper-button-next{
+    opacity: 1;
+    transform: translateX(0px);
+}
+
+/* 粒子背景 */
+
+#particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    height: 99%;
 }

@@ -4,10 +4,13 @@
       <i class="fa fa-line-chart"></i>点击排行
     </h3>
     <ul class="dianji-list">
-      <li v-for="item in titleData" @click="handleLook(item.bid)" :key="item.bid">
-        <img :src="URL+item.imgSrc" :alt="item.title" />
-         <nuxt-link :to="'/detail/'+item.bid">{{item.title}}</nuxt-link>
-        <!-- <a :title="item.title" href="javascript:void(0);">{{item.title}}</a> -->
+      <li v-for="item in titleData" :key="item.bid">
+        <img :src="imgUrl+item.imgSrc" :alt="item.title" />
+        <!-- <nuxt-link :to="'/detail/'+item.bid">{{item.title}}</nuxt-link> -->
+        <a
+          @click="handleLook(item.bid,isStatic,item.title)"
+          :href="isStatic?URL+item.bid:'javascript:void(0);'"
+        >{{item.title}}</a>
       </li>
     </ul>
   </div>
@@ -17,9 +20,17 @@
 export default {
   name: "dianji",
   data: () => ({
-    URL: process.env.baseUrl+'/adminblog/',
-    titleData: []
+    URL: process.env.baseUrl + "/detail/",
+    imgUrl: process.env.baseUrl + "/zllublogAdmin/",
+    titleData: [],
+    isStatic: false
   }),
+  props: {
+    static: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     articleAll() {
       return this.$store.state.article.articleAll;
@@ -28,10 +39,14 @@ export default {
   watch: {
     articleAll() {
       this.handleData();
+    },
+    static(data) {
+      this.isStatic = data;
     }
   },
 
   created() {
+      this.isStatic = this.static;
     this.handleData();
   },
 
@@ -53,15 +68,13 @@ export default {
       }
       // // this.titleData = data;
     },
-    handleLook(bid) {
+    //跳转到详情页
+    handleLook(bid, isStatic) {
       // 将bid存储到store中
-      // this.$store.dispatch("setSingleArtile", bid);
-      // this.$router.push({
-      //   path: "/article",
-      //   query: {
-      //     bid: bid
-      //   }
-      // });
+      this.$store.commit("setBid", bid);
+      if (!isStatic) {
+        this.$router.push({ path: "/detail/" + bid });
+      }
     }
   }
 };

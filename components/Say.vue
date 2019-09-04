@@ -52,7 +52,7 @@
 export default {
   name: "say",
   data: () => ({
-    URL: process.env.baseUrl+'/adminblog/',
+    URL: process.env.baseUrl+'/zllublogAdmin/',
     sayList: [],
     content: [],
     pageNo: 0,

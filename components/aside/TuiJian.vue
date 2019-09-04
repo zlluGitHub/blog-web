@@ -4,8 +4,12 @@
       <i class="fa fa-map-signs"></i>本站推荐
     </h3>
     <ul class="article-list">
-      <li v-for="item in titleData" @click="handleLook(item.bid)" :key="item.title">
-      <nuxt-link :to="'/detail/'+item.bid">{{item.title}}</nuxt-link>
+      <li v-for="item in titleData" :key="item.title">
+        <a
+          @click="handleLook(item.bid,isStatic,item.title)"
+          :href="isStatic?URL+item.bid:'javascript:void(0);'"
+        >{{item.title}}</a>
+        <!-- <nuxt-link :to="'/detail/'+item.bid">{{item.title}}</nuxt-link> -->
       </li>
     </ul>
   </div>
@@ -14,23 +18,16 @@
 export default {
   name: "tuijian",
   data: () => ({
-    titleData: []
+    URL: process.env.baseUrl + "/detail/",
+    titleData: [],
+    isStatic: false
   }),
-  // computed: {
-  //   getTuiJianAsideArticle() {
-  //     return this.$store.getters.getTuiJianAsideArticle;
-  //   }
-  // },
-  // watch: {
-  //   getTuiJianAsideArticle(value) {
-  //     this.titleData = value.slice(0, 10);
-  //   }
-  // },
-  // mounted() {
-  //   if (this.$store.getters.getTuiJianAsideArticle) {
-  //     this.titleData = this.$store.getters.getTuiJianAsideArticle.slice(0, 10);
-  //   }
-  // },
+  props: {
+    static: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     articleAll() {
       return this.$store.state.article.articleAll;
@@ -39,10 +36,14 @@ export default {
   watch: {
     articleAll() {
       this.handleData();
+    },
+    static(data) {
+      this.isStatic = data;
     }
   },
 
   created() {
+    this.isStatic = this.static;
     this.handleData();
   },
 
@@ -54,17 +55,23 @@ export default {
           .filter(params => {
             return params.classify === "b";
           })
-          .slice(0,8);
+          .slice(0, 8);
       }
       // this.titleData = data;
       // console.log(this.titleData);
     },
-    handleLook(){}
+    //跳转到详情页
+    handleLook(bid, isStatic) {
+      // 将bid存储到store中
+      this.$store.commit("setBid", bid);
+      if (!isStatic) {
+        this.$router.push({ path: "/detail/" + bid });
+      }
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
-
 .article-list li {
   display: block;
   padding-left: 10px;

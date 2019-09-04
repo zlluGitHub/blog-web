@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="swiper-pagination" slot="pagination"></div>
-    <div class="swiper-button-prev" slot="button-prev"></div>
-    <div class="swiper-button-next" slot="button-next"></div>
+    <div class="swiper-button-prev fa fa-angle-left fa-4x" slot="button-prev"></div>
+    <div class="swiper-button-next fa fa-angle-right fa-4x" slot="button-next"></div>
   </div>
 </template>
  
@@ -23,10 +23,9 @@ export default {
   data() {
     return {
       banners: [
-        "//cdn.cnbj0.fds.api.mi-img.com/b2c-bbs-cms/2018/0929/20180929071037605.jpg",
-        "//cdn.cnbj0.fds.api.mi-img.com/b2c-bbs-cms/2018/0929/20180929071037605.jpg",
-        "//cdn.cnbj0.fds.api.mi-img.com/b2c-bbs-cms/2018/0929/20180929071037605.jpg",
-        "//cdn.cnbj0.fds.api.mi-img.com/b2c-bbs-cms/2018/0929/20180929071037605.jpg"
+        "https://zhenglinglu.cn/staticimg/swiper/1.jpg",
+        "https://zhenglinglu.cn/staticimg/swiper/2.jpg",
+        "https://zhenglinglu.cn/staticimg/swiper/3.jpg",
       ],
       // 所有配置均为可选（同Swiper配置）
       swiperOption: {
@@ -55,7 +54,7 @@ export default {
           }
         },
         autoplay: {
-          delay: 1000,
+          delay: 3000,
           disableOnInteraction: false
         },
         // autoplayDisableOnInteraction: false,
@@ -100,4 +99,12 @@ export default {
 // //     }
 // //   }
 // }
+</style>
+<style lang="scss" scoped>
+.swiper-slide{
+  img{
+    width: 100%;
+    height: 100%;
+  }
+}
 </style>
