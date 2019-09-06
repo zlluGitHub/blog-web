@@ -53,7 +53,6 @@
                 </span>
                 <span class="tags-a">
                   <i class="fa fa-tag"></i>
-
                   <nuxt-link
                     v-for="(tag,index) in item.keywords"
                     :key="index"
@@ -158,7 +157,6 @@ export default {
   },
   methods: {
     getArticle() {
-   
       let data = [];
       //判断是否为首页tabs列表
       if (this.tabs) {
@@ -168,8 +166,6 @@ export default {
         data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
       }
       if (data) {
-           console.log(data.list);
-      
         this.dataList = data.list;
         this.total = data.total;
       }

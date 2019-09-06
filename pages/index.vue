@@ -38,7 +38,7 @@
           <i class="fa fa-list-ul"></i>
           <span>最新文章</span>
       </h3>-->
-      <ArticleList :type="type" :static="isStatic"/>
+      <ArticleList :type="type" :static="isStatic" />
       <!-- <Page
           show-total
           @on-change="changePage"
@@ -254,15 +254,11 @@ export default {
         top: 0;
         border-radius: 3px;
         position: absolute;
-        display: block;
         width: 100%;
-      
         height: 100%;
-      }
-      span {
         padding: 10px 30px;
         text-align: center;
-          z-index: 100;
+        z-index: 50;
         font-size: 16px;
         color: #fff;
         /*flex 布局*/

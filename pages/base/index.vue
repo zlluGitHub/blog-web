@@ -7,10 +7,10 @@
         <h1>{{type}}</h1>
         <p>此专栏主要记录一些关于数据库的一些相关内容。比如 MySQL 数据库、mongoDB 数据库等。</p>
       </div>
-        <ArticleList :type="type" :static="isStatic"/>
+      <ArticleList :type="type" :static="isStatic" />
     </section>
     <!-- 右半部分 -->
-   <AsideMain :configure="asideConfig" :static="isStatic"/>
+    <AsideMain :configure="asideConfig" :static="isStatic" />
   </div>
 </template>
 <script>
@@ -26,10 +26,10 @@ export default {
     // TabsList
   },
   data: () => ({
-    type: '数据库',
-      isStatic:false,
-     asideConfig: {
-      isSay: true,   //每日一句
+    type: "数据库",
+    isStatic: false,
+    asideConfig: {
+      isSay: true, //每日一句
       // isInfo: true,   //名片
       isRecommend: true, //本站推荐
       isClick: true, //点击排行
@@ -37,12 +37,12 @@ export default {
       // isArticle:true, //最新文章
       isCount: true, //统计
       isTags: true //标签
-    },
+    }
   }),
-    async asyncData(context) {
+  async asyncData(context) {
     if (context.isStatic) {
       return await {
-        isStatic: context.isStatic,
+        isStatic: context.isStatic
       };
     }
   },

@@ -153,9 +153,9 @@ export default {
   display: flex;
   justify-content: center;
   padding-bottom: 20px;
-  small{
+  small {
     margin: 0px 20px;
-    span{
+    span {
       margin: 0px 3px;
     }
   }
@@ -182,7 +182,23 @@ h1 {
   left: 0;
   z-index: 102;
   right: 0;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .carousel-warp {
+    margin-top: 20px;
+    z-index: 100;
+    width: 70%;
+    box-shadow: 0 0 10px #fff;
+    margin: auto;
+    border: 2px solid #fff;
+    position: relative;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
   .ivu-icon {
     position: absolute;
     z-index: 1000;
@@ -221,25 +237,7 @@ h1 {
   border-radius: 3px;
   box-shadow: 0 0 10px #999;
 }
-.click-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .carousel-warp {
-    margin-top: 20px;
-    z-index: 100;
-    width: 70%;
-    box-shadow: 0 0 10px #fff;
-    margin: auto;
-    border: 2px solid #fff;
-    position: relative;
-    img {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
+
 .flip-3d figure img {
   border: 2px solid #eee;
   border-radius: 3px;
