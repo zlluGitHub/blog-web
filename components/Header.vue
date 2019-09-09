@@ -42,13 +42,12 @@
               </li>
               <li class="seach-li">
                 <a class="seach" @click="SearchShow" href="javascript:void(0);">
-                  <Icon type="ios-search" size="22" />
-                  搜索
+                  <Icon type="ios-search" size="22" />搜索
                 </a>
               </li>
               <!-- <li class="login-li">
                 <a @click="handleRender" href="javascript:void(0);">登录</a>
-              </li> -->
+              </li>-->
             </ul>
             <nav>
               <ul class="nav-ul">
@@ -65,18 +64,24 @@
                   </nuxt-link>
                   <ul class="nav-two">
                     <li>
-                      <nuxt-link to="/reception" @click.native="handleTo('前端技术','/reception','b')">前端技术</nuxt-link>
+                      <nuxt-link
+                        to="/reception"
+                        @click.native="handleTo('前端技术','/reception','b')"
+                      >前端技术</nuxt-link>
                     </li>
                     <li>
-                       <nuxt-link to="/backstage" @click.native="handleTo('后端基础','/backstage','b')">后端基础</nuxt-link>
+                      <nuxt-link
+                        to="/backstage"
+                        @click.native="handleTo('后端基础','/backstage','b')"
+                      >后端基础</nuxt-link>
                       <!-- <a @click="handleTo('后端技术','/type','','b')" href="javascript:void(0);">后端基础</a> -->
                     </li>
                     <li>
-                       <nuxt-link to="/base" @click.native="handleTo('数据库','/base','b')">数据库</nuxt-link>
+                      <nuxt-link to="/base" @click.native="handleTo('数据库','/base','b')">数据库</nuxt-link>
                       <!-- <a @click="handleTo('数据库','/type','','b')" href="javascript:void(0);">数据库</a> -->
                     </li>
-                     <li>
-                       <nuxt-link to="/wxcx" @click.native="handleTo('微信程序','/wxcx','b')">微信程序</nuxt-link>
+                    <li>
+                      <nuxt-link to="/wxcx" @click.native="handleTo('微信程序','/wxcx','b')">微信程序</nuxt-link>
                     </li>
                     <li>
                       <nuxt-link to="/other" @click.native="handleTo('技术杂谈','/other','b')">技术杂谈</nuxt-link>
@@ -90,69 +95,72 @@
                   </a>
                   <ul class="nav-two">
                     <li :class="[active==='e'?'active':'']" class="li">
-                        <nuxt-link to="/links" @click.native="handleTo('在线文档','/links','c')">在线文档</nuxt-link>
+                      <nuxt-link to="/links" @click.native="handleTo('在线文档','/links','c')">在线文档</nuxt-link>
                       <!-- <a @click="handleTo('在线文档','/links','','c')" href="javascript:void(0);">在线文档</a> -->
                     </li>
                     <!-- <li>
                       <a @click="handleTo('资源下载','/type','','c')" href="javascript:void(0);">资源下载</a>
-                    </li> -->
+                    </li>-->
                     <!-- <li>
                       <a @click="handleTo('网站模板','/type','','c')" href="javascript:void(0);">网站模板</a>
-                    </li> -->
+                    </li>-->
                     <li>
-                       <nuxt-link to="/works" @click.native="handleTo('作品欣赏','/works','c')">作品欣赏</nuxt-link>
+                      <nuxt-link to="/works" @click.native="handleTo('作品欣赏','/works','c')">作品欣赏</nuxt-link>
                       <!-- <a @click="handleTo('作品欣赏','/works','','c')" href="javascript:void(0);">作品欣赏</a> -->
                     </li>
                   </ul>
                 </li>
 
                 <li :class="[active==='d'?'active':'']" class="li">
-                  <a @click="handleActive('d')" href="javascript:void(0);">
+                  <!-- <a @click="handleActive('d')" href="javascript:void(0);">
                     <i class="fa fa-file-image-o"></i>点滴生活
                     <Icon type="ios-arrow-down" class="iShow" />
-                  </a>
-                  <ul class="nav-two">
+                  </a>-->
+                  <nuxt-link to="/say" @click.native="handleTo('微语记录','/say','d')">
+                    <i class="fa fa-file-image-o"></i>微语记录
+                    <!-- <Icon type="ios-arrow-down" class="iShow" /> -->
+                  </nuxt-link>
+                  <!-- <ul class="nav-two">
                     <li>
-                       <nuxt-link to="/say" @click.native="handleTo('微语记录','/say','d')">微语记录</nuxt-link>
-                      <!-- <a @click="handleTo('微语记录','/say','','d')" href="javascript:void(0);">微语记录</a> -->
+                      <nuxt-link to="/say" @click.native="handleTo('微语记录','/say','d')">微语记录</nuxt-link>
                     </li>
-                   
                     <li>
-                        <nuxt-link to="/album" @click.native="handleTo('电子相册','/album','d')">电子相册</nuxt-link>
-                      <!-- <a @click="handleTo('电子相册','/photo','','d')" href="javascript:void(0);">电子相册</a> -->
+                      <nuxt-link to="/album" @click.native="handleTo('电子相册','/album','d')">电子相册</nuxt-link>
                     </li>
-                     <!-- <li>
-                      <a @click="handleTo('音乐盒','/type','','d')" href="javascript:void(0);">音乐盒</a>
-                    </li> -->
-                  </ul>
+                  </ul>-->
                 </li>
                 <li :class="[active==='h'?'active':'']">
-                   <nuxt-link to="/music" @click.native="handleTo('音乐盒','/music','h')"><i class="fa fa-music"></i>音乐盒</nuxt-link>
+                  <nuxt-link to="/music" @click.native="handleTo('音乐盒','/music','h')">
+                    <i class="fa fa-music"></i>音乐盒
+                  </nuxt-link>
                   <!-- <a @click="handleTo('音乐盒','/friends','','h')" href="javascript:void(0);">
                     <i class="fa fa-music"></i>音乐盒
-                  </a> -->
+                  </a>-->
                 </li>
                 <li :class="[active==='i'?'active':'']" class="li">
-                  <a @click="handleActive('i')" href="javascript:void(0);">
+                  <nuxt-link to="/about" @click.native="handleTo('关于本站','/about','i')">
+                    <i class="fa fa-bookmark"></i> 关于本站
+                  </nuxt-link>
+                  <!-- <a @click="handleActive('i')" href="javascript:void(0);">
                     <i class="fa fa-bookmark"></i> 关于本站
                     <Icon type="ios-arrow-down" class="iShow" />
-                  </a>
-                  <ul class="nav-two">
-                    <!-- <li>
-                      <a @click="handleTo('时间轴','/time','','i')" href="javascript:void(0);">时间轴</a>
-                    </li> -->
+                  </a>-->
+                  <!-- <ul class="nav-two">
                     <li>
-                      <!-- <a @click="handleTo('我的资料','/About','','i')" href="javascript:void(0);">我的资料</a> -->
-                        <nuxt-link to="/about" @click.native="handleTo('关于我','/about','i')">关于我</nuxt-link>
+                      <nuxt-link to="/about" @click.native="handleTo('关于我','/about','i')">关于我</nuxt-link>
                     </li>
                     <li>
-                       <nuxt-link to="/statistics" @click.native="handleTo('本站统计','/statistics','i')">本站统计</nuxt-link>
-                      <!-- <a @click="handleTo('本站统计','/statistics','','i')" href="javascript:void(0);">本站统计</a> -->
+                      <nuxt-link
+                        to="/statistics"
+                        @click.native="handleTo('本站统计','/statistics','i')"
+                      >本站统计</nuxt-link>
                     </li>
-                  </ul>
+                  </ul> -->
                 </li>
                 <li :class="[active==='f'?'active':'']">
-                   <nuxt-link to="/word" @click.native="handleTo('留言板','/word','f')"><i class="fa fa-edit"></i>留言板</nuxt-link>
+                  <nuxt-link to="/word" @click.native="handleTo('留言板','/word','f')">
+                    <i class="fa fa-edit"></i>留言板
+                  </nuxt-link>
                 </li>
               </ul>
             </nav>
@@ -516,9 +524,9 @@ export default {
           }
 
           li:hover:nth-child(2):after,
-          li:hover:nth-child(3):after,
-          li:hover:nth-child(4):after,
-          li:hover:nth-child(6):after {
+          // li:hover:nth-child(4):after,
+          // li:hover:nth-child(6):after,
+           li:hover:nth-child(3):after {
             opacity: 1;
           }
 

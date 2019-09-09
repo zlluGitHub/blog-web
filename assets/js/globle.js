@@ -342,6 +342,7 @@ let icon =  [
         name: 'icon_good.gif'
     },
 ]
+
 export {
     dateTime,
     time,

@@ -8,7 +8,7 @@
         src="../../assets/image/touxiang0.jpg"
         alt="头像"
       />
-      <h2>luBlogの博客</h2>
+      <h2>Mr.LuのBlog</h2>
     </a>
     <p>
       网名：
@@ -20,9 +20,8 @@
     </p>
     <p>
       职业：
-      <span>Web前端开发工程师</span>
+      <span>Web前端开发</span>
     </p>
-
     <p>
       Email：
       <span>1182567968@qq.com</span>

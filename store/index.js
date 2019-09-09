@@ -4,6 +4,7 @@ import article from './article';
 import say from './say';
 import comment from './comment';
 import share from './share';
+import music from './music';
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ const store = () => new Vuex.Store({
     article,
     say,
     comment,
-    share
+    share,
+    music
   }
 });
 

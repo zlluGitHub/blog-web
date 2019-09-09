@@ -16,7 +16,7 @@
       <Loading v-if="show" />
     </transition>
     <!-- 音乐 -->
-    <Music />
+    <div class="music aplayer-left" ref="audioId"></div>
     <!-- 回到顶部 -->
     <BackTop />
     <!-- 背景粒子 -->
@@ -29,19 +29,19 @@ import Header from "~/components/Header";
 import Footer from "~/components/Footer";
 import Loading from "~/components/Loading";
 import SearchInput from "~/components/SearchInput";
-import Music from "~/components/Music";
 export default {
   name: "default",
   components: {
     Header,
     Footer,
     Loading,
-    SearchInput,
-    Music
+    SearchInput
   },
   data: () => ({
-    show: true
+    show: true,
+    URL: process.env.baseUrl + "/staticimg/"
   }),
+
   created() {
     //请求文章数据
     this.$axios
@@ -126,8 +126,22 @@ export default {
         data.forEach(ele => {
           ele.sendTime = ele.sendTime.slice(0, 10);
         });
-        this.data = data;
+        // this.data = data;
         this.$store.commit("setSayAll", data);
+      });
+
+    // 请求音乐数据
+    this.$axios
+      .get(process.env.baseUrl + "/zllublogAdmin/music/get.music.php")
+      .then(res => {
+        var data = res.data.list;
+        data.forEach(item => {
+          item.url = this.URL + item.url;
+          item.lrc = this.URL + item.lrc;
+          item.cover = this.URL + item.cover;
+        });
+        this.initMusit(data);
+        this.$store.commit("setMusic", data);
       });
   },
   mounted() {
@@ -135,6 +149,49 @@ export default {
     // this.bgAnimation();
   },
   methods: {
+    initMusit(data) {
+      const ap = new APlayer({
+        container: this.$refs.audioId,
+        fixed: true,
+        lrcType: 3,
+        audio: data
+        // audio: [
+        //   {
+        //     name: "Take Me Hand",
+        //     artist: "DAISHI DANCE、Cecile Corbel",
+        //     url:
+        //       "https://webfs.yun.kugou.com/201909061051/e3d2d24efb47f6b6da2514e51bbae044/G082/M01/0A/1D/8oYBAFf6CLiAEuvJAEVGDygc1mQ202.mp3",
+        //     cover:
+        //       "https://p3fx.kgimg.com/stdmusic/20150720/20150720120440515101.jpg"
+        //     //  theme: '#46718b',
+        //   },
+        //   {
+        //     name: "Fade Reloaded",
+        //     artist: "Alan Walker、Iselin Solheim",
+        //     url: "https://www.zhenglinglu.cn/staticimg/music/mp3/faded.mp3",
+        //     cover: 'https://www.zhenglinglu.cn/staticimg/music/img/faded.jpg"',
+        //     lrc: "https://www.zhenglinglu.cn/staticimg/music/lrc/faded.lrc"
+        //     //  theme: '#46718b',
+        //   }
+        //   //, {
+        //   //     name: '小幸运',
+        //   //     artist: '冯提莫',
+        //   //     url: 'https://zhenglinglu.cn/music/xiaoxingyun.mp3',
+        //   //     cover: 'https://zhenglinglu.cn/static/img/touxiang0.ff5a451.jpg',
+        //   //       //  theme: '#46718b',
+        //   // }
+        // ]
+      });
+      document
+        .querySelector(".aplayer-left")
+        .querySelector(".aplayer-lrc")
+        .classList.add("lrc-height");
+      document
+        .querySelector(".aplayer-left")
+        .querySelector(".aplayer-lrc")
+        .querySelector(".aplayer-lrc-contents")
+        .classList.add("lrc-padding-top");
+    },
     bgAnimation() {
       particlesJS("particles-js", {
         particles: {

@@ -3,7 +3,7 @@
     <div class="about-top">
       <img src="../assets/image/touxiang0.jpg" alt="头像" />
       <div class="top-right">
-        <h3>luBlogの博客</h3>
+        <h3>Mr.LuのBlog</h3>
         <p>一切伟大的行动和思想，都有一个微不足道的开始。</p>
       </div>
     </div>

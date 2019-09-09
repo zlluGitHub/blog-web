@@ -18,7 +18,7 @@ export default {
     Say
   },
   data: () => ({
-     isStatic: false,
+    isStatic: false,
     asideConfig: {
       isSay: true, //每日一句
       // isInfo: true,   //名片
@@ -41,7 +41,7 @@ export default {
       this.data = value;
     }
   },
-    async asyncData(context) {
+  async asyncData(context) {
     if (context.isStatic) {
       return await {
         isStatic: context.isStatic

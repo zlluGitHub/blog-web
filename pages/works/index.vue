@@ -1,9 +1,14 @@
 <template>
-  <div id="album" class="album w95">
+  <div class="works">
     <div v-if="isShow" class="box-bj-sd warp">
       <span>此专栏升级中，暂无内容</span>
     </div>
     <div v-else>
+      <div class="whitebg lanmu">
+        <img src="../../assets/image/fm.png" />
+        <h1>{{type}}</h1>
+        <p>本专栏主要记录一些小的组件案例 或 demo，以便之后使用，提高开发效率！ ٩(๑&gt;◡&lt;๑)۶ 。</p>
+      </div>
       <ul class="wall">
         <li class="wall-column" v-for="item in contentData" :key="item.bid">
           <div>
@@ -42,6 +47,8 @@
         show-total
         @on-change="changePage"
         @on-page-size-change="changeSizePage"
+        :page-size-opts="pageSizeOpts"
+        :page-size="limit"
         :total="total"
         show-sizer
       />
@@ -66,7 +73,7 @@
 </template>
 <script>
 export default {
-  name: "album",
+  name: "works",
   data: () => ({
     isShow: false,
     isStatic: false,
@@ -76,10 +83,12 @@ export default {
     isCarouselBgc: false,
     contentData: [{ title: "awdqwd" }],
     pageNo: 0,
-    pageSize: 10,
+    pageSize: 16,
     total: 0,
     herf: "",
-    type: "作品欣赏"
+    type: "作品欣赏",
+    pageSizeOpts: [16, 32, 48, 64, 80],
+    limit: 16
   }),
   async asyncData(context) {
     if (context.isStatic) {
@@ -159,112 +168,121 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.album {
-  .warp {
-    padding: 20px;
+.works{
+  >div{
     width: 100%;
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    li {
-      background-color: #fff;
-      margin: 13px;
-      border: 1px solid #eee;
-      border-radius: 3px;
-      overflow: hidden;
-      padding: 5px;
-      // padding-bottom: 20px;
-      box-shadow: 0 0 10px #999;
-      //  transform: scale(1);
-      > div {
-        position: relative;
-        .title {
-          background: rgba(255, 255, 255, 0.6);
-          transition: all 0.3s ease;
-          position: absolute;
-          padding: 0 18px;
-          padding-bottom: 20px;
-          bottom: -15px;
-          width: 100%;
-          transform: translate(0, 25px);
-          h5 {
-            margin-bottom: 10px;
-          }
-        }
-        a {
-          p {
-            position: absolute;
-            transition: all 0.3s ease;
-            transform: scale(0);
-            opacity: 0;
-            left: 50%;
-            top: 50%;
-            margin: -38px 0 0 -70px;
-            span {
-              border: 1px solid #fff;
-              border-radius: 5px;
-              background-color: rgba(253, 252, 252, 0.8);
-              color: #45b6f7;
-              padding: 6px 20px;
-            }
-            span:nth-child(1) {
-              margin-right: 5px;
-            }
-          }
-        }
-      }
-      > div:hover {
-        .title {
-          transform: translate(0, -5px);
-          background: rgba(255, 255, 255, 0.9);
-        }
-        a {
-          p {
-            transform: scale(1);
-            opacity: 1;
-          }
-        }
-      }
-      .t-orange {
-        margin: 0 2px;
-      }
-      a {
-        height: 100%;
-        img {
-          display: block;
-          width: 261px;
-          height: 200px;
-        }
-      }
-
-      h5 {
-        font-weight: bold;
-        margin-right: 3px;
-        color: #f04343;
-        margin-top: 10px;
-      }
-
-      small {
-        color: #999;
-      }
-      .wall-lines {
-        overflow: hidden;
-        margin-top: 5px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
-    // li:hover {
-    //   transform: scale(1.05);
-    // }
   }
 }
+.lanmu {
+  margin: 0px 8px;
+  margin-bottom: 10px;
+}
+
+.warp {
+  padding: 20px;
+  width: 100%;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  li {
+    background-color: #fff;
+    margin: 10px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    overflow: hidden;
+    padding: 5px;
+    // padding-bottom: 20px;
+    box-shadow: 0 0 10px #999;
+    //  transform: scale(1);
+    > div {
+      position: relative;
+      .title {
+        background: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease;
+        position: absolute;
+        padding: 0 18px;
+        padding-bottom: 20px;
+        bottom: -15px;
+        width: 100%;
+        transform: translate(0, 25px);
+        h5 {
+          margin-bottom: 10px;
+        }
+      }
+      a {
+        p {
+          position: absolute;
+          transition: all 0.3s ease;
+          transform: scale(0);
+          opacity: 0;
+          left: 50%;
+          top: 50%;
+          margin: -38px 0 0 -70px;
+          span {
+            border: 1px solid #fff;
+            border-radius: 5px;
+            background-color: rgba(253, 252, 252, 0.8);
+            color: #45b6f7;
+            padding: 6px 20px;
+          }
+          span:nth-child(1) {
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+    > div:hover {
+      .title {
+        transform: translate(0, -5px);
+        background: rgba(255, 255, 255, 0.9);
+      }
+      a {
+        p {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    }
+    .t-orange {
+      margin: 0 2px;
+    }
+    a {
+      height: 100%;
+      img {
+        display: block;
+        width: 268px;
+        height: 200px;
+      }
+    }
+
+    h5 {
+      font-weight: bold;
+      margin-right: 3px;
+      color: #f04343;
+      margin-top: 10px;
+    }
+
+    small {
+      color: #999;
+    }
+    .wall-lines {
+      overflow: hidden;
+      margin-top: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  // li:hover {
+  //   transform: scale(1.05);
+  // }
+}
+
 .bgc {
   position: fixed;
   top: 0;

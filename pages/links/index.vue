@@ -52,11 +52,8 @@
           </li>
         </ul>
       </div>
-      <div v-else class="demo-spin-col" span="8">
-        <Spin fix>
-          <Icon type="ios-loading" size="18" class="demo-spin-icon-load"></Icon>
-          <div>Loading</div>
-        </Spin>
+      <div v-else class="demo-spin-col">
+        <i class="fa fa-spinner fa-pulse"></i>
       </div>
     </div>
   </div>
@@ -67,7 +64,7 @@ export default {
   name: "viwephoto",
   data() {
     return {
-       URL: process.env.baseUrl+'/zllublogAdmin/',
+      URL: process.env.baseUrl + "/zllublogAdmin/",
       data: {}
     };
   },
@@ -184,6 +181,15 @@ export default {
     li:hover {
       background-color: #eee;
     }
+  }
+}
+.demo-spin-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 450px;
+  .fa-pulse {
+    font-size: 28px;
   }
 }
 </style>

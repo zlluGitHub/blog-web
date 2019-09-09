@@ -43,6 +43,9 @@ const mutations = {
       case '技术杂谈':
         state.typeMark = '技术杂谈';
         break;
+      case '作品欣赏':
+        state.typeMark = '作品欣赏';
+        break;
       default:
         state.typeMark = '';
         break;

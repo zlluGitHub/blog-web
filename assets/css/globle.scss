@@ -8,6 +8,28 @@ body{
    .section-warp img{
         max-width: none;
     }
+    .text img{
+        width: 28px;
+    }
+}
+// .aplayer-left{
+//     transform: translateX(-65px);
+//     transition: transform .3s ease;
+// }
+// .aplayer-left:hover{
+//     transform: translateX(0);
+// }
+.aplayer-lrc-contents{
+    p{
+          color: #F9DA83;
+    }
+}
+.lrc-padding-top {
+  
+    padding-top: 12px !important;
+}
+.lrc-height{
+   height: 42px !important;
 }
 .loading {
     background:  #f0f2f7;
@@ -86,6 +108,7 @@ h3.h3-style::before {
     margin-top:15px;
     margin-bottom: 5px;
 }
+
 .ivu-page {
     // margin-top: 50px;
     padding: 10px 0 12px 0px;
@@ -96,7 +119,7 @@ h3.h3-style::before {
 
 .whitebg {
     background: #fff;
-    padding: 26px 18px;
+    padding: 15px;
     margin-bottom: 15px;
     overflow: hidden;
     img {
@@ -225,3 +248,5 @@ h3.h3-style::before {
     z-index: -1;
     height: 99%;
 }
+
+
