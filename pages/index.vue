@@ -33,11 +33,6 @@
       </div>
       <!-- tab页文章 -->
       <TabsList :static="isStatic" />
-      <!-- <div class="article_list">
-        <h3>
-          <i class="fa fa-list-ul"></i>
-          <span>最新文章</span>
-      </h3>-->
       <ArticleList :type="type" :static="isStatic" />
     </section>
     <!-- 右半部分 -->
