@@ -39,31 +39,6 @@
           <span>最新文章</span>
       </h3>-->
       <ArticleList :type="type" :static="isStatic" />
-      <!-- <Page
-          show-total
-          @on-change="changePage"
-          @on-page-size-change="changeSizePage"
-          :total="total"
-          show-sizer
-      />-->
-      <!-- </div> -->
-      <!-- </div> -->
-
-      <!-- 最新文章 -->
-      <!-- <h3>
-      <i class="fa fa-list-ul"></i>
-      <span>最新文章</span>
-    </h3>
-      <ArticleList :dataList="data" />-->
-      <!-- <div class="page">
-        <Page
-          show-total
-          @on-change="changePage"
-          @on-page-size-change="changeSizePage"
-          :total="total"
-          show-sizer
-        />
-      </div>-->
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" :static="isStatic" />
