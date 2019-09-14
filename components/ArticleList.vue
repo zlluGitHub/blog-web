@@ -173,12 +173,14 @@ export default {
     changePage(event) {
       this.pageNo = event;
       this.getArticle();
-      // goBack();
+      // 返回顶部
+      this.$goBack();
     },
     changeSizePage(event) {
       this.pageSize = event;
       this.getArticle();
-      // goBack();
+      // 返回顶部
+      this.$goBack();
     },
     //跳转到详情页
     handleLook(bid, isStatic) {
@@ -191,8 +193,6 @@ export default {
     //标签跳转
     handleTo(name, url) {
       this.$store.commit("setSearchValue", { name, url });
-      // 返回顶部
-      this.$goBack();
     }
   },
   beforeDestroy(){

@@ -258,7 +258,7 @@ export default {
       this.arrIcon = icon.map(item => {
         // item.name = "https://zhenglinglu.cn/staticimg/icon/" + item.name;
         return {
-          name: "https://zhenglinglu.cn/staticimg/icon/" + item.name
+          name: this.URL+"/images/icon/" + item.name
         };
       });
     },
@@ -273,10 +273,14 @@ export default {
     changePage(event) {
       this.pageNo = event;
       this.changeList(this.pageNo, this.pageSize);
+       // 返回顶部
+      this.$goBack();
     },
     changeSizePage(event) {
       this.pageSize = event;
       this.changeList(this.pageNo, this.pageSize);
+       // 返回顶部
+      this.$goBack();
     },
     changeList(pageNo, pageSize) {
       let start = pageNo,

@@ -3,7 +3,7 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-        <img src="../../assets/image/default.jpg" />
+          <img src="../../assets/image/web.jpg"/>
         <h1>{{type}}</h1>
         <p>记录 pc端 和 移动端 开发周边技术栈。比如 html5、css3、JavaScript 以及目前比较火的 Vue、React 等框架。常用的 UI 框架及建站 CMS。另外总结了在使用 Echarts、D3、Three 等框架时所遇到的技术问题等。</p>
       </div>

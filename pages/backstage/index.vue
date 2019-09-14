@@ -3,7 +3,7 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-        <img src="../../assets/image/default.jpg" />
+         <img src="../../assets/image/web.jpg"/>
         <h1>{{type}}</h1>
         <p>记录在建站开发中用到的一些后端技术知识点，比如 NodeJs、Java、PHP 等后端开发语言。希望在这里重温的同时可以为需要的朋友提供一些参考。</p>
       </div>

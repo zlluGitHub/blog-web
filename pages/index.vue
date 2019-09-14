@@ -106,11 +106,11 @@ export default {
     isBanner: "yes",
     AdataArr: [
       {
-        imgSrc: "https://zhenglinglu.cn/staticimg/default.jpg",
+        imgSrc: "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/qw12.jpg",
         title: "有所珍惜，才会有所真心。有所懂得，才会有所值得。"
       },
       {
-        imgSrc: "https://zhenglinglu.cn/staticimg/moren.jpg",
+        imgSrc:  "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/qw23.jpg",
         title: "人生就像蒲公英，最终落到哪里都是个未知数。"
       }
     ] //精选数据

@@ -11,7 +11,7 @@
         <!-- <img :src="URL+imgUrl" /> -->
         <img :src="imgUrl" />
       </div>
-      <div class="inner" @click="makeFaceClose">
+      <div class="inner-word" @click="makeFaceClose">
         <div class="input-box">
           <label>
             <Input
@@ -143,7 +143,7 @@ export default {
       this.arrIcon = icon.map(item => {
         // item.name = "https://zhenglinglu.cn/staticimg/icon/" + item.name;
         return {
-          name: "https://zhenglinglu.cn/staticimg/icon/" + item.name
+          name: this.URL + "/images/icon/" + item.name
         };
       });
     },
@@ -170,8 +170,6 @@ export default {
     getReplyData() {
       // const _this = this;
       //初始化数据
-      console.log(this);
-
       this.$axios
         .get(this.URL + "commentArticle/get.commentArticle.php", {
           params: {
@@ -318,7 +316,7 @@ export default {
         border-radius: 12px;
       }
     }
-    .inner {
+    .inner-word {
       flex-grow: 1;
     }
     .comments-warp {
@@ -465,7 +463,7 @@ export default {
       min-height: 100px;
       border-style: none; /*  此步是必须的  */
     }
-    img{
+    img {
       width: 28px;
       height: 28px;
     }

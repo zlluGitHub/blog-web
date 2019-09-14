@@ -5,7 +5,7 @@
       <ul class="meta">
         <li>
           <i class="fa fa-calendar"></i>
-          发布时间：{{articleData.publishTime}}
+          发布时间：{{articleData.publishTime.slice(0,10)}}
         </li>
         <li>
           <i class="fa fa-user fa-lg"></i>
@@ -215,7 +215,6 @@ export default {
             }
           }
 
-          // this.title = this.articleData.title;
         }
       }
     },
@@ -237,75 +236,8 @@ export default {
     //跳转到详情页
     handleTo(name, url) {
       this.$store.commit("setSearchValue", { name, url });
-      // 返回顶部
-      this.$goBack();
     },
 
-    // handleClick() {
-    //   if (this.count <= 1) {
-    //     this.count = this.count + 1;
-    //     this.starNum = this.starNum * 1 + 1;
-    //     this.axios
-    //       .post(
-    //         URL + "article/upd.article.php",
-    //         Qs.stringify({ starNum: this.starNum, bid: this.bid })
-    //       )
-    //       .then(function(res) {})
-    //       .catch(function(error) {
-    //         console.log(error);
-    //       });
-    //   } else {
-    //     this.$Modal.info({
-    //       title: "友情提示",
-    //       content: "您已成功点赞，谢谢您的支持哦！(๑*◡*๑)"
-    //     });
-    //   }
-    // },
-    // getPrevNext() {
-    //   const _this = this;
-    //   let listData = this.$store.state.article.articleAll;
-    //   for (let index = 0; index < listData.length; index++) {
-    //     if (listData[index].bid === _this.bid) {
-    //       _this.index = index;
-    //     }
-    //   }
-    //   if (this.index === 0) {
-    //     this.data = listData[0];
-    //     this.nextArticle = listData[this.index + 1];
-    //     this.prevArticle = {};
-    //   } else if (this.index === listData.length - 1) {
-    //     this.data = listData[listData.length - 1];
-    //     this.prevArticle = listData[this.index - 1];
-    //     this.nextArticle = {};
-    //   } else {
-    //     this.prevArticle = listData[this.index - 1];
-    //     this.nextArticle = listData[this.index + 1];
-    //   }
-    // },
-    // handleNext(bid, title) {
-    //   this.$store.dispatch("setSingleArtile", bid);
-    //   this.bid = bid;
-    //   this.title = title;
-    //   this.$router.push({
-    //     path: "/article",
-    //     query: {
-    //       bid: bid
-    //     }
-    //   });
-    //   // 返回顶部
-    //   // goBack();
-    // },
-    // handlePrev(bid) {
-    //   this.$store.dispatch("setSingleArtile", bid);
-    //   this.bid = bid;
-    //   this.title = title;
-    //   this.$router.push({
-    //     path: "/article",
-    //     query: {
-    //       bid: bid
-    //     }
-    //   });
-    // },
     // 获取随机颜色
     getRandomColor() {
       return (
@@ -397,16 +329,7 @@ article {
         transform: scale(1.1);
       }
     }
-    .inner {
-      padding: 0 10px;
-      p {
-        display: block;
-        text-indent: 2em;
-        .imgWidth {
-          width: 100%;
-        }
-      }
-    }
+  
 
     .explain {
       width: 95%;
@@ -464,7 +387,7 @@ article {
         color: #666;
       }
       a:hover {
-        color: #2196F3;
+        color: #2196f3;
       }
     }
   }

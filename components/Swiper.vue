@@ -23,9 +23,9 @@ export default {
   data() {
     return {
       banners: [
-        "https://zhenglinglu.cn/staticimg/swiper/1.jpg",
-        "https://zhenglinglu.cn/staticimg/swiper/2.jpg",
-        "https://zhenglinglu.cn/staticimg/swiper/3.jpg",
+        "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/banner1.jpg",
+        "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/banner2.jpg",
+        "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/banner4.jpg"
       ],
       // 所有配置均为可选（同Swiper配置）
       swiperOption: {
@@ -39,7 +39,7 @@ export default {
           el: ".swiper-pagination",
           clickable: true
         },
-       
+
         spaceBetween:30,
         navigation: {
           nextEl: ".swiper-button-next",
@@ -101,10 +101,10 @@ export default {
 // }
 </style>
 <style lang="scss" scoped>
-.swiper-slide{
-  img{
+.swiper-slide {
+  img {
     width: 100%;
-    height: 100%;
+    height: 290px;
   }
 }
 </style>

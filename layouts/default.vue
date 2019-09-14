@@ -39,7 +39,7 @@ export default {
   },
   data: () => ({
     show: true,
-    URL: process.env.baseUrl + "/staticimg/"
+    URL: process.env.baseUrl + "/zllublogAdmin/"
   }),
 
   created() {
@@ -147,8 +147,26 @@ export default {
   mounted() {
     //背景粒子
     // this.bgAnimation();
+    /**登录授权开始*/
+    let code = this.getUrlParam('code');
+    if (code) {
+        this.$axios.post(`https://github.com/login/oauth/access_token?client_id=8b089dc0bdefbbfc7d95&client_secret=61f6952cb122165e69f19f448491054500249715&code=${code}&redirect_uri=${process.env.baseUrl}/`).then(res => {
+          console.log(res);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    }
+
+    /* 登录授权结束 */
   },
   methods: {
+    getUrlParam(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) return decodeURIComponent(r[2]);
+      return null;
+    },
     initMusit(data) {
       const ap = new APlayer({
         container: this.$refs.audioId,

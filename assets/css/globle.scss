@@ -30,6 +30,7 @@ body{
 }
 .lrc-height{
    height: 42px !important;
+//    background: linear-gradient(rgba(206, 206, 206,0.1),rgb(206, 206, 206),rgba(206, 206, 206,0.1));
 }
 .loading {
     background:  #f0f2f7;
@@ -122,6 +123,7 @@ h3.h3-style::before {
     padding: 15px;
     margin-bottom: 15px;
     overflow: hidden;
+
     img {
         height: 100px;
         width: 140px;
@@ -140,7 +142,19 @@ h3.h3-style::before {
 .article_list{
     padding-bottom: 35px;
 }
-
+.inner {
+    padding: 0 10px;
+    ul {
+      padding-left: 20px;
+    }
+    p {
+      display: block;
+      text-indent: 2em;
+      .imgWidth {
+        width: 100%;
+      }
+    }
+  }
 
 .demo-spin-icon-load{
     animation: ani-demo-spin 1s linear infinite;

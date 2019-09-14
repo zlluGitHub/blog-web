@@ -9,7 +9,8 @@
     "build": "cross-env BASE_URL=https://www.zhenglinglu.cn nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "generate": "cross-env BASE_URL=https://www.zhenglinglu.cn NODE_ENV=production nuxt generate",
-    "test": "jest"
+    "test": "jest",
+    "analyze": "nuxt build --analyze"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.5.4",

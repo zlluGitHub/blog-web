@@ -77,10 +77,14 @@ export default {
     changePage(event) {
       this.pageNo = event;
       this.changeList(this.pageNo, this.pageSize);
+       // 返回顶部
+      this.$goBack();
     },
     changeSizePage(event) {
       this.pageSize = event;
       this.changeList(this.pageNo, this.pageSize);
+       // 返回顶部
+      this.$goBack();
     },
     changeList(pageNo, pageSize) {
       let start = pageNo,

@@ -3,7 +3,7 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-        <img src="../../assets/image/default.jpg" />
+          <img src="../../assets/image/web.jpg"/>
         <h1>{{type}}</h1>
         <p>此专栏主要记录一些关于数据库的一些相关内容。比如 MySQL 数据库、mongoDB 数据库等。</p>
       </div>

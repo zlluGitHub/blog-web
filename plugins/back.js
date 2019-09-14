@@ -14,7 +14,5 @@ const goBack = () => {
     }, 30);
 };
 import Vue from 'vue';
-import Qs from 'qs';
 
 Vue.prototype.$goBack = goBack;
-Vue.prototype.$qs = Qs;

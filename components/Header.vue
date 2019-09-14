@@ -45,9 +45,9 @@
                   <Icon type="ios-search" size="22" />搜索
                 </a>
               </li>
-              <!-- <li class="login-li">
-                <a @click="handleRender" href="javascript:void(0);">登录</a>
-              </li>-->
+              <li class="login-li">
+                <a @click="handleLogin" href="javascript:void(0);">登录</a>
+              </li>
             </ul>
             <nav>
               <ul class="nav-ul">
@@ -155,7 +155,7 @@
                         @click.native="handleTo('本站统计','/statistics','i')"
                       >本站统计</nuxt-link>
                     </li>
-                  </ul> -->
+                  </ul>-->
                 </li>
                 <li :class="[active==='f'?'active':'']">
                   <nuxt-link to="/word" @click.native="handleTo('留言板','/word','f')">
@@ -250,11 +250,24 @@ export default {
     handleNavShow() {
       this.navShow = !this.navShow;
     },
-    handleRender() {
-      this.$store.dispatch("setLogin", {
-        login: true
-      });
-      this.handleNavShow();
+    handleLogin() {
+      let data = {
+        client_id: "8b089dc0bdefbbfc7d95",
+        state: 12,
+        state: process.env.baseUrl + "/"
+      };
+      window.location.href = `https://github.com/login/oauth/authorize?client_id=${data.client_id}&state=${data.state}&redirect_uri=${data.state}`;
+      // 4f9e49538ae9d1079898
+      // this.$axios
+      //   // .get(process.env.baseUrl+"/zllublogAdmin/login/login.php"), { params: data }
+      //   .get(`https://github.com/login/oauth/access_token?client_id=8b089dc0bdefbbfc7d95&client_secret=61f6952cb122165e69f19f448491054500249715&code=4f9e49538ae9d1079898&redirect_uri=https://www.zhenglinglu.cn/`).then(res => {
+      //     console.log(res);
+      //   })
+      //   .catch(function(err) {
+      //     console.log(err);
+      //   });
+      // https://www.zhenglinglu.cn/?code=4f9e49538ae9d1079898&state=12
+    //  access_token=118b5f90de8578f16d99454d7e535938c52e4d89&scope=&token_type=bearer
     },
     handleClikFeedBack() {
       this.$store.dispatch("setChangingOver", {
