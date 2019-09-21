@@ -15,7 +15,14 @@ const state = {
 }
 const mutations = {
   setArtileAll(state, data) {
-    state.articleAll = data;
+    console.log(data);
+    //筛选发布文章
+    state.articleAll = data.filter(item => {
+      return item.isPublic === 'yes'
+    });
+
+    console.log(state.articleAll);
+    
   },
   setSearchValue(state, data) {
     state.search = data;

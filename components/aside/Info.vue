@@ -33,8 +33,9 @@
           <span>文章</span>
         </li>
         <li>
-          <strong class="shujv">{{ViweNum}}</strong>
-          <span></span>预览
+          <!-- <strong class="shujv">{{ViweNum}}</strong> -->
+          <strong class="shujv">5206</strong>
+          <span></span>访客
         </li>
         <li>
           <strong class="shujv">{{SayNum}}</strong>

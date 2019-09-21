@@ -45,9 +45,9 @@
                   <Icon type="ios-search" size="22" />搜索
                 </a>
               </li>
-              <li class="login-li">
+              <!-- <li class="login-li">
                 <a @click="handleLogin" href="javascript:void(0);">登录</a>
-              </li>
+              </li> -->
             </ul>
             <nav>
               <ul class="nav-ul">
