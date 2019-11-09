@@ -54,7 +54,7 @@ module.exports = {
     { src: "~/plugins/particles.js", ssr: false },
   ],
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+    baseUrl: process.env.BASE_URL || 'http://localhost:1314'
   },
   /*
   ** Nuxt.js dev-modules
@@ -77,7 +77,7 @@ module.exports = {
       // target: 'https://zhenglinglu.cn',
       target: 'http://localhost:9096',
       pathRewrite: { '^/api/': '/' },
-      // changeOrigin: true,
+      changeOrigin: true,
       // secure: false
     }
   },
@@ -91,6 +91,10 @@ module.exports = {
     analyze: false,
     extend(config, ctx) {
     }
+  },
+  server: {
+    port: 1314, // default: 3000
+    // host: '0.0.0.0', // default: localhost
   },
   // router: {
   // base: 'dist/',
