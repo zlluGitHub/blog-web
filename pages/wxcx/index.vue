@@ -3,14 +3,14 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-         <img src="../../assets/image/web.jpg"/>
+        <img src="../../assets/image/web.jpg" />
         <h1>{{type}}</h1>
         <p>在这里记录了一些有关微信小程序的一些相关知识点。</p>
       </div>
-         <ArticleList :type="type" :static="isStatic"/>
+      <ArticleList :content="contentData" />
     </section>
     <!-- 右半部分 -->
-    <AsideMain :configure="asideConfig" :static="isStatic"/>
+    <AsideMain :configure="asideConfig" :static="isStatic" />
   </div>
 </template>
 <script>
@@ -26,10 +26,14 @@ export default {
     // TabsList
   },
   data: () => ({
+    pageNo: 1,
+    pageSize: 10,
+    contentData: {},
     type: "微信程序",
-      isStatic:false,
-     asideConfig: {
-      isSay: true,   //每日一句
+
+    isStatic: false,
+    asideConfig: {
+      isSay: true, //每日一句
       // isInfo: true,   //名片
       isRecommend: true, //本站推荐
       isClick: true, //点击排行
@@ -37,15 +41,15 @@ export default {
       // isArticle:true, //最新文章
       isCount: true, //统计
       isTags: true //标签
-    },
-  }),
-    async asyncData(context) {
-    if (context.isStatic) {
-      return await {
-        isStatic: context.isStatic,
-      };
     }
-  },
+  }),
+  //   async asyncData(context) {
+  //   if (context.isStatic) {
+  //     return await {
+  //       isStatic: context.isStatic,
+  //     };
+  //   }
+  // },
   computed: {
     // articleData() {
     //   return this.$store.state.article.article;
@@ -74,7 +78,26 @@ export default {
   //   }
   // },
   created() {
-    this.$store.commit("setType", this.type);
+    let data = {};
+    if (this.pageNo !== 1 || this.pageSize !== 15) {
+      data = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      };
+    }
+    data.type = this.type;
+    this.$axios
+      .get(process.env.baseUrl + "/zll/article/list", { params: data })
+      .then(res => {
+        if (res.data.result) {
+          this.contentData = res.data;
+        }
+        // this.$store.commit("setShareData", res.data.list);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    // this.$store.commit("setType", this.type);
   },
 
   methods: {

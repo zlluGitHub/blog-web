@@ -19,6 +19,8 @@ body{
 // .aplayer-left:hover{
 //     transform: translateX(0);
 // }
+
+
 .aplayer-lrc-contents{
     p{
           color: #F9DA83;
@@ -61,12 +63,32 @@ ul,ol{
     }
 }
 section{
-    width: 915px;
+    width: 862px;
 }
 aside{
-    width: 270px;
+    width: 325px;
 }
-
+.h3-tag {
+    padding: 15px;
+    padding-bottom: 10px;
+    border-radius: 3px 3px 0 0;
+    background-color: #fff;
+    border-bottom: #ddd 1px solid;
+    font-size: 16px;
+    position: relative;
+  }
+  
+  h3 {
+    display: flex;
+    align-items: center;
+    p {
+      i {
+        font-style: inherit;
+        color: red;
+        font-size: 15px;
+      }
+    }
+  }
 h3.h3-style {
     padding: 15px;
     padding-bottom: 10px;
@@ -187,6 +209,8 @@ h3.h3-style::before {
     /* transform: scale(1); */
     margin-top:0px;
 }
+
+
 //相册控制动画
 .carousel-enter-active,.carousel-leave-active,.loading-enter-active,.loading-leave-active{
    transition:all 0.3s ease-in;
@@ -203,6 +227,8 @@ h3.h3-style::before {
     transform: scale(1);
    /*  margin-top:0px; */
 }
+
+
 // 加载动画
  .loading-enter,
  .loading-leave-to {

@@ -2,7 +2,7 @@
   <div>
     <!-- 左半部分 -->
     <section>
-      <Say :data="data" />
+      <Say />
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" :static="isStatic" />
@@ -29,26 +29,38 @@ export default {
       isCount: true, //统计
       isTags: true //标签
     },
-    data: []
+    // data: []
   }),
-  computed: {
-    sayAll() {
-      return this.$store.state.say.sayAll;
-    }
-  },
-  watch: {
-    sayAll(value) {
-      this.data = value;
-    }
-  },
-  async asyncData(context) {
-    if (context.isStatic) {
-      return await {
-        isStatic: context.isStatic
-      };
-    }
-  },
+  // computed: {
+  //   sayAll() {
+  //     return this.$store.state.say.sayAll;
+  //   }
+  // },
+  // watch: {
+  //   sayAll(value) {
+  //     this.data = value;
+  //   }
+  // },
+  // async asyncData(context) {
+  //   if (context.isStatic) {
+  //     return await {
+  //       isStatic: context.isStatic
+  //     };
+  //   }
+  // },
   created() {
+      // this.$axios
+      // .get(process.env.baseUrl + "/zll/say")
+      // .then(res => {
+      //   if (res.data.result) {
+      //     this.data = res.data.list;
+      //   };
+
+      //   // this.$store.commit("setShareData", res.data.list);
+      // })
+      // .catch(error => {
+      //   console.log(error);
+      // });
     // 请求微语数据
 
     // if (this.$store.state.say.sayAll.length === 0) {
@@ -63,9 +75,9 @@ export default {
     //       this.$store.commit("setSayAll", data);
     //     });
     // } else {
-    if (this.data) {
-      this.data = this.$store.state.say.sayAll;
-    }
+    // if (this.data) {
+    //   this.data = this.$store.state.say.sayAll;
+    // }
     // }
   }
 };

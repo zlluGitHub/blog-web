@@ -1,6 +1,6 @@
 <template>
   <div class="article_list box-bj-sd">
-    <h3 class="h3-style" :class="[mark?'default':'']">
+    <!-- <h3 class="h3-style" :class="[mark?'default':'']">
       <p v-if="mark">
         关于
         <span>{{searchVal}}</span> 关键词共检索到
@@ -10,7 +10,7 @@
         <i class="fa fa-list-ul"></i>
         {{type}}
       </span>
-    </h3>
+    </h3>-->
     <div class="article-box">
       <div v-if="dataList.length===0" class="article_tip">
         <span>暂无任何数据</span>
@@ -25,14 +25,11 @@
           <div class="list-right">
             <h2>
               <span>{{item.typeName}}</span>
-              <!-- <nuxt-link
-                :to="'/detail/'+item.bid"
-                @click.native="handleLook(item.bid)"
-              >{{item.title}}</nuxt-link>-->
-              <a
+              <nuxt-link :to="{ path: '/detail', query: { id: item.bid}}">{{item.title}}</nuxt-link>
+              <!-- <a   @click.native="handleLook(item.bid)"
                 @click="handleLook(item.bid,isStatic,item.title)"
                 :href="isStatic?URL+item.bid:'javascript:void(0);'"
-              >{{item.title}}</a>
+              >{{item.title}}</a>-->
 
               <!-- <a href="javascript:void(0);">{{item.title}}</a> -->
             </h2>
@@ -41,40 +38,43 @@
               <p class="tag-list">
                 <span>
                   <i class="fa fa-calendar"></i>
-                  {{item.publishTime.slice(0,10)}}
+                  {{item.publishTime}}
                 </span>
-                <!-- <span>
-                <i class="fa fa-user"></i>
-                {{item.author}}
-                </span>-->
+                <span>
+                  <i class="fa fa-commenting-o"></i>
+                  {{item.author}} 条评论
+                </span>
                 <span>
                   <i class="fa fa-eye"></i>
                   {{item.viweNum}} 次围观
                 </span>
+                <span>
+                  <i class="fa fa-thumbs-o-up"></i>
+                  被赞{{item.starNum}}次
+                </span>
                 <span class="tags-a">
                   <i class="fa fa-tag"></i>
-                  <nuxt-link
-                    v-for="(tag,index) in item.keywords"
-                    :key="index"
-                    to="/tags"
-                    @click.native="handleTo(tag,'/tags')"
-                  >{{tag}} {{index!==item.keywords.length-1?'、':''}}</nuxt-link>
-
-                  <!-- <a
+                  <!--   <nuxt-link v-for="(tag,index) in item.keywords" :key="index" to="/tags">{{tag}} {{index!==item.keywords.length-1?'、':''}}</nuxt-link>
+                  @click.native="handleTo(tag,'/tags')"-->
+                  <a
                     href="javascript:void(0);"
                     v-for="(tag,index) in item.keywords"
                     :key="index"
-                    @click="handleTo(tag,'/type','')"
-                  >{{tag}} {{index!==item.keywords.length-1?'、':''}}</a>-->
+                    @click="handleTo(tag,'/tags')"
+                  >{{tag}} {{index!==item.keywords.length-1?'、':''}}</a>
                 </span>
               </p>
-              <a
+              <nuxt-link :to="{ path: '/detail', query: { id: item.bid}}">
+                阅读全文
+                <i class="fa fa-chevron-circle-right"></i>
+              </nuxt-link>
+              <!-- <a
                 @click="handleLook(item.bid,isStatic,item.title)"
                 :href="isStatic?URL+item.bid:'javascript:void(0);'"
               >
                 阅读全文
                 <i class="fa fa-chevron-circle-right"></i>
-              </a>
+              </a>-->
             </div>
           </div>
         </div>
@@ -93,62 +93,71 @@
 // import { URL } from "../constant/constant.js";
 export default {
   data: () => ({
-    isStatic: false,
-    imgUrl: process.env.baseUrl + "/zllublogAdmin/",
-    URL: process.env.baseUrl + "/detail/",
+    // isStatic: false,
+    // imgUrl: process.env.baseUrl + "/zllublogAdmin/",
+    // URL: process.env.baseUrl + "/detail/",
     dataList: [],
-    pageNo: 0,
-    pageSize: 10,
-    total: 0,
-    searchVal: "未知内容"
+    // pageNo: 0,
+    // pageSize: 10,
+    total: 0
+    // searchVal: "未知内容"
   }),
   props: {
-    type: {
-      type: String,
-      default: "分类标题"
-    },
-    mark: {
-      type: Boolean,
-      default: false
-    },
-    tabs: {
-      type: Boolean,
-      default: false
-    },
-    static: {
-      type: Boolean,
-      default: false
+    // type: {
+    //   type: String,
+    //   default: "分类标题"
+    // },
+    content: {
+      type: Object,
+      default: {}
     }
+    // mark: {
+    //   type: Boolean,
+    //   default: false
+    // },
+    // tabs: {
+    //   type: Boolean,
+    //   default: false
+    // },
+    // static: {
+    //   type: Boolean,
+    //   default: false
+    // }
   },
 
   computed: {
-    articleData() {
-      return this.$store.state.article.articleAll;
-    },
-    typeMark() {
-      return this.$store.state.article.typeMark;
-    },
-    searchValue() {
-      return this.$store.state.article.search;
-    }
+    // articleData() {
+    //   return this.$store.state.article.articleAll;
+    // },
+    // typeMark() {
+    //   return this.$store.state.article.typeMark;
+    // },
+    // searchValue() {
+    //   return this.$store.state.article.search;
+    // }
   },
   watch: {
-    static(data) {
-      this.isStatic = data;
-    },
-    articleData() {
-      this.getArticle();
-    },
-    typeMark() {
-      this.getArticle();
-    },
-    searchValue() {
-      this.getArticle();
+    content(data) {
+      this.getArticle(data);
     }
+    // static(data) {
+    //   this.isStatic = data;
+    // },
+    // articleData() {
+    //   this.getArticle();
+    // },
+    // typeMark() {
+    //   this.getArticle();
+    // },
+    // searchValue() {
+    //   this.getArticle();
+    // }
   },
   created() {
-    this.isStatic = this.static;
-    this.getArticle();
+    this.getArticle(this.content);
+
+    // this.isStatic = this.static;
+    // this.getArticle();
   },
   mounted() {
     // this.handleData(this.dataList);
@@ -156,66 +165,68 @@ export default {
     // this.$store.dispatch("setChangingOver", { notice: false, position: true });
   },
   methods: {
-    getArticle() {
-      let data = [];
-      //判断是否为首页tabs列表
-      if (this.tabs) {
-        data = this.$store.getters.getTabList(this.pageNo, this.pageSize);
-      } else {
-        this.searchVal = this.$store.state.article.search.name;
-        data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
+    getArticle(data) {
+      if (data.result) {
+        this.dataList = data.list.map(item => {
+          item.keywords = item.keywords.split("、").filter(item => {
+            return item !== "";
+          });
+          item.publishTime = item.publishTime.slice(0, 10);
+          return item;
+        });
+        this.total = data.count;
       }
-      if (data) {
-        this.dataList = data.list;
-        this.total = data.total;
-      }
+
+      //   let data = [];
+      //   //判断是否为首页tabs列表
+      //   if (this.tabs) {
+      //     data = this.$store.getters.getTabList(this.pageNo, this.pageSize);
+      //   } else {
+      //     this.searchVal = this.$store.state.article.search.name;
+      //     data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
+      //   }
+      //   if (data) {
+      //     this.dataList = data.list;
+      //     this.total = data.total;
+      //   }
     },
     changePage(event) {
-      this.pageNo = event;
-      this.getArticle();
+      // this.pageNo = event;
+      this.$emit("on-change-page", event);
+      // this.getArticle();
       // 返回顶部
       this.$goBack();
     },
     changeSizePage(event) {
-      this.pageSize = event;
-      this.getArticle();
+      this.$emit("on-size-page", event);
+      // this.pageSize = event;
+      // this.getArticle();
       // 返回顶部
       this.$goBack();
     },
     //跳转到详情页
-    handleLook(bid, isStatic) {
-      // 将bid存储到store中
-      this.$store.commit("setBid", bid);
-      if (!isStatic) {
-        this.$router.push({ path: "/detail/" + bid });
-      }
-    },
+    // handleLook(bid, isStatic) {
+    //   // 将bid存储到store中
+    //   // this.$store.commit("setBid", bid);
+    //   // if (!isStatic) {
+    //   //   this.$router.push({ path: "/detail/" + bid });
+    //   // }
+    // },
     //标签跳转
     handleTo(name, url) {
-      this.$store.commit("setSearchValue", { name, url });
+      this.$store.commit("setTagValue", name);
+      this.$router.push({ path: url });
+      // 返回顶部
+      this.$goBack();
+      // this.$store.commit("setSearchValue", { name, url });
     }
-  },
-  beforeDestroy(){
-    this.$store.commit("setSearchValue", {});
   }
+  // beforeDestroy(){
+  //   this.$store.commit("setSearchValue", {});
+  // }
 };
 </script>
 <style lang="scss" scoped>
-h3 {
-  p {
-    span {
-      color: red;
-    }
-  }
-}
-h3.default {
-  display: flex;
-  align-items: center;
-}
-h3.default::before {
-  width: 0;
-  height: 0;
-}
 .article-box {
   .article_tip {
     text-align: center;
@@ -416,6 +427,9 @@ h3.default::before {
         }
       }
     }
+  }
+  .fa-chevron-circle-right {
+    font-size: 15px;
   }
 }
 </style>

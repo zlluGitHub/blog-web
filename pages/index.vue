@@ -8,7 +8,7 @@
           <Swiper />
         </div>
         <!-- 轮播右边小图 -->
-        <div class="swiper-right">
+        <!-- <div class="swiper-right">
           <div class="right-top">
             <div class="img-box">
               <img :src="URL+AdataArr[0].imgSrc" :alt="AdataArr[0].title" />
@@ -29,15 +29,20 @@
               href="javascript:void(0);"
             ></a>
           </div>
-        </div>
+        </div>-->
       </div>
-      <!-- <div></div> -->
       <!-- tab页文章 -->
-      <TabsList :static="isStatic" />
-      <ArticleList :type="type" :static="isStatic" />
+      <TabsList />
+      <!--  :type="type"
+      :static="isStatic"-->
+      <ArticleList
+        :content="articleData"
+        @on-change-page="changePage"
+        @on-size-page="changeSizePage"
+      />
     </section>
     <!-- 右半部分 -->
-    <AsideMain :configure="asideConfig" :static="isStatic" />
+    <AsideMain :configure="asideConfig" />
   </div>
 </template>
 <script>
@@ -55,6 +60,11 @@ export default {
     TabsList
   },
   data: () => ({
+    articleData: [],
+    pageNo: 1,
+    pageSize: 10,
+    // total: 0,
+
     asideConfig: {
       // isSay: true,   //每日一句
       isInfo: true, //名片
@@ -70,74 +80,70 @@ export default {
     URL: "",
     value2: 0,
     dataList: [],
-    pageNo: 0,
-    pageSize: 10,
-    total: 0,
+
     imgData: [],
     isBanner: "yes",
     AdataArr: [
       {
-        imgSrc: "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/qw12.jpg",
+        imgSrc:
+          "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/qw12.jpg",
         title: "有所珍惜，才会有所真心。有所懂得，才会有所值得。"
       },
       {
-        imgSrc:  "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/qw23.jpg",
+        imgSrc:
+          "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/qw23.jpg",
         title: "人生就像蒲公英，最终落到哪里都是个未知数。"
       }
     ] //精选数据
   }),
-  async asyncData(context) {
-    if (context.isStatic) {
-      return await {
-        isStatic: context.isStatic
-      };
-    }
-  },
-  computed: {
-    articleData() {
-      return this.$store.state.article.articleAll;
-    }
-
-    // swiper() {
-    //   return this.$refs.mySwiper.swiper;
-    // },
-    // getConfigsData() {
-    //   return this.$store.state.scatter.configsData;
-    // },
-    // getImgData() {
-    //   return this.$store.state.scatter.swiper;
-    // }
-  },
-  watch: {
-    articleData(data) {
-      this.getArticle();
-    }
-    // getConfigsData(value) {
-    //   this.isBanner = value.isBanner;
-    // },
-    // getImgData(value) {
-    //   this.filterImgData(value);
-    // }
-  },
+  // async asyncData(context) {
+  //   if (context.isStatic) {
+  //     return await {
+  //       isStatic: context.isStatic
+  //     };
+  //   }
+  // },
+  // computed: {
+  //   articleData() {
+  //     return this.$store.state.article.articleAll;
+  //   }
+  // },
+  // watch: {
+  //   articleData(data) {
+  //     this.getArticle();
+  //   }
+  // },
   created() {
     this.$store.commit("setType", "");
-    // this.$store.dispatch("setChangingOver", {
-    //   position: false
-    // });
+    this.getArticle();
   },
-  mounted() {
-    // this.$axios
-    //   .get(process.env.baseUrl + "/zllublogAdmin/article/get.article.php")
-    //   .then(res => {
-    //     console.log(res);
-    //     this.dataList = res.data.list;
-    //   });
-  },
+  mounted() {},
   methods: {
     getArticle() {
-      let data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
-      this.dataList = data.list;
-      this.total = data.total;
+      // let data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
+      //请求文章数据
+      let data = null;
+      if (this.pageNo !== 1 || this.pageSize !== 10) {
+        data = {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        };
+      }
+      this.$axios
+        .get(process.env.baseUrl + "/zll/article/list", { params: data })
+        .then(res => {
+          if (res.data.result) {
+            this.articleData = res.data;
+          }
+          // data.forEach(ele => {
+          //   ele.keywords = ele.keywords.split("、");
+          //   ele.publishTime = ele.publishTime.slice(0, 10);
+          // });
+          // this.show = false;
+          // this.$store.commit("setArtileAll", data);
+        });
+      // this.dataList = data.list;
+      // this.total = data.total;
     },
     // filterImgData(data) {
     //   let newArr = [];
@@ -160,29 +166,6 @@ export default {
       this.getArticle();
       // goBack();
     }
-    // //获取精选文章
-    // getAArticleData(data) {
-    //   if (data) {
-    //     let dataArr = [];
-    //     for (let index = 0; index < data.length; index++) {
-    //       if (data[index].classify === "a") {
-    //         dataArr.push(data[index]);
-    //       }
-    //     }
-    //     this.AdataArr = dataArr.length != 0 ? dataArr : this.AdataArr;
-    //   }
-    // },
-    // handleLookAll(bid, nav, url, title) {
-    //   // 将bid存储到store中
-    //   this.$store.dispatch("setRouter", { nav, url, title });
-    //   this.$store.dispatch("setSingleArtile", bid);
-    //   this.$router.push({
-    //     path: "/article",
-    //     query: {
-    //       bid: bid
-    //     }
-    //   });
-    // }
   }
 };
 </script>
@@ -202,9 +185,11 @@ export default {
   }
 
   .swiper-left {
-    width: 65%;
+    width: 100%;
+
     > div {
       height: 100%;
+      overflow: hidden;
     }
   }
   .swiper-right {

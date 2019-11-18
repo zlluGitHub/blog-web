@@ -61,36 +61,82 @@
 <script>
 // import { URL } from "../constant/constant.js";
 export default {
-  name: "viwephoto",
+  name: "links",
   data() {
     return {
       URL: process.env.baseUrl + "/zllublogAdmin/",
       data: {}
     };
   },
-  computed: {
-    getShareData() {
-      return this.$store.getters.getShareData;
-    }
-  },
-  watch: {
-    getShareData(value) {
-      this.data = value;
-    }
-  },
+  // computed: {
+  //   getShareData() {
+  //     return this.$store.getters.getShareData;
+  //   }
+  // },
+  // watch: {
+  //   getShareData(value) {
+  //     this.data = value;
+  //   }
+  // },
   created() {
-    if (this.$store.state.share.shareData.length === 0) {
-      // 请求在线文档数据
-      this.$axios
-        .get(process.env.baseUrl + "/zllublogAdmin/navurl/get.navurl.php")
-        .then(res => {
-          this.$store.commit("setShareData", res.data.list);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    } else {
-      this.data = this.$store.getters.getShareData;
+    // if (this.$store.state.share.shareData.length === 0) {
+    // 请求在线文档数据
+    this.$axios
+      .get(process.env.baseUrl + "/zll/links")
+      .then(res => {
+        if (res.data.result) {
+          this.data = this.handleShareData(res.data.list);
+        }
+
+        // this.$store.commit("setShareData", res.data.list);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    // } else {
+    //   this.data = this.$store.getters.getShareData;
+    // }
+  },
+  methods: {
+    //分类
+    handleShareData(data) {
+      let shareA = [];
+      let shareB = [];
+      let shareC = [];
+      let shareD = [];
+      let shareE = [];
+      let shareF = [];
+      data.map(item => {
+        switch (item.type) {
+          case "a":
+            shareA.push(item);
+            // mark = false;
+            break;
+          case "b":
+            shareB.push(item);
+            // mark = false;
+            break;
+          case "c":
+            shareC.push(item);
+            // mark = false;
+            break;
+          case "d":
+            shareD.push(item);
+            // mark = false;
+            break;
+          case "e":
+            shareE.push(item);
+            // mark = false;
+            break;
+          case "f":
+            shareF.push(item);
+            // mark = false;
+            break;
+          default:
+            break;
+        }
+      });
+      return { shareA, shareB, shareC, shareD, shareE, shareF };
     }
   }
 };

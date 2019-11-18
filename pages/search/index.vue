@@ -2,10 +2,18 @@
   <div>
     <!-- 左半部分 -->
     <section>
-        <ArticleList :type="type" :mark="true" :static="isStatic"/>
+      <h3 class="h3-tag">
+        <p>
+          关于（
+          <i>{{searchValue}}</i>） 关键词共检索到
+          （
+          <i>{{total}}</i>） 条记录
+        </p>
+      </h3>
+      <ArticleList :content="contentData" />
     </section>
     <!-- 右半部分 -->
-   <AsideMain :configure="asideConfig" :static="isStatic"/>
+    <AsideMain :configure="asideConfig" :static="isStatic" />
   </div>
 </template>
 <script>
@@ -21,10 +29,16 @@ export default {
     // TabsList
   },
   data: () => ({
-    type: '数据库',
-      isStatic:false,
-     asideConfig: {
-      isSay: true,   //每日一句
+    pageNo: 1,
+    pageSize: 10,
+    searchValue: "",
+    total: 0,
+    contentData: {},
+
+    type: "数据库",
+    isStatic: false,
+    asideConfig: {
+      isSay: true, //每日一句
       // isInfo: true,   //名片
       isRecommend: true, //本站推荐
       isClick: true, //点击排行
@@ -32,19 +46,19 @@ export default {
       // isArticle:true, //最新文章
       isCount: true, //统计
       isTags: true //标签
-    },
+    }
   }),
-    async asyncData(context) {
+  async asyncData(context) {
     if (context.isStatic) {
       return await {
-        isStatic: context.isStatic,
+        isStatic: context.isStatic
       };
     }
   },
   computed: {
-    // articleData() {
-    //   return this.$store.state.article.article;
-    // },
+    search() {
+      return this.$store.state.article.search;
+    }
     // swiper() {
     //   return this.$refs.mySwiper.swiper;
     // },
@@ -55,24 +69,49 @@ export default {
     //   return this.$store.state.scatter.swiper;
     // }
   },
-  // watch: {
-  //   articleData(data) {
-  //     this.data = data.list.slice(0, 10);
-  //     this.total = data.nums;
-  //     this.getAArticleData(data.list);
-  //   },
-  //   getConfigsData(value) {
-  //     this.isBanner = value.isBanner;
-  //   },
-  //   getImgData(value) {
-  //     this.filterImgData(value);
-  //   }
-  // },
+  watch: {
+    // articleData(data) {
+    //   this.data = data.list.slice(0, 10);
+    //   this.total = data.nums;
+    //   this.getAArticleData(data.list);
+    // },
+    search() {
+      this.getData();
+      // this.isBanner = value.isBanner;
+    }
+    // getImgData(value) {
+    //   this.filterImgData(value);
+    // }
+  },
   created() {
-    this.$store.commit("setType", this.type);
+    this.getData();
+    // this.$store.commit("setType", this.type);
   },
 
   methods: {
+    getData() {
+      this.searchValue = this.$store.state.article.search;
+      let data = {};
+      if (this.pageNo !== 1 || this.pageSize !== 10) {
+        data = {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        };
+      }
+      data.title = this.searchValue;
+      this.$axios
+        .get(process.env.baseUrl + "/zll/article/list", { params: data })
+        .then(res => {
+          if (res.data.result) {
+            this.contentData = res.data;
+            this.total = res.data.count;
+          }
+          // this.$store.commit("setShareData", res.data.list);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 };
 </script>

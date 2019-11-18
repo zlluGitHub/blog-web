@@ -7,7 +7,7 @@
         <h1>{{type}}</h1>
         <p>此专栏主要记录一些关于数据库的一些相关内容。比如 MySQL 数据库、mongoDB 数据库等。</p>
       </div>
-      <ArticleList :type="type" :static="isStatic" />
+       <ArticleList :content="contentData"/>
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" :static="isStatic" />
@@ -26,8 +26,13 @@ export default {
     // TabsList
   },
   data: () => ({
+      pageNo: 1,
+    pageSize: 10,
+    contentData:{},
     type: "数据库",
+    
     isStatic: false,
+
     asideConfig: {
       isSay: true, //每日一句
       // isInfo: true,   //名片
@@ -39,13 +44,13 @@ export default {
       isTags: true //标签
     }
   }),
-  async asyncData(context) {
-    if (context.isStatic) {
-      return await {
-        isStatic: context.isStatic
-      };
-    }
-  },
+  // async asyncData(context) {
+  //   if (context.isStatic) {
+  //     return await {
+  //       isStatic: context.isStatic
+  //     };
+  //   }
+  // },
   computed: {
     // articleData() {
     //   return this.$store.state.article.article;
@@ -74,7 +79,26 @@ export default {
   //   }
   // },
   created() {
-    this.$store.commit("setType", this.type);
+      let data = {};
+    if (this.pageNo !== 1 || this.pageSize !== 15) {
+      data = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      };
+    };
+    data.type =this.type;
+    this.$axios
+      .get(process.env.baseUrl + "/zll/article/list", { params: data })
+      .then(res => {
+        if (res.data.result) {
+          this.contentData = res.data;
+        }
+        // this.$store.commit("setShareData", res.data.list);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    // this.$store.commit("setType", this.type);
   },
 
   methods: {

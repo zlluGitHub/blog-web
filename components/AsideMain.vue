@@ -1,19 +1,19 @@
 <template>
   <aside v-if="configure">
     <!-- 每日一语 -->
-    <DaySay v-if="configure.isSay" />
+    <DaySay v-if="configure.isSay" :say="say" />
 
     <!-- 名片 -->
-    <Info v-if="configure.isInfo" />
+    <Info v-if="configure.isInfo" :info="info"/>
 
     <!-- 最新文章 -->
-    <NewArticle v-if="configure.isArticle" :static="isStatic"/>
+    <NewArticle v-if="configure.isArticle" :static="isStatic" />
 
     <!-- 本站推荐 -->
-    <TuiJian v-if="configure.isRecommend" :static="isStatic"/>
+    <TuiJian v-if="configure.isRecommend" :static="isStatic" />
 
     <!-- 点击排行 -->
-    <dianji v-if="configure.isClick" :static="isStatic"/>
+    <dianji v-if="configure.isClick" :static="isStatic" />
 
     <!-- 标签 -->
     <Tag v-if="configure.isTags" />
@@ -24,7 +24,7 @@
     <PingLun v-if="configure.isComment" />
 
     <!-- 统计 -->
-    <TongJi v-if="configure.isCount" />
+    <TongJi v-if="configure.isCount" :statisty="statisty" />
 
     <!-- 友情链接 -->
     <YouQing v-if="configure.isYouQing" />
@@ -59,16 +59,26 @@ export default {
     // RiLi
   },
   data: () => ({
+    say: null,
+    info: null,
+    statisty: null,
     isStatic: false
   }),
   props: ["configure", "static"],
-  watch: {
-    static(data) {
-      this.isStatic = data;
-    }
-  },
+  // watch: {
+  //   static(data) {
+  //     this.isStatic = data;
+  //   }
+  // },
   created() {
-    this.isStatic = this.static;
+    this.$axios.get(process.env.baseUrl + "/zll/inform").then(res => {
+      if (res.data.result) {
+        let data = res.data.data;
+        this.say = { content: data.say };
+        this.info = { arCount: data.articleCount, sayCount: data.sayCount };
+        this.statisty = { time: data.listTime.slice(0, 10) };
+      }
+    });
   }
 };
 </script>

@@ -7,20 +7,20 @@
         href="javascript:void(0);"
       >JavaScript</a>
       <a
-        @click="handleTab(2,'Vue')"
+        @click="handleTab(2,'Html5、css3')"
         :class="[mark===2?'newscurrent':'']"
         href="javascript:void(0);"
-      >Vue</a>
+      >H5 / CSS3</a>
       <a
-        @click="handleTab(3,'React')"
+        @click="handleTab(3,'Vue、React')"
         :class="[mark===3?'newscurrent':'']"
         href="javascript:void(0);"
-      >React</a>
+      >Vue / React</a>
       <a
-        @click="handleTab(4,'Echarts')"
+        @click="handleTab(4,'Echarts、d3')"
         :class="[mark===4?'newscurrent':'']"
         href="javascript:void(0);"
-      >Echarts</a>
+      >Echarts / D3</a>
       <a
         @click="handleTab(5,'NodeJs')"
         :class="[mark===5?'newscurrent':'']"
@@ -36,15 +36,11 @@
               <img :src="imgUrl+item.imgSrc" :alt="item.title" />
               <div>
                 <p>
-                  <!-- <nuxt-link
-                    :to="'/detail/'+item.bid"
-                    @click.native="handleTo(item.bid)"
-                  >{{item.title}}</nuxt-link>-->
-
-                  <a
+                  <nuxt-link :to="{ path: '/detail/', query: { id: item.bid}}">{{item.title}}</nuxt-link>
+                  <!-- <a
                     @click="handleLook(item.bid,isStatic,item.title)"
                     :href="isStatic?URL+item.bid:'javascript:void(0);'"
-                  >{{item.title}}</a>
+                  >{{item.title}}</a>-->
                   <span>{{item.publishTime}}</span>
                 </p>
                 <p>{{item.description}}</p>
@@ -77,62 +73,94 @@
 export default {
   name: "tab",
   data: () => ({
+    pageNo: 1,
+    pageSize: 6,
+    keywords: "JavaScript",
+    tabsData: [],
+
     isStatic: false,
     imgUrl: process.env.baseUrl + "/zllublogAdmin/",
     URL: process.env.baseUrl + "/detail/",
     mark: 1,
     // articleData: [],
-    tabsData: [],
+
     total: 0,
     type: "JavaScript"
   }),
-  props: {
-    static: {
-      type: Boolean,
-      default: false
-    }
-  },
-  computed: {
-    articleData() {
-      return this.$store.state.article.articleAll;
-    }
-  },
-  watch: {
-    articleData() {
-      this.getArticle();
-    },
-    static(data) {
-      this.isStatic = data;
-    }
-  },
+  // props: {
+  //   static: {
+  //     type: Boolean,
+  //     default: false
+  //   }
+  // },
+  // computed: {
+  //   articleData() {
+  //     return this.$store.state.article.articleAll;
+  //   }
+  // },
+  // watch: {
+  //   articleData() {
+  //     this.getArticle();
+  //   },
+  //   // static(data) {
+  //   //   this.isStatic = data;
+  //   // }
+  // },
   created() {
-    this.isStatic = this.static;
+    // this.isStatic = this.static;
     this.getArticle();
   },
   methods: {
     getArticle() {
-      this.$store.commit("setTab", this.type);
-      let data = this.$store.getters.getTabList(1, 6);
-      if (data) {
-        this.tabsData = data.list;
-        this.total = data.total;
-      }
+      let data = {
+        // pageNo: this.pageNo,
+        // pageSize: this.pageSize,
+        keywords: this.keywords
+      };
+      this.$axios
+        .get(process.env.baseUrl + "/zll/article/list", { params: data })
+        .then(res => {
+          if (res.data.result) {
+            let data = res.data.list.slice(0, 6);
+
+            this.tabsData = data.map(item=>{
+              item.publishTime = item.publishTime.slice(0,10);
+              return item;
+            });
+            this.total = res.data.count;
+          }
+          // data.forEach(ele => {
+          //   ele.keywords = ele.keywords.split("、");
+          //   ele.publishTime = ele.publishTime.slice(0, 10);
+          // });
+          // this.show = false;
+          // this.$store.commit("setArtileAll", data);
+        });
+      // this.$store.commit("setTab", this.type);
+      // let data = this.$store.getters.getTabList(1, 6);
+      // if (data) {
+      //   this.tabsData = data.list;
+      //   this.total = data.total;
+      // }
     },
     handleTab(val, tabName) {
-      this.type = tabName;
+      this.keywords = tabName;
       this.mark = val;
       this.getArticle();
     },
     //跳转到详情页
     handleLook(bid, isStatic) {
       // 将bid存储到store中
-      this.$store.commit("setBid", bid);
-      if (!isStatic) {
-        this.$router.push({ path: "/detail/" + bid });
-      }
+      // this.$store.commit("setBid", bid);
+      // if (!isStatic) {
+      //   this.$router.push({ path: "/detail/" + bid });
+      // }
     },
     handleRouter() {
-      this.$router.push({ path: "/tabs" });
+      this.$store.commit("setTagValue", this.keywords);
+      this.$router.push({ path: "/tags" });
+      // 返回顶部
+      this.$goBack();
     }
   }
 };
@@ -258,7 +286,7 @@ export default {
           border-radius: 3px;
         }
         li {
-          width: 428px;
+          width: 403px;
           display: flex;
           padding: 10px 5px;
           // padding-left: 0px;

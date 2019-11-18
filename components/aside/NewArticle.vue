@@ -6,11 +6,14 @@
     <ul class="article-list-new">
       <li v-for="item in titleData" :key="item.bid+'21'">
         <i class="fa fa-angle-double-right fa-lg"></i>
-        <a
+        <!-- <a
           @click="handleLook(item.bid,isStatic,item.title)"
           :href="isStatic?URL+item.bid:'javascript:void(0);'"
-        >{{item.title}}</a>
-        <!-- <nuxt-link :to="'/detail/'+item.bid">{{item.title}}</nuxt-link> -->
+        >{{item.title}}</a> -->
+         <nuxt-link
+          :to="{ path: '/detail', query: { id: item.bid}}"
+          @click.stop="handleLook(item.bid)"
+        >{{item.title}}</nuxt-link>
       </li>
     </ul>
   </div>
@@ -23,46 +26,61 @@ export default {
     titleData: [],
     isStatic: false
   }),
-  props: {
-    static: {
-      type: Boolean,
-      default: false
-    }
-  },
-  computed: {
-    articleAll() {
-      return this.$store.state.article.articleAll;
-    }
-  },
-  watch: {
-    articleAll() {
-      this.handleData();
-    },
-    static(data) {
-      this.isStatic = data;
-    }
-  },
+  // props: {
+  //   static: {
+  //     type: Boolean,
+  //     default: false
+  //   }
+  // },
+  // computed: {
+  //   articleAll() {
+  //     return this.$store.state.article.articleAll;
+  //   }
+  // },
+  // watch: {
+  //   articleAll() {
+  //     this.handleData();
+  //   },
+  //   static(data) {
+  //     this.isStatic = data;
+  //   }
+  // },
 
   created() {
-    this.isStatic = this.static;
+    // this.isStatic = this.static;
     this.handleData();
   },
   methods: {
     handleData() {
-      var data = [...this.$store.state.article.articleAll];
-      let arr = [];
-      if (data.length !== 0) {
-        arr = data.reverse();
-        this.titleData = arr.slice(0, 8);
-      }
+      this.$axios
+        .get(process.env.baseUrl + "/zll/article/list")
+        .then(res => {
+          if (res.data.result) {
+            this.titleData = res.data.list;
+          }
+          // data.forEach(ele => {
+          //   ele.keywords = ele.keywords.split("、");
+          //   ele.publishTime = ele.publishTime.slice(0, 10);
+          // });
+          // this.show = false;
+          // this.$store.commit("setArtileAll", data);
+        });
+      // var data = [...this.$store.state.article.articleAll];
+      // let arr = [];
+      // if (data.length !== 0) {
+      //   arr = data.reverse();
+      //   this.titleData = arr.slice(0, 8);
+      // }
     },
     //跳转到详情页
-    handleLook(bid, isStatic) {
+    handleLook(bid) {
+         // 返回顶部
+      this.$goBack();
       // 将bid存储到store中
-      this.$store.commit("setBid", bid);
-      if (!isStatic) {
-        this.$router.push({ path: "/detail/" + bid });
-      }
+      // this.$store.commit("setBid", bid);
+      // if (!isStatic) {
+      //   this.$router.push({ path: "/detail/" + bid });
+      // }
     }
   }
 };

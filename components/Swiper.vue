@@ -17,7 +17,7 @@
     <div class="swiper-button-next fa fa-angle-right fa-4x" slot="button-next"></div>
   </div>
 </template>
- 
+
 <script>
 export default {
   data() {
@@ -104,7 +104,7 @@ export default {
 .swiper-slide {
   img {
     width: 100%;
-    height: 290px;
+    height: 390px;
   }
 }
 </style>

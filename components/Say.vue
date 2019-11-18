@@ -25,15 +25,15 @@
             </div>
           </li>
         </ul>
-      <Page
-        show-total
-        @on-change="changePage"
-        @on-page-size-change="changeSizePage"
-        :total="total"
-        show-sizer
-        :page-size-opts="[15,30,45,60,75]"
-        :page-size="pageSize"
-      />
+        <Page
+          show-total
+          @on-change="changePage"
+          @on-page-size-change="changeSizePage"
+          :total="total"
+          show-sizer
+          :page-size-opts="[15,30,45,60,75]"
+          :page-size="pageSize"
+        />
       </div>
 
       <div v-else class="demo-spin-col" span="8">
@@ -43,7 +43,6 @@
         </Spin>
       </div>
     </div>
-  
   </div>
 </template>
 <script>
@@ -52,49 +51,72 @@
 export default {
   name: "say",
   data: () => ({
-    URL: process.env.baseUrl+'/zllublogAdmin/',
+    URL: process.env.baseUrl + "/zllublogAdmin/",
     sayList: [],
+
     content: [],
-    pageNo: 0,
+    pageNo: 1,
     pageSize: 15,
     total: 0
   }),
-  props: ["data"],
-  watch: {
-    data(value) {
-      this.getSay(value);
-    }
-  },
+  // props: ["content"],
+  // watch: {
+  //   data(value) {
+  //     this.getSay(value);
+  //   }
+  // },
   created() {
-    this.getSay(this.data);
+    this.getSay();
   },
   methods: {
-    getSay(data) {
-      this.content = data;
-      this.sayList = data.slice(0, 15);
-      this.total = data.length;
+    getSay() {
+      let data = null;
+      if (this.pageNo !== 1 || this.pageSize !== 15) {
+        data = {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        };
+      };
+
+      this.$axios
+        .get(process.env.baseUrl + "/zll/say", { params: data })
+        .then(res => {
+          if (res.data.result) {
+            this.sayList = res.data.list;
+            this.total = res.data.count;
+          }
+          // this.$store.commit("setShareData", res.data.list);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      // this.content = data;
+      // this.sayList = data.slice(0, 15);
+      // this.total = data.length;
     },
     changePage(event) {
       this.pageNo = event;
-      this.changeList(this.pageNo, this.pageSize);
-       // 返回顶部
+      this.getSay();
+      // this.changeList(this.pageNo, this.pageSize);
+      // 返回顶部
       this.$goBack();
     },
     changeSizePage(event) {
       this.pageSize = event;
-      this.changeList(this.pageNo, this.pageSize);
-       // 返回顶部
+      this.getSay();
+      // this.changeList(this.pageNo, this.pageSize);
+      // 返回顶部
       this.$goBack();
-    },
-    changeList(pageNo, pageSize) {
-      let start = pageNo,
-        end = pageSize;
-      if (pageNo > 0) {
-        start = (pageNo - 1) * pageSize;
-        end = start + pageSize;
-      }
-      this.sayList = this.content.slice(start, end);
     }
+    // changeList(pageNo, pageSize) {
+    //   let start = pageNo,
+    //     end = pageSize;
+    //   if (pageNo > 0) {
+    //     start = (pageNo - 1) * pageSize;
+    //     end = start + pageSize;
+    //   }
+    //   this.sayList = this.content.slice(start, end);
+    // }
   }
 };
 </script>

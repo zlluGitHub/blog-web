@@ -12,9 +12,9 @@
     <Footer />
     <!-- 加载动画 -->
     <!-- carousel -->
-    <transition name="loading">
+    <!-- <transition name="loading">
       <Loading v-if="show" />
-    </transition>
+    </transition> -->
     <!-- 音乐 -->
     <div class="music aplayer-left" ref="audioId"></div>
     <!-- 回到顶部 -->
@@ -42,124 +42,124 @@ export default {
     URL: process.env.baseUrl + "/zllublogAdmin/"
   }),
 
-  created() {
-    //请求文章数据
-    this.$axios
-      .get(process.env.baseUrl + "/zllublogAdmin/article/get.article.php")
-      .then(res => {
-        let data = res.data.list;
-        data.forEach(ele => {
-          ele.keywords = ele.keywords.split("、");
-          ele.publishTime = ele.publishTime.slice(0, 10);
-        });
-        this.show = false;
-        this.$store.commit("setArtileAll", data);
-      });
+  // created() {
+  //   //请求文章数据
+  //   this.$axios
+  //     .get(process.env.baseUrl + "/zllublogAdmin/article/get.article.php")
+  //     .then(res => {
+  //       let data = res.data.list;
+  //       data.forEach(ele => {
+  //         ele.keywords = ele.keywords.split("、");
+  //         ele.publishTime = ele.publishTime.slice(0, 10);
+  //       });
+  //       this.show = false;
+  //       this.$store.commit("setArtileAll", data);
+  //     });
 
-    // 请求留言数据
-    this.$axios
-      .get(
-        process.env.baseUrl + "/zllublogAdmin/comment/get.comment.content.php"
-      )
-      .then(res => {
-        let data = res.data.list;
-        data.forEach(item1 => {
-          //最外层循环
-          if (item1.data.indexOf("},{") === -1) {
-            item1.data = [
-              analysisString(
-                item1.data.substring(
-                  item1.data.indexOf("[{") + 2,
-                  item1.data.indexOf("}]")
-                )
-              )
-            ];
-          } else {
-            var arr = item1.data;
-            arr = arr
-              .substring(arr.indexOf("[{") + 2, arr.indexOf("}]"))
-              .split("},{");
-            item1.data = arr.map(item2 => {
-              return analysisString(item2.toString());
-            });
-          }
-        });
+  //   // 请求留言数据
+  //   this.$axios
+  //     .get(
+  //       process.env.baseUrl + "/zllublogAdmin/comment/get.comment.content.php"
+  //     )
+  //     .then(res => {
+  //       let data = res.data.list;
+  //       data.forEach(item1 => {
+  //         //最外层循环
+  //         if (item1.data.indexOf("},{") === -1) {
+  //           item1.data = [
+  //             analysisString(
+  //               item1.data.substring(
+  //                 item1.data.indexOf("[{") + 2,
+  //                 item1.data.indexOf("}]")
+  //               )
+  //             )
+  //           ];
+  //         } else {
+  //           var arr = item1.data;
+  //           arr = arr
+  //             .substring(arr.indexOf("[{") + 2, arr.indexOf("}]"))
+  //             .split("},{");
+  //           item1.data = arr.map(item2 => {
+  //             return analysisString(item2.toString());
+  //           });
+  //         }
+  //       });
 
-        // var arr = data[1].data;
+  //       // var arr = data[1].data;
 
-        // // console.log(arr, "222222222222222222222222222222222");
-        // arr = arr.substring(arr.indexOf("[{") + 2, arr.indexOf("}]"));
-        // console.log(arr, "3333333333333333333333333333333");
+  //       // // console.log(arr, "222222222222222222222222222222222");
+  //       // arr = arr.substring(arr.indexOf("[{") + 2, arr.indexOf("}]"));
+  //       // console.log(arr, "3333333333333333333333333333333");
 
-        // arr = arr.split("},{");
+  //       // arr = arr.split("},{");
 
-        // console.log(arr, "444444444444444444444444444444444444");
+  //       // console.log(arr, "444444444444444444444444444444444444");
 
-        // arr = arr[0].split('","');
-        // console.log(arr, "55555555555555555555555555555");
-        // arr = arr[0].substring(arr.indexOf('":"') + 3, arr.length).toString();
-        // console.log({
-        //   name: arr
-        // });
+  //       // arr = arr[0].split('","');
+  //       // console.log(arr, "55555555555555555555555555555");
+  //       // arr = arr[0].substring(arr.indexOf('":"') + 3, arr.length).toString();
+  //       // console.log({
+  //       //   name: arr
+  //       // });
 
-        // console.log(arr.split('},{') );
-        // console.log(JSON.parse(arr));
+  //       // console.log(arr.split('},{') );
+  //       // console.log(JSON.parse(arr));
 
-        // console.log(eval("(" + data[0].data.toString() + ")"));
+  //       // console.log(eval("(" + data[0].data.toString() + ")"));
 
-        // console.log(typeof data[0].data);
-        // console.log("'" + data[0].data + "'");
-        // // var str = JSON.stringify(data[0].data).replace("\\","")
-        // var str = data[0].data.toString();
-        // console.log(str);
-        // // console.log(data[0].data.toString());
-        // console.log(JSON.parse(str));
-        // // this.show = false;
-        this.$store.commit("setCommentAll", data);
-      });
+  //       // console.log(typeof data[0].data);
+  //       // console.log("'" + data[0].data + "'");
+  //       // // var str = JSON.stringify(data[0].data).replace("\\","")
+  //       // var str = data[0].data.toString();
+  //       // console.log(str);
+  //       // // console.log(data[0].data.toString());
+  //       // console.log(JSON.parse(str));
+  //       // // this.show = false;
+  //       this.$store.commit("setCommentAll", data);
+  //     });
 
-    // 请求微语数据
-    this.$axios
-      .get(process.env.baseUrl + "/zllublogAdmin/say/get.say.php")
-      .then(res => {
-        let data = res.data.list;
-        data.forEach(ele => {
-          ele.sendTime = ele.sendTime.slice(0, 10);
-        });
-        // this.data = data;
-        this.$store.commit("setSayAll", data);
-      });
+  //   // 请求微语数据
+  //   this.$axios
+  //     .get(process.env.baseUrl + "/zllublogAdmin/say/get.say.php")
+  //     .then(res => {
+  //       let data = res.data.list;
+  //       data.forEach(ele => {
+  //         ele.sendTime = ele.sendTime.slice(0, 10);
+  //       });
+  //       // this.data = data;
+  //       this.$store.commit("setSayAll", data);
+  //     });
 
-    // 请求音乐数据
-    this.$axios
-      .get(process.env.baseUrl + "/zllublogAdmin/music/get.music.php")
-      .then(res => {
-        var data = res.data.list;
-        data.forEach(item => {
-          item.url = this.URL + item.url;
-          item.lrc = this.URL + item.lrc;
-          item.cover = this.URL + item.cover;
-        });
-        this.initMusit(data);
-        this.$store.commit("setMusic", data);
-      });
-  },
-  mounted() {
-    //背景粒子
-    // this.bgAnimation();
-    /**登录授权开始*/
-    let code = this.getUrlParam('code');
-    if (code) {
-        this.$axios.post(`https://github.com/login/oauth/access_token?client_id=8b089dc0bdefbbfc7d95&client_secret=61f6952cb122165e69f19f448491054500249715&code=${code}&redirect_uri=${process.env.baseUrl}/`).then(res => {
-          console.log(res);
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
-    }
+  //   // 请求音乐数据
+  //   this.$axios
+  //     .get(process.env.baseUrl + "/zllublogAdmin/music/get.music.php")
+  //     .then(res => {
+  //       var data = res.data.list;
+  //       data.forEach(item => {
+  //         item.url = this.URL + item.url;
+  //         item.lrc = this.URL + item.lrc;
+  //         item.cover = this.URL + item.cover;
+  //       });
+  //       this.initMusit(data);
+  //       this.$store.commit("setMusic", data);
+  //     });
+  // },
+  // mounted() {
+  //   //背景粒子
+  //   // this.bgAnimation();
+  //   /**登录授权开始*/
+  //   let code = this.getUrlParam('code');
+  //   if (code) {
+  //       this.$axios.post(`https://github.com/login/oauth/access_token?client_id=8b089dc0bdefbbfc7d95&client_secret=61f6952cb122165e69f19f448491054500249715&code=${code}&redirect_uri=${process.env.baseUrl}/`).then(res => {
+  //         console.log(res);
+  //       })
+  //       .catch(function(err) {
+  //         console.log(err);
+  //       });
+  //   }
 
-    /* 登录授权结束 */
-  },
+  //   /* 登录授权结束 */
+  // },
   methods: {
     getUrlParam(name) {
       var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");

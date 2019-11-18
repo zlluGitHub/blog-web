@@ -6,16 +6,18 @@
     <ul class="tag">
       <li v-for="item in tagsData" :key="item.name">
         <!-- <nuxt-link :to="'/detail/'+item.bid">{{item.name}}</nuxt-link> -->
-        <nuxt-link
-          to="/tags"
-          @click.native="handleTo(item.name,'/tags')"
-          :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'"
-        >{{item.name}}</nuxt-link>
-        <!-- <a
-          :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'"
+        <!-- <nuxt-link  :to="{ path: '/tags/', query: { id: item.name}}" :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'">
+          {{item.name}}
+          <span>（{{item.num}}）</span>
+        </nuxt-link> -->
+        <!-- @click.native="handleTo(item.name,'/tags')" -->
+        <a 
+          :style="'border:1px solid '+ getRandomColor()+';'"
           href="javascript:void(0);"
-          @click="handleTo(item.name,'/type')"
-        >{{item.name}}</a>-->
+          @click.stop="handleTo(item.name)"
+        >{{item.name}} 
+         <!-- <span>（{{item.num}}）</span> -->
+        </a>
       </li>
     </ul>
   </div>
@@ -23,22 +25,27 @@
 <script>
 // import { goBack } from "../../assets/gloable.js";
 export default {
-  name: "asdide",
+  name: "tag",
   data: () => ({
     tagsData: []
   }),
-  computed: {
-    geTagsDatas() {
-      return this.$store.getters.geTagsData;
-    }
-  },
-  watch: {
-    geTagsDatas(value) {
-      this.tagsData = value;
-    }
-  },
+  // computed: {
+  //   geTagsDatas() {
+  //     return this.$store.getters.geTagsData;
+  //   }
+  // },
+  // watch: {
+  //   geTagsDatas(value) {
+  //     this.tagsData = value;
+  //   }
+  // },
   mounted() {
-    this.tagsData = this.$store.getters.geTagsData;
+    this.$axios.get(process.env.baseUrl + "/zll/article/tag").then(res => {
+      if (res.data.result) {
+        this.tagsData = res.data.list;
+      }
+    });
+    // this.tagsData = this.$store.getters.geTagsData;
   },
   methods: {
     // 获取随机颜色
@@ -50,15 +57,15 @@ export default {
         )
       );
     },
-    handleTo(name, url) {
-      this.$store.commit("setSearchValue", { name, url });
+    handleTo(name) {
+      this.$store.commit("setTagValue", name);
+      this.$router.push({ path: '/tags' });
       // 返回顶部
       this.$goBack();
       // this.$router.push({ path: "/search" });
       // let pageData = this.$store.getters.getTagsData(nav);
       // this.$store.dispatch("setArticleTypeData", pageData);
       // this.$store.dispatch("setRouter", { nav, url, title });
-      // this.$router.push({ path: url });
       // this.$store.dispatch("setChangingOver", {
       //   notice: false,
       //   position: true
@@ -76,16 +83,20 @@ export default {
 }
 
 .tag li {
-  margin-right: 8px;
-  margin-bottom: 8px;
+  margin-right: 10px;
+  margin-bottom: 12px;
+  
 }
 
 .tag li a {
   display: flex;
-  padding: 4px 10px;
+  padding: 7px 14px;
+ 
+  font-size: 13px;
   border-radius: 5px;
-  color: #fff;
-  background-color: #ccc;
+  box-shadow: 0 3px 5px rgba(0,0,0,.12);
+  color: #666;
+  // background-color: #ccc;
   transition: all 0.3s ease;
 }
 

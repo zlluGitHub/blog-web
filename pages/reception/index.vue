@@ -3,11 +3,11 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-          <img src="../../assets/image/web.jpg"/>
+        <img src="../../assets/image/web.jpg" />
         <h1>{{type}}</h1>
         <p>记录 pc端 和 移动端 开发周边技术栈。比如 html5、css3、JavaScript 以及目前比较火的 Vue、React 等框架。常用的 UI 框架及建站 CMS。另外总结了在使用 Echarts、D3、Three 等框架时所遇到的技术问题等。</p>
       </div>
-      <ArticleList :type="type" :static="isStatic" />
+      <ArticleList :content="contentData"/>
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" :static="isStatic" />
@@ -23,7 +23,11 @@ export default {
     ArticleList
   },
   data: () => ({
+    pageNo: 1,
+    pageSize: 10,
+    contentData:{},
     type: "前端技术",
+
     isStatic: false,
     asideConfig: {
       isSay: true, //每日一句
@@ -36,13 +40,13 @@ export default {
       isTags: true //标签
     }
   }),
-  async asyncData(context) {
-    if (context.isStatic) {
-      return await {
-        isStatic: context.isStatic
-      };
-    }
-  },
+  // async asyncData(context) {
+  //   if (context.isStatic) {
+  //     return await {
+  //       isStatic: context.isStatic
+  //     };
+  //   }
+  // },
   computed: {
     // articleData() {
     //   return this.$store.state.article.article;
@@ -71,9 +75,48 @@ export default {
   //   }
   // },
   created() {
-    this.$store.commit("setType", this.type);
+    let data = {};
+    if (this.pageNo !== 1 || this.pageSize !== 15) {
+      data = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      };
+    }
+    data.type = this.type;
+    this.$axios
+      .get(process.env.baseUrl + "/zll/article/list", { params: data })
+      .then(res => {
+        if (res.data.result) {
+          this.contentData = res.data;
+        }
+        // this.$store.commit("setShareData", res.data.list);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    // this.$store.commit("setType", this.type);
   },
-
+  mounted() {
+    // let data = null;
+    // if (this.pageNo !== 1 || this.pageSize !== 15) {
+    //   data = {
+    //     pageNo: this.pageNo,
+    //     pageSize: this.pageSize
+    //   };
+    // }
+    // this.$axios
+    //   .get(process.env.baseUrl + "/zll/say", { params: data })
+    //   .then(res => {
+    //     if (res.data.result) {
+    //       this.sayList = res.data.list;
+    //       this.total = res.data.count;
+    //     }
+    //     // this.$store.commit("setShareData", res.data.list);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+  },
   methods: {}
 };
 </script>

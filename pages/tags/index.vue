@@ -2,10 +2,20 @@
   <div>
     <!-- 左半部分 -->
     <section>
-      <ArticleList :type="type" :mark="true" :static="isStatic" />
+      <h3 class="h3-tag">
+        <p>
+          包含 <i>{{keywords}}</i> 标签共检索到
+          <i>{{total}}</i> 条记录
+        </p>
+      </h3>
+      <ArticleList
+        :content="contentData"
+        @on-change-page="changePage"
+        @on-size-page="changeSizePage"
+      />
     </section>
     <!-- 右半部分 -->
-    <AsideMain :configure="asideConfig" :static="isStatic"/>
+    <AsideMain :configure="asideConfig" :static="isStatic" />
   </div>
 </template>
 <script>
@@ -21,6 +31,12 @@ export default {
     // TabsList
   },
   data: () => ({
+    pageNo: 1,
+    pageSize: 10,
+    contentData: {},
+    keywords: "",
+    total: 0,
+
     type: "标签",
     isStatic: false, //判断是否是服务器端渲染
     asideConfig: {
@@ -34,17 +50,65 @@ export default {
       isTags: true //标签
     }
   }),
-  async asyncData(context) {
-    if (context.isStatic) {
-      return await {
-        isStatic: context.isStatic
-      };
+  // async asyncData(context) {
+  //   if (context.isStatic) {
+  //     return await {
+  //       isStatic: context.isStatic
+  //     };
+  //   }
+  // },
+  computed: {
+    tagValue() {
+      return this.$store.state.article.tagValue;
+    }
+  },
+  watch: {
+    tagValue() {
+      this.getData();
     }
   },
   created() {
-    this.$store.commit("setType", this.type);
+    this.getData();
+    // this.$store.commit("setType", this.type);
   },
 
-  methods: {}
+  methods: {
+    getData() {
+      this.keywords = this.$store.state.article.tagValue;
+      console.log(this.keywords);
+
+      let data = {};
+      if (this.pageNo !== 1 || this.pageSize !== 10) {
+        data = {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        };
+      }
+      data.keywords = this.keywords;
+      this.$axios
+        .get(process.env.baseUrl + "/zll/article/list", { params: data })
+        .then(res => {
+          if (res.data.result) {
+            this.contentData = res.data;
+            this.total = res.data.count;
+            console.log(this.contentData);
+          }
+          // this.$store.commit("setShareData", res.data.list);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    changePage(event) {
+      this.pageNo = event;
+      this.getData();
+      // goBack();
+    },
+    changeSizePage(event) {
+      this.pageSize = event;
+      this.getData();
+      // goBack();
+    }
+  }
 };
 </script>

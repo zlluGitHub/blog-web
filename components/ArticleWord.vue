@@ -61,7 +61,7 @@
     <div v-if="replyData.length!==0">
       <div class="leave-list">
         <ul>
-          <li v-for="item in replyData" :key="item.name">
+          <li v-for="item in replyData" :key="item.bid">
             <div class="list">
               <!-- <img :src="URL+item.url" alt="头像" /> -->
               <img :src="imgUrl" />
@@ -99,46 +99,73 @@
 <script>
 // import { URL } from "../constant/constant.js";
 import { dateTime, getUrl, checkEmail, icon } from "../assets/js/globle";
-// import Qs from "qs";
+import Qs from "qs";
 export default {
   name: "viwephotos",
   data: () => ({
+    wordObj: "",
+    pageNo: 1,
+    pageSize: 10,
+
     isFaceShow: false,
     content: "",
     replyData: [],
     total: 0,
-    email: "",
+    email: "112312@163.com",
     name: "",
     webUrl: "",
-    URL: process.env.baseUrl + "/zllublogAdmin/",
+    URL: process.env.baseUrl + "/zll/word/article",
     arrIcon: [],
     imgUrl: process.env.baseUrl + "/zllublogAdmin/images/headimg/mo.jpg",
     //--------------------
 
     time: dateTime(),
     mark: true,
-    pageNo: 0,
-    pageSize: 10,
+
     artBid: "",
     artTitle: "",
     url: "getUrl()"
   }),
   props: ["word"],
   watch: {
-    word(value) {
-      // this.artBid = value;
-      // this.getReplyData();
+    word() {
+      this.getReplyData();
     }
   },
   created() {
-    this.artBid = this.bid;
+    // this.artBid = this.bid;
 
-    this.artBid = this.$route.params.bid;
+    // this.artBid = this.$route.params.bid;
 
     this.getReplyData();
-    this.handleIcon();
+    // this.handleIcon();
   },
   methods: {
+    //初始化数据
+    getReplyData() {
+      this.wordObj = this.word;
+      if (this.wordObj.id) {
+        let data = {};
+        if (this.pageNo !== 1 || this.pageSize !== 10) {
+          data = {
+            pageNo: this.pageNo,
+            pageSize: this.pageSize
+          };
+        }
+        data.id = this.wordObj.id;
+        this.$axios
+          .get(this.URL, { params: data })
+          .then(res => {
+            if (res.data.result) {
+              this.replyData = res.data.list;
+              this.total = res.data.count;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
     handleIcon() {
       this.arrIcon = icon.map(item => {
         // item.name = "https://zhenglinglu.cn/staticimg/icon/" + item.name;
@@ -167,34 +194,7 @@ export default {
         $("p#input_conta").append(cEle);
       }
     },
-    getReplyData() {
-      // const _this = this;
-      //初始化数据
-      this.$axios
-        .get(this.URL + "commentArticle/get.commentArticle.php", {
-          params: {
-            uid: this.artBid
-          }
-        })
-        .then(res => {
-          if (res.data) {
-            //  _this.replyData = res.data.list;
-            let data = res.data.list;
-            let list = [];
-            for (let index = 0; index < data.length; index++) {
-              if (data[index].isIssue === "yes") {
-                list.push(data[index]);
-              }
-            }
-            this.replyData = list;
-            this.total = list.length;
-            // _this.$store.dispatch("getArticleReplyData", list);
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
+
     changePage(event) {
       this.replyData = this.$store.getters.getArticleReplyPage(
         event,
@@ -232,18 +232,18 @@ export default {
           content: "请输入评论内容！"
         });
       } else {
-        let data = {
-          name: this.name,
-          content: this.content,
-          email: this.email,
-          url: this.webUrl,
-          uid: this.artBid,
-          time: this.time,
-          title: this.artTitle
-        };
-        console.log(data);
+        // let data = {
+        //   name: this.name,
+        //   content: this.content,
+        //   email: this.email,
+        //   url: this.webUrl,
+        //   uid: this.wordObj.id,
+        //   // time: this.time,
+        //   title: this.wordObj.title,
+        //   mark: "q" + this.wordObj.id + "s"
+        // };
+        // console.log(this.$qs);
 
-        const _this = this;
         if (this.mark) {
           this.$Message.loading({
             content: "数据正在提交...",
@@ -255,25 +255,29 @@ export default {
             content: this.content,
             email: this.email,
             url: this.webUrl,
-            uid: this.artBid,
-            time: this.time,
-            title: this.artTitle
+            uid: this.wordObj.id,
+            // time: this.time,
+            title: this.artTitle,
+            mark: "q" + this.wordObj.id + "s"
           };
           this.$axios
-            .post(
-              this.URL + "commentArticle/add.commentArticle.php",
-              this.$qs.stringify(data)
-            )
+            .post(this.URL, Qs.stringify(data))
             .then(res => {
-              this.name = "";
-              // this.content = "";
-              this.email = "";
-              this.webUrl = "";
-              $("#input_conta").html(""); //清除发布框的文本内容
-              this.$Message.destroy();
-              this.$Message.success("留言提交成功！");
-              this.mark = true;
-              this.getReplyData();
+              if (res.data.result) {
+                this.name = "";
+                // this.content = "";
+                this.email = "";
+                this.webUrl = "";
+                $("#input_conta").html(""); //清除发布框的文本内容
+                this.$Message.destroy();
+                this.$Message.success("留言提交成功！");
+                this.mark = true;
+                this.getReplyData();
+              } else {
+                this.$Message.destroy();
+                this.$Message.error("留言提交失败！");
+                this.mark = true;
+              }
             })
             .catch(errr => {
               console.log(error);

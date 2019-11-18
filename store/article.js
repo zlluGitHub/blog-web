@@ -1,11 +1,14 @@
 import { log } from "util";
 
 const state = {
+  tagValue:'',
+  search: '',
+
   articleAll: [],
   type: '',
   typeMark: '',
   bid: '',
-  search: {},
+ 
   isSearchShow: false,
   tabName: ''
   // singleArticle: {},
@@ -14,19 +17,21 @@ const state = {
   // articleReplyData: []
 }
 const mutations = {
+  setTagValue(state, data) {
+    state.tagValue = data;
+  },
+  setSearchValue(state, data) {
+    state.search = data;
+  },
+
   setArtileAll(state, data) {
     console.log(data);
     //筛选发布文章
     state.articleAll = data.filter(item => {
       return item.isPublic === 'yes'
     });
+  },
 
-    console.log(state.articleAll);
-    
-  },
-  setSearchValue(state, data) {
-    state.search = data;
-  },
   setSearchShow(state, data) {
     state.isSearchShow = data;
   },

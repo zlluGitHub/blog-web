@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     queryDate(name) {
-      this.$store.commit("setSearchValue", {name,url:'/search'});
+      this.$store.commit("setSearchValue", name);
       this.$router.push({ path: "/search" });
     },
     searchShow() {

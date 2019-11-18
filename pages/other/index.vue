@@ -7,7 +7,7 @@
         <h1>{{type}}</h1>
         <p>此专栏主要记录一些有关 Linux 操作系统、Git、NPM 等知识点。另外还包括一些其他的技术要点。</p>
       </div>
-      <ArticleList :type="type" :static="isStatic" />
+         <ArticleList :content="contentData"/>
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" :static="isStatic" />
@@ -23,7 +23,11 @@ export default {
     ArticleList
   },
   data: () => ({
+      pageNo: 1,
+    pageSize: 10,
+    contentData:{},
     type: "技术杂谈",
+    
     isStatic: false,
     asideConfig: {
       isSay: true, //每日一句
@@ -71,7 +75,26 @@ export default {
   //   }
   // },
   created() {
-    this.$store.commit("setType", this.type);
+     let data = {};
+    if (this.pageNo !== 1 || this.pageSize !== 15) {
+      data = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      };
+    }
+    data.type = this.type;
+    this.$axios
+      .get(process.env.baseUrl + "/zll/article/list", { params: data })
+      .then(res => {
+        if (res.data.result) {
+          this.contentData = res.data;
+        }
+        // this.$store.commit("setShareData", res.data.list);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    // this.$store.commit("setType", this.type);
   },
 
   methods: {}

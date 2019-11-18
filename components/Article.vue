@@ -5,7 +5,7 @@
       <ul class="meta">
         <li>
           <i class="fa fa-calendar"></i>
-          发布时间：{{articleData.publishTime.slice(0,10)}}
+          发布时间：{{articleData.publishTime}}
         </li>
         <li>
           <i class="fa fa-user fa-lg"></i>
@@ -15,10 +15,10 @@
           <i class="fa fa-eye fa-lg"></i>
           围观数：{{articleData.viweNum}}
         </li>
-        <!-- <li>
+        <li>
           <i class="fa fa-heartbeat fa-lg"></i>
-          点赞：{{starNum}}
-        </li>-->
+          点赞：{{articleData.starNum}}
+        </li>
       </ul>
       <div class="article-meta">
         <div class="inner" v-html="articleData.content"></div>
@@ -41,10 +41,10 @@
             :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'"
           >{{tag}}</a>-->
           <nuxt-link
-            v-for="(tag,index) in articleData.keywordsArr"
-            :key="index"
+            v-for="(tag,index) in articleData.keywords"
+            :key="index+'sd'"
             to="/tags"
-            @click.native="handleTo(tag,'/tags')"
+            @click.native="handleTo(tag)"
             :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'"
           >{{tag}}</nuxt-link>
         </p>
@@ -56,12 +56,12 @@
           {{URL+articleData.bid}}
           <!-- <a :href="'https://zhenglinglu.cn/article?bid='+bid" target="_blank">{{articleData.title}}</a> -->
         </p>
-        <!-- <div>
-          <span class="diggit" @click.stop="handleClick">
+        <div>
+          <span class="diggit" @click.stop="handleClickStar">
             <a href="JavaScript:void(0);">棒棒哦！</a>(
             <b id="diggnum">{{starNum}}</b> )
           </span>
-        </div>-->
+        </div>
       </div>
     </div>
     <div class="page box-bj-sd" id="word">
@@ -69,8 +69,8 @@
         上一篇：
         <a
           v-if="prevArticle"
-          @click="handleLook(prevArticle.bid,isStatic,nextArticle.title)"
-          :href="isStatic?URL+prevArticle.bid:'javascript:void(0);'"
+          @click.stop="handleLook(prevArticle.bid)"
+          href="javascript:void(0);"
         >{{prevArticle.title}}</a>
         <a v-else href="javascript:void(0);">没有了！</a>
       </p>
@@ -78,14 +78,14 @@
         下一篇：
         <a
           v-if="nextArticle"
-          @click="handleLook(nextArticle.bid,isStatic,nextArticle.title)"
-          :href="isStatic?URL+nextArticle.bid:'javascript:void(0);'"
+          @click.stop="handleLook(nextArticle.bid)"
+          href="javascript:void(0);"
         >{{nextArticle.title}}</a>
         <a v-else href="javascript:void(0);">没有了！</a>
       </p>
     </div>
     <div class="say-box">
-      <ArticleWord :word="{id,title}" />
+      <ArticleWord :word="wordObj" />
     </div>
   </article>
 </template>
@@ -95,7 +95,7 @@ import ArticleWord from "./ArticleWord";
 // import Vue from "vue";
 // import { URL } from "../constant/constant.js";
 // import { goBack } from "../assets/gloable.js";
-// import Qs from "qs";
+import Qs from "qs";
 export default {
   name: "article-sing",
   components: {
@@ -122,7 +122,10 @@ export default {
     articleData: {},
     prevArticle: {},
     nextArticle: {},
-    id: "",
+    guessArticle: {},
+    bid: "",
+    wordObj: {},
+
     title: "",
     isStatic: false,
     URL: process.env.baseUrl + "/detail/",
@@ -134,50 +137,51 @@ export default {
     starNum: 0,
     count: 1 //点赞计数
   }),
-  props: {
-    bid: {
-      type: String,
-      default: ""
-    },
-    article: {
-      type: Object,
-      default: {}
-    },
-    static: {
-      type: Boolean,
-      default: false
-    }
-  },
+  // props: {
+  //   bid: {
+  //     type: String,
+  //     default: ""
+  //   },
+  //   article: {
+  //     type: Object,
+  //     default: {}
+  //   },
+  //   static: {
+  //     type: Boolean,
+  //     default: false
+  //   }
+  // },
   computed: {
-    // tagsArr() {
-    //   return this.data.keywords.split("、"); //字符分割 ;
-    // },
-    articleAll() {
-      return this.$store.state.article.articleAll;
+    articleId() {
+      return this.$route.query.id;
     }
-    // singleArticle() {
-    //   return this.$store.state.article.singleArticle;
-    // }
+    //   articleAll() {
+    //     return this.$store.state.article.articleAll;
+    //   }
+    //   // singleArticle() {
+    //   //   return this.$store.state.article.singleArticle;
+    //   // }
   },
   watch: {
-    static(data) {
-      this.isStatic = data;
-    },
-    article(data) {
-      this.handleData(this.bid, data);
-    },
-    bid(bid) {
-      //监听文章数据
-      this.handleData(bid);
-    },
-    articleAll() {
-      //监听文章数据
-      this.handleData(this.bid);
+    articleId(data) {
+      this.handleData();
     }
+    //   article(data) {
+    //     this.handleData(this.bid, data);
+    //   },
+    //   bid(bid) {
+    //     //监听文章数据
+    //     this.handleData(bid);
+    //   },
+    //   articleAll() {
+    //     //监听文章数据
+    //     this.handleData(this.bid);
+    //   }
   },
   created() {
-    this.isStatic = this.static;
-    this.handleData(this.bid, this.article);
+    // this.isStatic = this.static;
+
+    this.handleData();
 
     // this.$store.dispatch("setSingleArtile", this.$route.query.bid);
     // //首页通知
@@ -191,51 +195,90 @@ export default {
     // this.getPrevNext();
   },
   methods: {
-    handleData(bid, article) {
-      if (this.isStatic) {
-        article.middle.keywords = article.middle.keywords.replace("、", "，");
-        article.middle.keywordsArr = article.middle.keywords.split("，");
-        this.prevArticle = article.prev;
-        this.articleData = article.middle;
-        this.nextArticle = article.next;
-      } else {
-        this.id = bid;
-        var data = this.$store.state.article.articleAll;
-        let length = data.length;
-        if (length !== 0 && bid) {
-          for (let index = 0; index < length; index++) {
-            if (data[index].bid === bid) {
-              this.prevArticle = index !== 0 ? data[index - 1] : false;
-              this.articleData = data[index];
-              //  console.log(this.articleData);
-              // this.articleData.keywords = this.articleData.keywords.replace("、","，");
-              this.articleData.keywordsArr = this.articleData.keywords;
-              this.nextArticle = index !== length - 1 ? data[index + 1] : false;
-              break;
-            }
+    handleData() {
+      this.bid = this.$route.query.id;
+      this.$axios
+        .get(process.env.baseUrl + "/zll/article/list", {
+          params: { id: this.bid }
+        })
+        .then(res => {
+          if (res.data.result) {
+            let articleData = res.data.data.article;
+            articleData.publishTime = articleData.publishTime.slice(0, 10);
+            this.articleData = articleData;
+            this.prevArticle = res.data.data.prev;
+            this.nextArticle = res.data.data.next;
+            this.guessArticle = res.data.data.guess;
+            this.wordObj = {
+              id: this.bid,
+              title: this.articleData.title
+            };
           }
-
-        }
-      }
+          // this.$store.commit("setShareData", res.data.list);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      // if (this.isStatic) {
+      //   article.middle.keywords = article.middle.keywords.replace("、", "，");
+      //   article.middle.keywordsArr = article.middle.keywords.split("，");
+      //   this.prevArticle = article.prev;
+      //   this.articleData = article.middle;
+      //   this.nextArticle = article.next;
+      // } else {
+      //   this.id = bid;
+      //   var data = this.$store.state.article.articleAll;
+      //   let length = data.length;
+      //   if (length !== 0 && bid) {
+      //     for (let index = 0; index < length; index++) {
+      //       if (data[index].bid === bid) {
+      //         this.prevArticle = index !== 0 ? data[index - 1] : false;
+      //         this.articleData = data[index];
+      //         //  console.log(this.articleData);
+      //         // this.articleData.keywords = this.articleData.keywords.replace("、","，");
+      //         this.articleData.keywordsArr = this.articleData.keywords;
+      //         this.nextArticle = index !== length - 1 ? data[index + 1] : false;
+      //         break;
+      //       }
+      //     }
+      //   }
+      // }
     },
     // 标签跳转
-    handleLook(bid, isStatic) {
+    handleLook(bid) {
       // 将bid存储到store中
-      this.$store.commit("setBid", bid);
-      if (!isStatic) {
-        this.$router.push({ path: "/detail/" + bid });
-      }
+      // this.$store.commit("setBid", bid);
+      // if (!isStatic) {
+      // this.$router.push({ path: "/detail/" + bid });
+      // }
       // this.$store.dispatch("setSingleArtile", bid);
-      // this.$router.push({
-      //   path: "/article",
-      //   query: {
-      //     bid: bid
-      //   }
-      // });
+
+      this.$router.push({ path: "/detail", query: { id: bid } });
+      // 返回顶部
+      this.$goBack();
     },
     //跳转到详情页
-    handleTo(name, url) {
-      this.$store.commit("setSearchValue", { name, url });
+    handleTo(name) {
+      this.$store.commit("setTagValue", name);
+      // 返回顶部
+      this.$goBack();
+      // this.$store.commit("setSearchValue", { name, url });
+    },
+
+    //点赞
+    handleClickStar() {
+      let data = {
+        id: this.bid
+      };
+      this.$axios
+        .post(process.env.baseUrl + "/zll/article/update/star",  Qs.stringify(data))
+        .then(res => {
+        console.log(res);
+        
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
     // 获取随机颜色
@@ -288,7 +331,8 @@ article {
     justify-content: center;
     li {
       padding: 0 20px;
-      margin: 0px 20px;
+      margin: 0px 5px;
+      font-size: 13px;
       // color: #606060;
       i {
         margin-right: 5px;
@@ -329,7 +373,6 @@ article {
         transform: scale(1.1);
       }
     }
-  
 
     .explain {
       width: 95%;

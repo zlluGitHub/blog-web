@@ -54,7 +54,7 @@ module.exports = {
     { src: "~/plugins/particles.js", ssr: false },
   ],
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:1314'
+    baseUrl: process.env.BASE_URL || 'http://localhost:9096'
   },
   /*
   ** Nuxt.js dev-modules
@@ -75,7 +75,7 @@ module.exports = {
   proxy: {//只适合在开发环境下解决跨域问题
     '/api/': {
       // target: 'https://zhenglinglu.cn',
-      target: 'http://localhost:9096',
+      target: 'http://localhost:3000',
       pathRewrite: { '^/api/': '/' },
       changeOrigin: true,
       // secure: false

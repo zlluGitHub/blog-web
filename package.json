@@ -5,7 +5,7 @@
   "author": "zlluGitHub",
   "private": true,
   "scripts": {
-    "dev": "cross-env BASE_URL=http://localhost:9096 NODE_ENV=development nodemon server/index.js --watch server",
+    "dev": "cross-env BASE_URL=http://localhost:3000 NODE_ENV=development nodemon server/index.js --watch server",
     "build": "cross-env BASE_URL=https://www.zhenglinglu.cn nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "generate": "cross-env BASE_URL=https://www.zhenglinglu.cn NODE_ENV=production nuxt generate",

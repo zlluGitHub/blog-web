@@ -8,11 +8,11 @@
         src="../../assets/image/touxiang0.jpg"
         alt="头像"
       />
-      <h2>Mr.LuのBlog</h2>
+      <h2>Crazy@Rookie</h2>
     </a>
     <p>
       网名：
-      <span>月光下的露珠</span>
+      <span>菜鸟也疯狂</span>
     </p>
     <p>
       现居：
@@ -47,112 +47,119 @@
 </template>
 <script>
 export default {
-  name: "asdide",
+  name: "info",
   data: () => ({
+    content: null,
     ViweNum: 0,
     ArticleNum: 0,
     SayNum: 0
   }),
+  props: ["info"],
   computed: {
-    articleAll() {
-      return this.$store.state.article.articleAll;
-    },
-    sayAll() {
-      return this.$store.state.say.sayAll;
-    }
+    // articleAll() {
+    //   return this.$store.state.article.articleAll;
+    // },
+    // sayAll() {
+    //   return this.$store.state.say.sayAll;
+    // }
   },
   watch: {
-    articleAll() {
-      this.handleData();
-    },
-    sayAll() {
+    info(val) {
+      this.content = val;
       this.handleData();
     }
+    // sayAll() {
+    //   this.handleData();
+    // }
   },
 
   created() {
+    this.content = this.info;
     this.handleData();
   },
 
   methods: {
     handleData() {
-      var data = this.$store.state.article.articleAll;
-      if (data.length !== 0) {
-        //文章总数
-        this.ArticleNum = data.length;
-        // 阅读总数
-        let count = 0,
-          index = 0;
-        for (index; index < data.length; index++) {
-          count = count + data[index].viweNum * 1;
-        }
-        this.ViweNum = count;
-      };
-      var data = this.$store.state.say.sayAll;
-      if (data) {
-        this.SayNum = data.length;
+      if (this.content) {
+        this.ArticleNum = this.content.arCount;
+        this.SayNum = this.content.sayCount;
       }
+      // var data = this.$store.state.article.articleAll;
+      // if (data.length !== 0) {
+      //   //文章总数
+      //   this.ArticleNum = data.length;
+      //   // 阅读总数
+      //   let count = 0,
+      //     index = 0;
+      //   for (index; index < data.length; index++) {
+      //     count = count + data[index].viweNum * 1;
+      //   }
+      //   this.ViweNum = count;
+      // };
+      // var data = this.$store.state.say.sayAll;
+      // if (data) {
+      //   this.SayNum = data.length;
+      // }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-  a::after {
-    content: "";
-    position: absolute;
-    background: url("../../assets/image/v.png") no-repeat;
-    background-size: 12px;
-    width: 12px;
-    height: 12px;
-    left: 60px;
-    bottom: 20px;
-    opacity: 0.8;
+a::after {
+  content: "";
+  position: absolute;
+  background: url("../../assets/image/v.png") no-repeat;
+  background-size: 12px;
+  width: 12px;
+  height: 12px;
+  left: 60px;
+  bottom: 20px;
+  opacity: 0.8;
+}
+a {
+  display: flex;
+  padding: 12px;
+  margin-bottom: 10px;
+  color: #666;
+  position: relative;
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+    border: 2px solid #ccc;
+    box-shadow: 0 0 12px 1px #ccc;
+    margin-right: 15px;
   }
-  a {
+  h2 {
+    font-family: Georgia;
+    font-size: 15px;
+    margin-top: 30px;
+  }
+}
+p {
+  padding: 5px 0 0 20px;
+  line-height: 28px;
+}
+.author_footer {
+  margin-top: 23px;
+  border-top: 1px solid #e5e5e5;
+  ul {
     display: flex;
-    padding: 12px;
-    margin-bottom: 10px;
-    color: #666;
-    position: relative;
-    img {
-      width: 60px;
-      height: 60px;
-      border-radius: 100px;
-      border: 2px solid #ccc;
-      box-shadow: 0 0 12px 1px #ccc;
-      margin-right: 15px;
-    }
-    h2 {
-      font-family: Georgia;
-      font-size: 15px;
-      margin-top: 30px;
-    }
-  }
-  p {
-    padding: 0 0 0 20px;
-    line-height: 28px;
-  }
-  .author_footer {
-    margin-top: 23px;
-    border-top: 1px solid #e5e5e5;
-    ul {
-      width: 250px;
-      display: flex;
-      justify-content: space-around;
-      li {
-        width: 30%;
-        padding: 15px 0;
-        font-size: 14px;
-        text-align: center;
-        color: #888;
-        .shujv {
-          font-family: Georgia;
-          font-weight: 600;
-          font-size: 15px;
-          color: #222;
-        }
+    justify-content: space-around;
+    margin: 0 25px;
+    li {
+      width: 30%;
+      padding: 15px 0;
+      font-size: 14px;
+      text-align: center;
+      color: #888;
+      .shujv {
+        font-family: Georgia;
+        font-weight: 600;
+        font-size: 15px;
+        color: #222;
       }
     }
   }
-
+}
 </style>
