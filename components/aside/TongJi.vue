@@ -1,11 +1,16 @@
 <template>
   <div class="box-bj-sd">
     <h3 class="h3-style">
-      <i class="fa fa-bar-chart"></i>站点信息
+      <i class="fa fa-bar-chart"></i>站点统计
     </h3>
     <ul class="tongji">
       <!-- <li>今日更新：0</li> -->
       <!-- <li>总共留言：&nbsp;{{sayData}}&nbsp;条</li> -->
+      <li>
+        <span>分类数目：&nbsp;12&nbsp;个</span>
+        <span>链接总数：&nbsp;{{linkNum}}&nbsp;个</span>
+      </li>
+      <li><span>标签数量：&nbsp;{{tagData.count}}&nbsp;个</span></li>
       <li>最近更新：&nbsp;{{lastTime}}</li>
       <li>正常运行：&nbsp;{{d}}&nbsp;天&nbsp;{{h}}&nbsp;小时&nbsp;{{f}}&nbsp;分钟</li>
     </ul>
@@ -20,6 +25,7 @@ export default {
     h: null,
     f: null,
     content: null,
+    linkNum: 0,
     lastTime: null
   }),
   props: ["statisty"],
@@ -41,11 +47,11 @@ export default {
   //     return list ? list.length : 0;
   //   }
   // },
-  // computed: {
-  //   // sayAll() {
-  //   //   return this.$store.state.say.sayAll;
-  //   // }
-  // },
+  computed: {
+    tagData() {
+      return this.$store.state.article.tagData;
+    }
+  },
   watch: {
     statisty(val) {
       this.content = val;
@@ -87,6 +93,7 @@ export default {
         this.lastTime = this.content.time
           ? this.content.time.slice(0, 10)
           : `${year} - ${month} - ${dates}`;
+        this.linkNum = this.content.linkCount;
       }
 
       // var data = this.$store.state.say.sayAll;
@@ -106,9 +113,12 @@ export default {
   font-size: 14px;
   margin-top: 10px;
   li {
+    display: flex;
+    justify-content: space-between;
     border-bottom: 1px solid #fff;
     padding: 6px;
     color: #666;
+    margin-right: 20px;
   }
 }
 </style>

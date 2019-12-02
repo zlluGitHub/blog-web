@@ -17,7 +17,7 @@
         </li>
         <li>
           <i class="fa fa-heartbeat fa-lg"></i>
-          点赞：{{articleData.starNum}}
+          点赞：{{starNum}}
         </li>
       </ul>
       <div class="article-meta">
@@ -48,23 +48,33 @@
             :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'"
           >{{tag}}</nuxt-link>
         </p>
-        <p class="share">
+        <p class="share-url">
           <!-- <b>转载：</b>
           本站原创文章由LING☆璐个人发表，如需转载敬请将本文链接作为出处标注，谢谢合作！
           <br />-->
           <span>本文链接地址：</span>
-          {{URL+articleData.bid}}
+          {{URL+bid}}
           <!-- <a :href="'https://zhenglinglu.cn/article?bid='+bid" target="_blank">{{articleData.title}}</a> -->
         </p>
-        <div>
-          <span class="diggit" @click.stop="handleClickStar">
+        <div class="post-like-donate">
+          <!-- <span class="diggit" @click.stop="handleClickStar">
             <a href="JavaScript:void(0);">棒棒哦！</a>(
             <b id="diggnum">{{starNum}}</b> )
-          </span>
+          </span>-->
+          <a href="javascript:void(0);" class="donate">
+            <i class="fa fa-bitcoin"></i> 打赏
+          </a>
+          <a href="javascript:void(0);" @click.stop="handleClickStar" class="Love">
+            <i class="fa fa-thumbs-o-up"></i> 点赞 (
+            <span class="love-count">{{starNum}}</span>)
+          </a>
+          <a href="javascript:void(0);" class="share">
+            <i class="fa fa-share-alt"></i> 分享
+          </a>
         </div>
       </div>
     </div>
-    <div class="page box-bj-sd" id="word">
+    <div class="page box-bj-sd">
       <p>
         上一篇：
         <a
@@ -84,7 +94,16 @@
         <a v-else href="javascript:void(0);">没有了！</a>
       </p>
     </div>
-    <div class="say-box">
+    <div class="guess box-bj-sd">
+      <h3>猜你喜欢以下内容</h3>
+      <ul>
+        <li v-for="item in guessArticle" :key="item.bid" @click.stop="handleLook(item.bid)">
+          <img :src="item.imgSrc" :alt="item.title" />
+          <span>{{item.title}}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="say-box" id="word">
       <ArticleWord :word="wordObj" />
     </div>
   </article>
@@ -128,7 +147,8 @@ export default {
 
     title: "",
     isStatic: false,
-    URL: process.env.baseUrl + "/detail/",
+    isClickStar: false,
+    URL: process.env.baseUrl + "/detail/?id=",
     // -------------
     data: {},
 
@@ -206,6 +226,7 @@ export default {
             let articleData = res.data.data.article;
             articleData.publishTime = articleData.publishTime.slice(0, 10);
             this.articleData = articleData;
+            this.starNum = articleData.starNum;
             this.prevArticle = res.data.data.prev;
             this.nextArticle = res.data.data.next;
             this.guessArticle = res.data.data.guess;
@@ -213,6 +234,7 @@ export default {
               id: this.bid,
               title: this.articleData.title
             };
+            console.log(articleData);
           }
           // this.$store.commit("setShareData", res.data.list);
         })
@@ -267,18 +289,33 @@ export default {
 
     //点赞
     handleClickStar() {
-      let data = {
-        id: this.bid
-      };
-      this.$axios
-        .post(process.env.baseUrl + "/zll/article/update/star",  Qs.stringify(data))
-        .then(res => {
-        console.log(res);
-        
-        })
-        .catch(error => {
-          console.log(error);
+      if (!this.isClickStar) {
+        let data = {
+          id: this.bid
+        };
+        this.$axios
+          .post(
+            process.env.baseUrl + "/zll/article/update/star",
+            Qs.stringify(data)
+          )
+          .then(res => {
+            this.starNum = this.starNum * 1 + 1;
+            this.$Message["success"]({
+              background: true,
+              content: "谢谢您的支持！٩(๑>◡<๑)۶ "
+            });
+            this.isClickStar = true;
+            // console.log(res);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } else {
+        this.$Message["info"]({
+          background: true,
+          content: "您已经点过赞啦！٩(๑>◡<๑)۶ "
         });
+      }
     },
 
     // 获取随机颜色
@@ -387,7 +424,7 @@ article {
         color: #666;
       }
     }
-    .share {
+    .share-url {
       margin: 25px 20px;
       padding: 10px 0px;
       background: #f7f7f7;
@@ -406,18 +443,78 @@ article {
       margin-right: 30px;
     }
   }
-  .diggit {
-    display: block;
-    width: 160px;
-    margin: 20px auto;
-    background: #e2523a;
-    color: #fff;
-    box-shadow: 1px 2px 6px 0px rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-    line-height: 40px;
-    text-align: center;
+  .post-like-donate {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
     a {
+      width: 130px;
+      height: 40px;
+      font-size: 14.5px;
+      line-height: 40px;
+      text-align: center;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      margin: 0px 10px;
+    }
+    a.Love {
+      border: 1px solid #e87461;
+      color: #e87461;
+    }
+    a.Love:hover {
+      background: #e87461;
       color: #fff;
+    }
+    a.donate {
+      border: 1px solid #3496e6;
+      color: #3496e6;
+    }
+    a.donate:hover {
+      background: #3496e6;
+      color: #fff;
+    }
+    a.share {
+      border: 1px solid #78ce79;
+      color: #78ce79;
+    }
+    a.share:hover {
+      background: #78ce79;
+      color: #fff;
+    }
+  }
+  .guess {
+    margin-top: 20px;
+    padding: 20px;
+    h3 {
+      padding-bottom: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      border-bottom: 1px solid #ccc;
+    }
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      li {
+        width: 31%;
+        margin: 7px;
+        position: relative;
+        cursor: pointer;
+        img {
+          width: 100%;
+          padding: 2px;
+          border: 1px solid #e7e7e7;
+          height: 182px;
+        }
+        span {
+          position: absolute;
+          padding: 2px 10px;
+          bottom: 11px;
+          left: 1px;
+          width: 99%;
+          background: rgba(255, 255, 255, 0.6);
+        }
+      }
     }
   }
   .page {

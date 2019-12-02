@@ -48,13 +48,13 @@ export default {
       isTags: true //标签
     }
   }),
-  async asyncData(context) {
-    if (context.isStatic) {
-      return await {
-        isStatic: context.isStatic
-      };
-    }
-  },
+  // async asyncData(context) {
+  //   if (context.isStatic) {
+  //     return await {
+  //       isStatic: context.isStatic
+  //     };
+  //   }
+  // },
   computed: {
     search() {
       return this.$store.state.article.search;

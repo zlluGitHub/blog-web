@@ -40,10 +40,10 @@
                   <i class="fa fa-calendar"></i>
                   {{item.publishTime}}
                 </span>
-                <span>
+                <!-- <span>
                   <i class="fa fa-commenting-o"></i>
                   {{item.author}} 条评论
-                </span>
+                </span> -->
                 <span>
                   <i class="fa fa-eye"></i>
                   {{item.viweNum}} 次围观

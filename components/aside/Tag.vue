@@ -9,14 +9,15 @@
         <!-- <nuxt-link  :to="{ path: '/tags/', query: { id: item.name}}" :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'">
           {{item.name}}
           <span>（{{item.num}}）</span>
-        </nuxt-link> -->
+        </nuxt-link>-->
         <!-- @click.native="handleTo(item.name,'/tags')" -->
-        <a 
+        <a
           :style="'border:1px solid '+ getRandomColor()+';'"
           href="javascript:void(0);"
           @click.stop="handleTo(item.name)"
-        >{{item.name}} 
-         <!-- <span>（{{item.num}}）</span> -->
+        >
+          {{item.name}}
+          <!-- <span>（{{item.num}}）</span> -->
         </a>
       </li>
     </ul>
@@ -43,6 +44,7 @@ export default {
     this.$axios.get(process.env.baseUrl + "/zll/article/tag").then(res => {
       if (res.data.result) {
         this.tagsData = res.data.list;
+        this.$store.commit("setTagData", res.data);
       }
     });
     // this.tagsData = this.$store.getters.geTagsData;
@@ -58,8 +60,10 @@ export default {
       );
     },
     handleTo(name) {
+      // this.$store.commit("setTagValue", name);
+      this.$router.push({ path: "/tags" });
+
       this.$store.commit("setTagValue", name);
-      this.$router.push({ path: '/tags' });
       // 返回顶部
       this.$goBack();
       // this.$router.push({ path: "/search" });
@@ -85,16 +89,15 @@ export default {
 .tag li {
   margin-right: 10px;
   margin-bottom: 12px;
-  
 }
 
 .tag li a {
   display: flex;
   padding: 7px 14px;
- 
+
   font-size: 13px;
   border-radius: 5px;
-  box-shadow: 0 3px 5px rgba(0,0,0,.12);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.12);
   color: #666;
   // background-color: #ccc;
   transition: all 0.3s ease;

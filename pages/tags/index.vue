@@ -75,8 +75,6 @@ export default {
   methods: {
     getData() {
       this.keywords = this.$store.state.article.tagValue;
-      console.log(this.keywords);
-
       let data = {};
       if (this.pageNo !== 1 || this.pageSize !== 10) {
         data = {

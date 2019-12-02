@@ -48,13 +48,13 @@ export default {
       submitUrl: "comment/add.comment.php" //请求数据地址
     }
   }),
-  async asyncData(context) {
-    if (context.isStatic) {
-      return await {
-        isStatic: context.isStatic
-      };
-    }
-  },
+  // async asyncData(context) {
+  //   if (context.isStatic) {
+  //     return await {
+  //       isStatic: context.isStatic
+  //     };
+  //   }
+  // },
   created() {
     this.$store.commit("setType", this.type);
   },

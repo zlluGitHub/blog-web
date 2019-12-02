@@ -76,7 +76,7 @@ export default {
         let data = res.data.data;
         this.say = { content: data.say };
         this.info = { arCount: data.articleCount, sayCount: data.sayCount };
-        this.statisty = { time: data.listTime.slice(0, 10) };
+        this.statisty = { time: data.listTime.slice(0, 10),linkCount:data.linkCount };
       }
     });
   }

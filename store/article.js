@@ -1,6 +1,7 @@
 import { log } from "util";
 
 const state = {
+  tagData:{},
   tagValue:'',
   search: '',
 
@@ -19,6 +20,9 @@ const state = {
 const mutations = {
   setTagValue(state, data) {
     state.tagValue = data;
+  },
+  setTagData(state, data) {
+    state.tagData = data;
   },
   setSearchValue(state, data) {
     state.search = data;

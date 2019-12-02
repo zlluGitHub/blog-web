@@ -12,7 +12,7 @@
         >{{item.title}}</a> -->
          <nuxt-link
           :to="{ path: '/detail', query: { id: item.bid}}"
-          @click.stop="handleLook(item.bid)"
+          @click.native ="handleLook(item.bid)"
         >{{item.title}}</nuxt-link>
       </li>
     </ul>
@@ -74,6 +74,8 @@ export default {
     },
     //跳转到详情页
     handleLook(bid) {
+      console.log(bid);
+      
          // 返回顶部
       this.$goBack();
       // 将bid存储到store中
