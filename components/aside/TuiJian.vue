@@ -3,7 +3,7 @@
     <h3 class="h3-style">
       <i class="fa fa-map-signs"></i>本站推荐
     </h3>
-    <ul class="article-list">
+    <ul class="article-list" v-if="titleData.length">
       <li v-for="(item,i) in titleData" :key="i+'sd'">
         <!-- <a
           @click="handleLook(item.bid,isStatic,item.title)"
@@ -15,13 +15,16 @@
         >{{item.title}}</nuxt-link>
       </li>
     </ul>
+    <div v-else style="padding:100px 0;text-align: center;">
+        暂无内容！
+    </div>
   </div>
 </template>
 <script>
 export default {
   name: "tuijian",
   data: () => ({
-    URL: process.env.baseUrl + "/detail/",
+    // URL: this.$url + "/detail/",
     titleData: [],
     isStatic: false
   }),
@@ -52,7 +55,7 @@ export default {
 
   methods: {
     handleData() {
-      this.$axios.get(process.env.baseUrl + "/zll/article/hot").then(res => {
+      this.$axios.get(this.$url + "/zll/article/hot").then(res => {
         if (res.data.result) {
           this.titleData = res.data.list;
         }
@@ -102,6 +105,7 @@ export default {
 
 .article-list a {
   color: #525252;
+  
 }
 
 .article-list li a {

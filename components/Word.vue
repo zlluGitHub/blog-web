@@ -3,7 +3,7 @@
     <!-- 输入框开始 -->
     <div class="comments-box" v-if="!isShowModal">
       <div class="comments-img">
-        <img :src="imgUrl" />
+        <img :src="$url+'/'+imgUrl" />
       </div>
       <div class="inner" @click="makeFaceClose">
         <div class="input-box">
@@ -44,7 +44,7 @@
                 </div>
               </transition>
             </div>
-            <span class="submit" @click="handlePublic">发布</span>
+            <span class="submit" @click.stop="handlePublic">发布</span>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
           <li v-for="item in replyData" :key="item.bid">
             <div class="list" :class="item.uid?'is-reply':''">
               <!-- <img :src="URL+item.url" alt="头像" /> -->
-              <img :src="imgUrl" />
+              <img :src="$url+'/'+item.url" />
               <div class="text-box">
                 <div class="user-name">
                   <h3 v-if="!item.uid">
@@ -113,7 +113,7 @@
       <!-- 输入框开始 -->
       <div class="comments-box" style="margin-bottom:30px;">
         <div class="comments-img">
-          <img :src="imgUrl" />
+          <img :src="$url+'/'+imgUrl" />
         </div>
         <div class="inner" @click="makeFaceClose">
           <div class="input-box">
@@ -159,7 +159,7 @@
                   </div>
                 </transition>
               </div>
-              <span class="submit" @click="handlePublic">发布</span>
+              <span class="submit" @click.stop="handlePublic">发布</span>
             </div>
           </div>
         </div>
@@ -171,7 +171,7 @@
 // import { URL } from "../constant/constant.js";
 import {
   dateTime,
-  getUrl,
+  // getUrl,
   checkEmail,
   getuid,
   analysisString,
@@ -194,6 +194,7 @@ export default {
     arrIcon: [],
     colorArr: [],
     URL: process.env.baseUrl,
+    isClickStar: [],
     //----------------
     isFaceShow: false,
     isShowModal: false,
@@ -209,7 +210,7 @@ export default {
     repyname: "",
     repywebUrl: "",
 
-    imgUrl: process.env.baseUrl + "/zllublogAdmin/images/headimg/mo.jpg",
+    imgUrl: "",
     //--------------------
 
     time: dateTime(),
@@ -232,18 +233,28 @@ export default {
     // console.log(this.bid);
     // this.artBid = this.$route.params.bid;
     // this.handleData();
+
+    // this.imgUrl = this.$url + "/images/headimg/mo.jpg";
+
     this.getContent();
+  },
+  mounted() {
+    this.imgUrl = this.randomImg(1, 25);
+
     this.handleIcon();
   },
-
   methods: {
     handleIcon() {
       this.arrIcon = icon.map(item => {
         // item.name = "https://zhenglinglu.cn/staticimg/icon/" + item.name;
         return {
-          name: this.URL + "/images/icon/" + item.name
+          name: this.$url + "/images/emoji/" + item.name
         };
       });
+    },
+    randomImg(m, n) {
+      let random = Math.floor(Math.random() * (m - n) + n);
+      return "images/headimg/head" + random + ".jpg";
     },
     // handleData() {
     //   let data = this.$store.state.comment.commentAll;
@@ -299,9 +310,14 @@ export default {
     }, // 选择表情并插入到输入框
     choiceFace(e) {
       if (e.target.nodeName == "IMG") {
-        var choice = e.target;
-        var cEle = choice.cloneNode(true); //深度复制，复制节点下面所有的子节点 ，直接将整个表情的IMG标签复制，并添加到发布框的<p></p>里面
-        $("p#input_conta" + this.uid).append(cEle);
+        let choice = e.target;
+        let cEle = choice.cloneNode(true); //深度复制，复制节点下面所有的子节点 ，直接将整个表情的IMG标签复制，并添加到发布框的<p></p>里面
+        $("p#input_conta").append(cEle);
+        // let cEle = e.target.cloneNode(true);
+        // let src = cEle.src;
+        // let start = src.indexOf("images"),end = src.indexOf(".gif");
+        // let img = `<img src="${src.slice(start, end)}.gif">`;
+        // $("p#input_conta" + this.uid).append(img);
         this.makeFaceClose();
       }
     },
@@ -312,9 +328,20 @@ export default {
         pageSize: this.pageSize
       };
       this.$axios
-        .get(this.URL + "/zll/blog/word", { params: data })
+        .get(this.$url + "/zll/blog/word", { params: data })
         .then(res => {
-          this.replyData = res.data.list;
+          let data = res.data.list;
+          data.forEach(item => {
+            let content = item.content;
+            if (content.indexOf("<img src=") !== -1) {
+              content = content.replace(
+                /<img src="/g,
+                '<img src="' + this.$url + "/"
+              );
+            }
+            item.content = content;
+          });
+          this.replyData = data;
           this.total = res.data.count;
           // let data = res.data.list;
           // $("#input_conta" + this.uid).html(""); //清除发布框的文本内容
@@ -327,20 +354,28 @@ export default {
         });
     },
     //回复按钮
-    handleRepy(bid, name, uid) {
-      // this.repyNameHou = name;
-      // this.bid = getuid();
-      // if (this.repybid) {
-      //   this.uid = "";
-      //   this.repybid = "";
-      // } else {
-      //   this.repybid = bid;
-      //   this.uid = uid; //用于匹配回复内容
-      // }
-    },
+    // handleRepy(bid, name, uid) {
+    //   // this.repyNameHou = name;
+    //   // this.bid = getuid();
+    //   // if (this.repybid) {
+    //   //   this.uid = "";
+    //   //   this.repybid = "";
+    //   // } else {
+    //   //   this.repybid = bid;
+    //   //   this.uid = uid; //用于匹配回复内容
+    //   // }
+    // },
     //提交数据
     handlePublic() {
+      $("#input_conta img").each(function() {
+        let src = $(this).attr("src");
+        let start = src.indexOf("images"),
+          end = src.indexOf(".gif");
+        let img = `<img src="${src.slice(start, end)}.gif">`;
+        $(this).replaceWith(img);
+      });
       let text = $("#input_conta" + this.uid).html(); //获得发布框的文本内容，表情会以整个img标签文本显示
+
       let time = dateTime();
       if (!this.name) {
         this.$Modal.info({
@@ -386,20 +421,33 @@ export default {
             data.uid = this.id;
           }
           this.$axios
-            .post(this.URL + url, Qs.stringify(data))
+            .post(this.$url + url, Qs.stringify(data))
             .then(res => {
-              this.name = "";
-              this.email = "";
-              this.imgUrl = "";
-              this.webUrl = "";
-              $("#input_conta").html(""); //清除发布框的文本内容
-              this.getContent();
               this.$Message.destroy();
-              this.$Message.success("留言成功！");
-              this.id = "";
-              this.replyName = "";
-              this.isShowModal = false;
-              this.mark = true;
+              if (res.data.result) {
+                this.name = "";
+                this.email = "";
+                this.imgUrl = this.randomImg(1, 25);
+                this.webUrl = "";
+                this.$nextTick(() => {
+                  $("#input_conta").html(""); //清除发布框的文本内容
+                });
+                this.getContent();
+                this.$Message["success"]({
+                  background: true,
+                  content: "留言提交成功！٩(๑>◡<๑)۶ "
+                });
+                this.id = "";
+                this.replyName = "";
+                this.isShowModal = false;
+                this.mark = true;
+              } else {
+                this.$Message["error"]({
+                  background: true,
+                  content: "留言提交失败！o(╥﹏╥)o "
+                });
+                this.mark = true;
+              }
             })
             .catch(error => {
               console.log(error);
@@ -412,35 +460,61 @@ export default {
 
     // 更新点赞留言
     handletHumbs(id, mark) {
-      let data = { id };
-      if (mark === 1) {
-        data.reply = true;
-      }
-      this.replyData = this.replyData.map(item => {
-        if (item.bid === id) {
-          item.starNum = item.starNum * 1 + 1;
+      let arrStar = this.isClickStar,
+        state = false;
+      for (let index = 0; index < arrStar.length; index++) {
+        if (arrStar[index] === id) {
+          state = true;
+          break;
         }
-        return item;
-      });
-      this.$axios
-        .post(this.URL + "/zll/blog/word/update/star", Qs.stringify(data))
-        .then(res => {
-          if (res.data.result) {
-            this.$Message.success("点赞成功！");
-          } else {
-            this.$Message.error("点赞失败！");
-          }
-        })
-        .catch(errr => {
-          console.log(error);
+      }
+      if (state) {
+        this.$Message["info"]({
+          background: true,
+          content: "您已经点过赞啦！٩(๑>◡<๑)۶ "
         });
+      } else {
+        this.isClickStar.push(id);
+        let data = { id };
+        if (mark === 1) {
+          data.reply = true;
+        }
+        this.replyData = this.replyData.map(item => {
+          if (item.bid === id) {
+            item.starNum = item.starNum * 1 + 1;
+          }
+          return item;
+        });
+        this.$axios
+          .post(this.$url + "/zll/blog/word/update/star", Qs.stringify(data))
+          .then(res => {
+            if (res.data.result) {
+              this.$Message["success"]({
+                background: true,
+                content: "点赞成功啦！٩(๑>◡<๑)۶ "
+              });
+            } else {
+              this.$Message["error"]({
+                background: true,
+                content: "点赞失败啦！o(╥﹏╥)o "
+              });
+            }
+          })
+          .catch(errr => {
+            console.log(error);
+          });
+      }
     },
 
     // 弹出回复留言窗口
     handleReply(id, name) {
       this.id = id;
       this.replyName = name;
+      this.imgUrl = this.randomImg(1, 25);
       this.isShowModal = !this.isShowModal;
+      this.$nextTick(() => {
+        $("#input_conta").html(""); //清除发布框的文本内容
+      });
     }
   }
 };
@@ -465,14 +539,6 @@ export default {
     opacity: 1;
     /* transform: scale(1); */
     margin-top: 0px;
-  }
-  #input_conta,
-  .text,
-  .publish_container p,
-  #face {
-    img {
-      width: 28px;
-    }
   }
 
   .page {
@@ -556,7 +622,7 @@ export default {
           .repy {
             position: absolute;
             right: 0;
-            bottom: -6px;
+            bottom: -10px;
             cursor: pointer;
             span {
               margin-left: 20px;
@@ -729,5 +795,8 @@ export default {
 }
 .is-reply {
   margin-left: 30px;
+}
+.inner p {
+  text-indent: 0;
 }
 </style>

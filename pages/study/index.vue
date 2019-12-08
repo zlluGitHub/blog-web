@@ -3,14 +3,18 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-        <img src="../../assets/image/web.jpg"/>
+        <img src="../../assets/image/web.jpg" />
         <h1>{{type}}</h1>
         <p>本专栏中记录了自己在闲暇期间吸取的一些技术知识点，以及在开发过程中所遇到的技术问题，在此做下总结，以备不时之需。同时也希望可以帮到那些和我遇到同样问题的朋友！ ٩(๑&gt;◡&lt;๑)۶ 。</p>
       </div>
-        <ArticleList :type="type" :static="isStatic"/>
+      <ArticleList
+        :content="contentData"
+        @on-change-page="changePage"
+        @on-size-page="changeSizePage"
+      />
     </section>
     <!-- 右半部分 -->
-   <AsideMain :configure="asideConfig" :static="isStatic"/>
+    <AsideMain :configure="asideConfig" />
   </div>
 </template>
 <script>
@@ -26,10 +30,12 @@ export default {
     // TabsList
   },
   data: () => ({
-    type: '技术专栏',
-      isStatic:false,
-     asideConfig: {
-      isSay: true,   //每日一句
+    contentData: [],
+
+    type: "技术专栏",
+    isStatic: false,
+    asideConfig: {
+      isSay: true, //每日一句
       // isInfo: true,   //名片
       isRecommend: true, //本站推荐
       isClick: true, //点击排行
@@ -37,15 +43,15 @@ export default {
       // isArticle:true, //最新文章
       isCount: true, //统计
       isTags: true //标签
-    },
-  }),
-    async asyncData(context) {
-    if (context.isStatic) {
-      return await {
-        isStatic: context.isStatic,
-      };
     }
-  },
+  }),
+  // async asyncData(context) {
+  //   if (context.isStatic) {
+  //     return await {
+  //       isStatic: context.isStatic
+  //     };
+  //   }
+  // },
   computed: {
     // articleData() {
     //   return this.$store.state.article.article;
@@ -74,10 +80,31 @@ export default {
   //   }
   // },
   created() {
-    this.$store.commit("setType", this.type);
+    // this.$store.commit("setType", this.type);
+    this.getArticle();
   },
 
   methods: {
+    getArticle() {
+      // let data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
+      //请求文章数据
+      let data = null;
+      if (this.pageNo !== 1 || this.pageSize !== 10) {
+        data = {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        };
+      }
+      this.$axios
+        .get(this.$url + "/zll/article/list", { params: data })
+        .then(res => {
+          if (res.data.result) {
+            this.contentData = res.data;
+          }
+        });
+      // this.dataList = data.list;
+      // this.total = data.total;
+    },
     // filterImgData(data) {
     //   let newArr = [];
     //   if (data) {
@@ -89,26 +116,14 @@ export default {
     //     this.imgData = newArr;
     //   }
     // },
-    // changePage(event) {
-    //   this.pageNo = event;
-    //   let pageData = this.$store.getters.getTypeArticle(
-    //     this.pageNo,
-    //     this.pageSize
-    //   );
-    //   this.data = pageData.list;
-    //   this.total = pageData.total;
-    //   goBack();
-    // },
-    // changeSizePage(event) {
-    //   this.pageSize = event;
-    //   let pageData = this.$store.getters.getTypeArticle(
-    //     this.pageNo,
-    //     this.pageSize
-    //   );
-    //   this.data = pageData.list;
-    //   this.total = pageData.total;
-    //   goBack();
-    // },
+    changePage(event) {
+      this.pageNo = event;
+      this.getArticle();
+    },
+    changeSizePage(event) {
+      this.pageSize = event;
+      this.getArticle();
+    }
     // //获取精选文章
     // getAArticleData(data) {
     //   if (data) {

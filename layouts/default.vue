@@ -21,6 +21,8 @@
     <BackTop />
     <!-- 背景粒子 -->
     <!-- <div id="particles-js"></div> -->
+    <!-- 右键菜单 -->
+     <Menus />
   </div>
 </template>
 <script>
@@ -29,20 +31,22 @@ import Header from "~/components/Header";
 import Footer from "~/components/Footer";
 import Loading from "~/components/Loading";
 import SearchInput from "~/components/SearchInput";
+import Menus from "../components/Menu"
 export default {
   name: "default",
   components: {
     Header,
     Footer,
     Loading,
-    SearchInput
+    SearchInput,
+    Menus
   },
   data: () => ({
     show: true,
     URL: process.env.baseUrl + "/zllublogAdmin/"
   }),
-
-  // created() {
+  created() {},
+  mounted() {
   //   //请求文章数据
   //   this.$axios
   //     .get(process.env.baseUrl + "/zllublogAdmin/article/get.article.php")
@@ -140,7 +144,8 @@ export default {
   //         item.lrc = this.URL + item.lrc;
   //         item.cover = this.URL + item.cover;
   //       });
-  //       this.initMusit(data);
+        this.initMusit();
+        // this.initMusit(data);
   //       this.$store.commit("setMusic", data);
   //     });
   // },
@@ -159,7 +164,7 @@ export default {
   //   }
 
   //   /* 登录授权结束 */
-  // },
+  },
   methods: {
     getUrlParam(name) {
       var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -172,33 +177,33 @@ export default {
         container: this.$refs.audioId,
         fixed: true,
         lrcType: 3,
-        audio: data
-        // audio: [
-        //   {
-        //     name: "Take Me Hand",
-        //     artist: "DAISHI DANCE、Cecile Corbel",
-        //     url:
-        //       "https://webfs.yun.kugou.com/201909061051/e3d2d24efb47f6b6da2514e51bbae044/G082/M01/0A/1D/8oYBAFf6CLiAEuvJAEVGDygc1mQ202.mp3",
-        //     cover:
-        //       "https://p3fx.kgimg.com/stdmusic/20150720/20150720120440515101.jpg"
-        //     //  theme: '#46718b',
-        //   },
-        //   {
-        //     name: "Fade Reloaded",
-        //     artist: "Alan Walker、Iselin Solheim",
-        //     url: "https://www.zhenglinglu.cn/staticimg/music/mp3/faded.mp3",
-        //     cover: 'https://www.zhenglinglu.cn/staticimg/music/img/faded.jpg"',
-        //     lrc: "https://www.zhenglinglu.cn/staticimg/music/lrc/faded.lrc"
-        //     //  theme: '#46718b',
-        //   }
-        //   //, {
-        //   //     name: '小幸运',
-        //   //     artist: '冯提莫',
-        //   //     url: 'https://zhenglinglu.cn/music/xiaoxingyun.mp3',
-        //   //     cover: 'https://zhenglinglu.cn/static/img/touxiang0.ff5a451.jpg',
-        //   //       //  theme: '#46718b',
-        //   // }
-        // ]
+        // audio: data
+        audio: [
+          {
+            name: "God Is A Girl",
+            artist: "Groove Coverage",
+            url:
+              "https://webfs.yun.kugou.com/201912071724/8b7484d2205e05223572ac47e1525119/G003/M05/1D/01/o4YBAFS8KBiAWantADW2L7v3dH0122.mp3",
+            cover:
+              "https://p3fx.kgimg.com/stdmusic/20190418/20190418034756147779.jpg"
+            //  theme: '#46718b',
+          },
+          {
+            name: "Pretty Boy",
+            artist: "Shades of Purple",
+            url: "https://webfs.yun.kugou.com/201912071727/988dae82943d81418629e1a8a8cded32/part/0/960052/G004/M05/01/04/RA0DAFS5NHCAFdWZAEPrQbncnXU891.mp3",
+            cover: 'https://www.zhenglinglu.cn/staticimg/music/img/faded.jpg"',
+            // lrc: "https://www.zhenglinglu.cn/staticimg/music/lrc/faded.lrc"
+            //  theme: '#46718b',
+          }
+          //, {
+          //     name: '小幸运',
+          //     artist: '冯提莫',
+          //     url: 'https://zhenglinglu.cn/music/xiaoxingyun.mp3',
+          //     cover: 'https://zhenglinglu.cn/static/img/touxiang0.ff5a451.jpg',
+          //       //  theme: '#46718b',
+          // }
+        ]
       });
       document
         .querySelector(".aplayer-left")

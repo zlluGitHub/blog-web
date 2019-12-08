@@ -16,7 +16,7 @@
           围观数：{{articleData.viweNum}}
         </li>
         <li>
-          <i class="fa fa-heartbeat fa-lg"></i>
+          <i class="fa fa-thumbs-o-up fa-lg"></i>
           点赞：{{starNum}}
         </li>
       </ul>
@@ -98,7 +98,7 @@
       <h3>猜你喜欢以下内容</h3>
       <ul>
         <li v-for="item in guessArticle" :key="item.bid" @click.stop="handleLook(item.bid)">
-          <img :src="item.imgSrc" :alt="item.title" />
+          <img :src="$url+'/'+item.imgSrc" :alt="item.title" />
           <span>{{item.title}}</span>
         </li>
       </ul>
@@ -148,7 +148,7 @@ export default {
     title: "",
     isStatic: false,
     isClickStar: false,
-    URL: process.env.baseUrl + "/detail/?id=",
+    // URL: this.$url + "/detail/?id=",
     // -------------
     data: {},
 
@@ -218,12 +218,18 @@ export default {
     handleData() {
       this.bid = this.$route.query.id;
       this.$axios
-        .get(process.env.baseUrl + "/zll/article/list", {
+        .get(this.$url + "/zll/article/list", {
           params: { id: this.bid }
         })
         .then(res => {
           if (res.data.result) {
             let articleData = res.data.data.article;
+            if (articleData.content.indexOf('src="images/') !== -1) {
+              articleData.content = articleData.content.replace(
+                /src="images\//g,
+                'src="' + this.$url + "/" + "images/"
+              );
+            }
             articleData.publishTime = articleData.publishTime.slice(0, 10);
             this.articleData = articleData;
             this.starNum = articleData.starNum;
@@ -234,7 +240,6 @@ export default {
               id: this.bid,
               title: this.articleData.title
             };
-            console.log(articleData);
           }
           // this.$store.commit("setShareData", res.data.list);
         })
@@ -294,10 +299,7 @@ export default {
           id: this.bid
         };
         this.$axios
-          .post(
-            process.env.baseUrl + "/zll/article/update/star",
-            Qs.stringify(data)
-          )
+          .post(this.$url + "/zll/article/update/star", Qs.stringify(data))
           .then(res => {
             this.starNum = this.starNum * 1 + 1;
             this.$Message["success"]({
@@ -512,7 +514,11 @@ article {
           bottom: 11px;
           left: 1px;
           width: 99%;
-          background: rgba(255, 255, 255, 0.6);
+          // color: #fff;
+          background: rgba(217, 217, 217, 0.6);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
     }

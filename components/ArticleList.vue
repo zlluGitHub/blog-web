@@ -18,7 +18,7 @@
       <div v-else class="article_list" v-for="item in dataList" :key="item.title">
         <div class="list-box">
           <div class="img-box">
-            <img v-if="item.imgSrc" :src="imgUrl+item.imgSrc" :alt="item.title" />
+            <img v-if="item.imgSrc" :src="$url+'/'+item.imgSrc" :alt="item.title" />
             <img v-else src="../assets/image/moren.jpg" :alt="item.title" />
             <!-- <span class="is_category">{{item.typeName}}</span> -->
           </div>
@@ -94,7 +94,7 @@
 export default {
   data: () => ({
     // isStatic: false,
-    // imgUrl: process.env.baseUrl + "/zllublogAdmin/",
+    // imgUrl: this.$url + "/zllublogAdmin/",
     // URL: process.env.baseUrl + "/detail/",
     dataList: [],
     // pageNo: 0,
@@ -230,7 +230,7 @@ export default {
 .article-box {
   .article_tip {
     text-align: center;
-    padding: 100px;
+    padding: 258px 0;
     color: #666;
     // background-color: #fff;
     margin-bottom: 15px;

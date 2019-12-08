@@ -7,7 +7,8 @@
         <h1>{{type}}</h1>
         <p>此专栏主要记录一些有关 Linux 操作系统、Git、NPM 等知识点。另外还包括一些其他的技术要点。</p>
       </div>
-         <ArticleList :content="contentData"/>
+         <ArticleList :content="contentData" @on-change-page="changePage"
+        @on-size-page="changeSizePage"/>
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" :static="isStatic" />
@@ -40,13 +41,13 @@ export default {
       isTags: true //标签
     }
   }),
-  async asyncData(context) {
-    if (context.isStatic) {
-      return await {
-        isStatic: context.isStatic
-      };
-    }
-  },
+  // async asyncData(context) {
+  //   if (context.isStatic) {
+  //     return await {
+  //       isStatic: context.isStatic
+  //     };
+  //   }
+  // },
   computed: {
     // articleData() {
     //   return this.$store.state.article.article;
@@ -74,29 +75,40 @@ export default {
   //     this.filterImgData(value);
   //   }
   // },
-  created() {
-     let data = {};
-    if (this.pageNo !== 1 || this.pageSize !== 15) {
-      data = {
-        pageNo: this.pageNo,
-        pageSize: this.pageSize
-      };
-    }
-    data.type = this.type;
-    this.$axios
-      .get(process.env.baseUrl + "/zll/article/list", { params: data })
-      .then(res => {
-        if (res.data.result) {
-          this.contentData = res.data;
-        }
-        // this.$store.commit("setShareData", res.data.list);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    // this.$store.commit("setType", this.type);
+created() {
+    this.getArticle();
   },
 
-  methods: {}
+  methods: {
+    getArticle() {
+      let data = {};
+      if (this.pageNo !== 1 || this.pageSize !== 15) {
+        data = {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        };
+      }
+      data.type = this.type;
+      this.$axios
+        .get(this.$url + "/zll/article/list", { params: data })
+        .then(res => {
+          if (res.data.result) {
+            this.contentData = res.data;
+          }
+          // this.$store.commit("setShareData", res.data.list);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    changePage(event) {
+      this.pageNo = event;
+      this.getArticle();
+    },
+    changeSizePage(event) {
+      this.pageSize = event;
+      this.getArticle();
+    }
+  }
 };
 </script>

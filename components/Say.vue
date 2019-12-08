@@ -7,7 +7,7 @@
           <li>
             <div class="comments">
               <div class="comment">
-                <img :src="URL+item.authorUrl" alt="logo" width="50" height="50" />
+                <img :src="$url+'/'+item.authorUrl" alt="logo" width="50" height="50" />
                 <div class="comment-body">
                   <div class="text">
                     <div v-html="item.content"></div>
@@ -35,7 +35,6 @@
           :page-size="pageSize"
         />
       </div>
-
       <div v-else class="demo-spin-col" span="8">
         <Spin fix>
           <Icon type="ios-loading" size="18" class="demo-spin-icon-load"></Icon>
@@ -51,9 +50,8 @@
 export default {
   name: "say",
   data: () => ({
-    URL: process.env.baseUrl + "/zllublogAdmin/",
+    // URL: process.env.baseUrl + "/zllublogAdmin/",
     sayList: [],
-
     content: [],
     pageNo: 1,
     pageSize: 15,
@@ -79,7 +77,7 @@ export default {
       };
 
       this.$axios
-        .get(process.env.baseUrl + "/zll/say", { params: data })
+        .get(this.$url + "/zll/say", { params: data })
         .then(res => {
           if (res.data.result) {
             this.sayList = res.data.list;

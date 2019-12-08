@@ -11,7 +11,7 @@
     <div class="comments-box" v-if="!isShowModal">
       <div class="comments-img">
         <!-- <img :src="URL+imgUrl" /> -->
-        <img :src="imgUrl" />
+        <img :src="$url+'/'+imgUrl" />
       </div>
       <div class="inner-word" @click="makeFaceClose">
         <div class="input-box">
@@ -67,7 +67,7 @@
           <li v-for="item in replyData" :key="item.bid">
             <div class="list" :class="item.uid?'is-reply':''">
               <!-- <img :src="URL+item.url" alt="头像" /> -->
-              <img :src="imgUrl" />
+              <img :src="$url+'/'+item.url" />
               <div class="text-box">
                 <div class="user-name">
                   <h3 v-if="!item.uid">
@@ -119,7 +119,7 @@
       <div class="comments-box">
         <div class="comments-img">
           <!-- <img :src="URL+imgUrl" /> -->
-          <img :src="imgUrl" />
+          <img :src="$url+'/'+imgUrl" />
         </div>
         <div class="inner-word" @click="makeFaceClose">
           <div class="input-box">
@@ -182,27 +182,27 @@ export default {
     pageNo: 1,
     pageSize: 10,
     isShowModal: false,
-
+    isClickStar: [],
     isFaceShow: false,
     content: "",
     replyName: "",
     replyData: [],
     total: 0,
-    email: "112312@163.com",
+    email: "",
     name: "",
     webUrl: "",
     // URL: "http://49.233.172.175:3000",
-    URL: process.env.baseUrl,
+    // URL: process.env.baseUrl,
     arrIcon: [],
-    imgUrl: process.env.baseUrl + "/zllublogAdmin/images/headimg/mo.jpg",
+    imgUrl: "",
     //--------------------
 
     time: dateTime(),
     mark: true,
 
     artBid: "",
-    artTitle: "",
-    url: "getUrl()"
+    artTitle: ""
+    // url: "getUrl()"
   }),
   props: ["word"],
   watch: {
@@ -210,13 +210,16 @@ export default {
       this.getReplyData();
     }
   },
-  created() {
-    // this.artBid = this.bid;
+  // created() {
+  //   // this.artBid = this.bid;
 
-    // this.artBid = this.$route.params.bid;
+  //   // this.artBid = this.$route.params.bid;
 
+  // },
+  mounted() {
     this.getReplyData();
     this.handleIcon();
+    this.imgUrl = this.randomImg(1, 25);
   },
   methods: {
     //初始化数据
@@ -232,10 +235,21 @@ export default {
         }
         data.id = this.wordObj.id;
         this.$axios
-          .get(this.URL + "/zll/word/article", { params: data })
+          .get(this.$url + "/zll/word/article", { params: data })
           .then(res => {
             if (res.data.result) {
-              this.replyData = res.data.list;
+              let data = res.data.list;
+              data.forEach(item => {
+                let content = item.content;
+                if (content.indexOf("<img src=") !== -1) {
+                  content = content.replace(
+                    /<img src="/g,
+                    '<img src="' + this.$url + "/"
+                  );
+                }
+                item.content = content;
+              });
+              this.replyData = data;
               this.total = res.data.count;
             }
           })
@@ -244,11 +258,15 @@ export default {
           });
       }
     },
+    randomImg(m, n) {
+      let random = Math.floor(Math.random() * (m - n) + n);
+      return "images/headimg/head" + random + ".jpg";
+    },
     handleIcon() {
       this.arrIcon = icon.map(item => {
         // item.name = "https://zhenglinglu.cn/staticimg/icon/" + item.name;
         return {
-          name: this.URL + "/image/emoji/" + item.name
+          name: this.$url + "/images/emoji/" + item.name
         };
       });
     },
@@ -289,39 +307,73 @@ export default {
 
     // 更新点赞留言
     handletHumbs(id, mark) {
-      let data = { id };
-      if (mark === 1) {
-        data.reply = true;
-      }
-      this.replyData = this.replyData.map(item => {
-        if (item.bid === id) {
-          item.starNum = item.starNum * 1 + 1;
+      let arrStar = this.isClickStar,
+        state = false;
+      for (let index = 0; index < arrStar.length; index++) {
+        if (arrStar[index] === id) {
+          state = true;
+          break;
         }
-        return item;
-      });
-      this.$axios
-        .post(this.URL + "/zll/word/article/update/star", Qs.stringify(data))
-        .then(res => {
-          if (res.data.result) {
-            this.$Message.success("点赞成功！");
-          } else {
-            this.$Message.error("点赞失败！");
-          }
-        })
-        .catch(errr => {
-          console.log(error);
+      }
+      if (state) {
+        this.$Message["info"]({
+          background: true,
+          content: "您已经点过赞啦！٩(๑>◡<๑)۶ "
         });
+      } else {
+        this.isClickStar.push(id);
+        let data = { id };
+        if (mark === 1) {
+          data.reply = true;
+        }
+        this.replyData = this.replyData.map(item => {
+          if (item.bid === id) {
+            item.starNum = item.starNum * 1 + 1;
+          }
+          return item;
+        });
+        this.$axios
+          .post(this.$url + "/zll/word/article/update/star", Qs.stringify(data))
+          .then(res => {
+            if (res.data.result) {
+              this.$Message["success"]({
+                background: true,
+                content: "点赞成功啦！٩(๑>◡<๑)۶ "
+              });
+            } else {
+              this.$Message["error"]({
+                background: true,
+                content: "点赞失败啦！o(╥﹏╥)o "
+              });
+            }
+          })
+          .catch(errr => {
+            console.log(error);
+          });
+      }
     },
 
     // 弹出回复留言窗口
     handleReply(id, name) {
       this.id = id;
       this.replyName = name;
+      this.imgUrl = this.randomImg(1, 25);
       this.isShowModal = !this.isShowModal;
+      this.$nextTick(() => {
+        $("#input_conta").html(""); //清除发布框的文本内容
+      });
     },
     // 保存发布留言
     handlePublic() {
-      var text = $("#input_conta").html(); //获得发布框的文本内容，表情会以整个img标签文本显示
+      $("#input_conta img").each(function() {
+        let src = $(this).attr("src");
+        let start = src.indexOf("images"),
+          end = src.indexOf(".gif");
+        let img = `<img src="${src.slice(start, end)}.gif">`;
+        $(this).replaceWith(img);
+      });
+      let text = $("#input_conta").html(); //获得发布框的文本内容，表情会以整个img标签文本显示
+
       this.content = text;
       if (this.name === "") {
         this.$Modal.info({
@@ -351,17 +403,16 @@ export default {
           });
           this.mark = false;
           let id = this.wordObj.id;
-          let url = this.URL + "/zll/word/article";
+          let url = this.$url + "/zll/word/article";
           if (this.id) {
             id = this.id;
-            url = this.URL + "/zll/word/article/reply";
+            url = this.$url + "/zll/word/article/reply";
           }
-
           let data = {
             name: this.name,
             content: this.content,
             email: this.email,
-            url: this.webUrl,
+            url: this.imgUrl,
             uid: id,
             // time: this.time,
             title: this.artTitle,
@@ -373,6 +424,7 @@ export default {
           this.$axios
             .post(url, Qs.stringify(data))
             .then(res => {
+              this.$Message.destroy();
               if (res.data.result) {
                 this.name = "";
                 // this.content = "";
@@ -380,15 +432,22 @@ export default {
                 this.webUrl = "";
                 this.id = "";
                 this.replyName = "";
-                $("#input_conta").html(""); //清除发布框的文本内容
-                this.$Message.destroy();
-                this.$Message.success("留言提交成功！");
+                this.$nextTick(() => {
+                  $("#input_conta").html(""); //清除发布框的文本内容
+                });
+                this.$Message["success"]({
+                  background: true,
+                  content: "留言提交成功！٩(๑>◡<๑)۶ "
+                });
                 this.mark = true;
                 this.isShowModal = false;
+                this.imgUrl = this.randomImg(1, 25);
                 this.getReplyData();
               } else {
-                this.$Message.destroy();
-                this.$Message.error("留言提交失败！");
+                this.$Message["error"]({
+                  background: true,
+                  content: "留言提交失败！o(╥﹏╥)o "
+                });
                 this.mark = true;
               }
             })
@@ -600,10 +659,6 @@ export default {
     padding: 10px;
     min-height: 100px;
     border-style: none; /*  此步是必须的  */
-  }
-  img {
-    width: 28px;
-    height: 28px;
   }
 }
 .face-warp {

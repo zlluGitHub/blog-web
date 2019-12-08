@@ -3,11 +3,15 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-          <img src="../../assets/image/web.jpg"/>
+        <img src="../../assets/image/web.jpg" />
         <h1>{{type}}</h1>
         <p>此专栏主要记录一些关于数据库的一些相关内容。比如 MySQL 数据库、mongoDB 数据库等。</p>
       </div>
-       <ArticleList :content="contentData"/>
+      <ArticleList
+        :content="contentData"
+        @on-change-page="changePage"
+        @on-size-page="changeSizePage"
+      />
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" :static="isStatic" />
@@ -26,11 +30,11 @@ export default {
     // TabsList
   },
   data: () => ({
-      pageNo: 1,
+    pageNo: 1,
     pageSize: 10,
-    contentData:{},
+    contentData: {},
     type: "数据库",
-    
+
     isStatic: false,
 
     asideConfig: {
@@ -51,111 +55,40 @@ export default {
   //     };
   //   }
   // },
-  computed: {
-    // articleData() {
-    //   return this.$store.state.article.article;
-    // },
-    // swiper() {
-    //   return this.$refs.mySwiper.swiper;
-    // },
-    // getConfigsData() {
-    //   return this.$store.state.scatter.configsData;
-    // },
-    // getImgData() {
-    //   return this.$store.state.scatter.swiper;
-    // }
-  },
-  // watch: {
-  //   articleData(data) {
-  //     this.data = data.list.slice(0, 10);
-  //     this.total = data.nums;
-  //     this.getAArticleData(data.list);
-  //   },
-  //   getConfigsData(value) {
-  //     this.isBanner = value.isBanner;
-  //   },
-  //   getImgData(value) {
-  //     this.filterImgData(value);
-  //   }
-  // },
   created() {
-      let data = {};
-    if (this.pageNo !== 1 || this.pageSize !== 15) {
-      data = {
-        pageNo: this.pageNo,
-        pageSize: this.pageSize
-      };
-    };
-    data.type =this.type;
-    this.$axios
-      .get(process.env.baseUrl + "/zll/article/list", { params: data })
-      .then(res => {
-        if (res.data.result) {
-          this.contentData = res.data;
-        }
-        // this.$store.commit("setShareData", res.data.list);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    // this.$store.commit("setType", this.type);
+    this.getArticle();
   },
 
   methods: {
-    // filterImgData(data) {
-    //   let newArr = [];
-    //   if (data) {
-    //     for (let index = 0; index < data.length; index++) {
-    //       if (data[index].isIssue === "yes") {
-    //         newArr.push(data[index]);
-    //       }
-    //     }
-    //     this.imgData = newArr;
-    //   }
-    // },
-    // changePage(event) {
-    //   this.pageNo = event;
-    //   let pageData = this.$store.getters.getTypeArticle(
-    //     this.pageNo,
-    //     this.pageSize
-    //   );
-    //   this.data = pageData.list;
-    //   this.total = pageData.total;
-    //   goBack();
-    // },
-    // changeSizePage(event) {
-    //   this.pageSize = event;
-    //   let pageData = this.$store.getters.getTypeArticle(
-    //     this.pageNo,
-    //     this.pageSize
-    //   );
-    //   this.data = pageData.list;
-    //   this.total = pageData.total;
-    //   goBack();
-    // },
-    // //获取精选文章
-    // getAArticleData(data) {
-    //   if (data) {
-    //     let dataArr = [];
-    //     for (let index = 0; index < data.length; index++) {
-    //       if (data[index].classify === "a") {
-    //         dataArr.push(data[index]);
-    //       }
-    //     }
-    //     this.AdataArr = dataArr.length != 0 ? dataArr : this.AdataArr;
-    //   }
-    // },
-    // handleLookAll(bid, nav, url, title) {
-    //   // 将bid存储到store中
-    //   this.$store.dispatch("setRouter", { nav, url, title });
-    //   this.$store.dispatch("setSingleArtile", bid);
-    //   this.$router.push({
-    //     path: "/article",
-    //     query: {
-    //       bid: bid
-    //     }
-    //   });
-    // }
+    getArticle() {
+      let data = {};
+      if (this.pageNo !== 1 || this.pageSize !== 15) {
+        data = {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        };
+      }
+      data.type = this.type;
+      this.$axios
+        .get(this.$url + "/zll/article/list", { params: data })
+        .then(res => {
+          if (res.data.result) {
+            this.contentData = res.data;
+          }
+          // this.$store.commit("setShareData", res.data.list);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    changePage(event) {
+      this.pageNo = event;
+      this.getArticle();
+    },
+    changeSizePage(event) {
+      this.pageSize = event;
+      this.getArticle();
+    }
   }
 };
 </script>

@@ -16,3 +16,6 @@ const goBack = () => {
 import Vue from 'vue';
 
 Vue.prototype.$goBack = goBack;
+
+// Vue.prototype.$url = 'http://wry520.cn:3000';
+Vue.prototype.$url = 'http://localhost:3000';

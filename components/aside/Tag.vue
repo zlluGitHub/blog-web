@@ -3,7 +3,7 @@
     <h3 class="h3-style">
       <i class="fa fa-tags"></i>热门标签
     </h3>
-    <ul class="tag">
+    <ul class="tag" v-if="tagsData.length">
       <li v-for="item in tagsData" :key="item.name">
         <!-- <nuxt-link :to="'/detail/'+item.bid">{{item.name}}</nuxt-link> -->
         <!-- <nuxt-link  :to="{ path: '/tags/', query: { id: item.name}}" :style="'background-color:'+ getRandomColor()+';opacity: 0.8;'">
@@ -21,6 +21,9 @@
         </a>
       </li>
     </ul>
+     <div v-else style="padding:100px 0;text-align: center;">
+        暂无内容！
+    </div>
   </div>
 </template>
 <script>
@@ -41,7 +44,7 @@ export default {
   //   }
   // },
   mounted() {
-    this.$axios.get(process.env.baseUrl + "/zll/article/tag").then(res => {
+    this.$axios.get(this.$url + "/zll/article/tag").then(res => {
       if (res.data.result) {
         this.tagsData = res.data.list;
         this.$store.commit("setTagData", res.data);

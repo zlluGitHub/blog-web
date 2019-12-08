@@ -16,7 +16,7 @@
 export default {
   name: "pinglun",
   data: () => ({
-   URL: process.env.baseUrl+'/zllublogAdmin/',
+   URL: this.$url+'/zllublogAdmin/',
     replyData: []
   }),
   computed: {

@@ -33,7 +33,7 @@
         <div v-if="tabsData">
           <ul v-if="tabsData.length!==0">
             <li v-for="item in tabsData" :key="item.title">
-              <img :src="imgUrl+item.imgSrc" :alt="item.title" />
+              <img :src="$url+'/'+item.imgSrc" :alt="item.title" />
               <div>
                 <p>
                   <nuxt-link :to="{ path: '/detail/', query: { id: item.bid}}">{{item.title}}</nuxt-link>
@@ -79,7 +79,7 @@ export default {
     tabsData: [],
 
     isStatic: false,
-    imgUrl: process.env.baseUrl + "/zllublogAdmin/",
+    // imgUrl: process.env.baseUrl + "/zllublogAdmin/",
     URL: process.env.baseUrl + "/detail/",
     mark: 1,
     // articleData: [],
@@ -118,7 +118,7 @@ export default {
         keywords: this.keywords
       };
       this.$axios
-        .get(process.env.baseUrl + "/zll/article/list", { params: data })
+        .get(this.$url + "/zll/article/list", { params: data })
         .then(res => {
           if (res.data.result) {
             let data = res.data.list.slice(0, 6);
@@ -175,7 +175,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 250px;
   }
   h3.htitle {
     border-bottom: 1px solid #ddd;

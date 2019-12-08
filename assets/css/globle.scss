@@ -8,9 +8,6 @@ body{
    .section-warp img{
         max-width: none;
     }
-    .text img{
-        width: 28px;
-    }
 }
 // .aplayer-left{
 //     transform: translateX(-65px);
@@ -328,3 +325,18 @@ h3.h3-style::before {
 ::-webkit-scrollbar-thumb:hover{
     background-color:#45b6f7;
 }
+
+#input_conta,
+.text,
+.publish_container p,
+#face {
+    img {
+    // vertical-align:middle;
+    width: 25px;
+    margin: 0 3px;
+    display:inline-block;
+  }
+}
+// .list .text{
+//    w
+// }

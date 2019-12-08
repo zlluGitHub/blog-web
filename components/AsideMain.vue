@@ -71,7 +71,7 @@ export default {
   //   }
   // },
   created() {
-    this.$axios.get(process.env.baseUrl + "/zll/inform").then(res => {
+    this.$axios.get(this.$url + "/zll/inform").then(res => {
       if (res.data.result) {
         let data = res.data.data;
         this.say = { content: data.say };

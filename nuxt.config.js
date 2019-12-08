@@ -10,7 +10,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'keywords', name: 'keywords', content: '个人网站,小程序,web前端,个人博客,技术分享,月光下的露珠,原创博客,luBlog,郑玲璐' },
+      { hid: 'keywords', name: 'keywords', content: '个人网站,小程序,web前端,个人博客,技术分享,月光下的露珠,原创博客,luBlog' },
       { hid: 'description', name: 'description', content: '月光下的露珠、luBlog个人博客网站专注于个人原创技术作品分享，记录生活点滴，分享web前端开发相关技术，追求用户体验设计的个人原创博客IT技术分享，欢迎关注luBlog博客！。' }
     ],
     // title: process.env.npm_package_name || '',
@@ -32,7 +32,7 @@ module.exports = {
   ** 全局 CSS 样式
   */
   css: [
-    { src: "iview/dist/styles/iview.css" },
+    { src: "view-design/dist/styles/iview.css" },
     // 项目里要使用的 SCSS 文件
     { src: "@/assets/css/globle.scss" },
     { src: "~/assets/css/font-awesome/font-awesome.min.css" },
@@ -48,13 +48,13 @@ module.exports = {
   plugins: [
     { src: '@/plugins/iview' },
     { src: "~/plugins/vue-swiper.js", ssr: false },
-    { src: "~/plugins/back.js", ssr: false },
+    { src: "~/plugins/globle.js", ssr: false },
     { src: "~/plugins/apiayer.js", ssr: false },
     { src: "~/plugins/jquery.js", ssr: false },
     { src: "~/plugins/particles.js", ssr: false },
   ],
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:9096'
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000' //'http://localhost:9096' http://49.233.172.175:3000
   },
   /*
   ** Nuxt.js dev-modules
@@ -70,13 +70,13 @@ module.exports = {
   ],
   axios: {
     // prefix: '/api/',
-    proxy: true // Can be also an object with default options
+    proxy: false // Can be also an object with default options
   },
   proxy: {//只适合在开发环境下解决跨域问题
     '/api/': {
       // target: 'https://zhenglinglu.cn',
       target: 'http://localhost:3000',
-      pathRewrite: { '^/api/': '/' },
+      // pathRewrite: { '^/api/': '/' },
       changeOrigin: true,
       // secure: false
     }

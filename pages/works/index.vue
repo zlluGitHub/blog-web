@@ -1,57 +1,60 @@
 <template>
   <div class="works">
-    <div v-if="isShow" class="box-bj-sd warp">
-      <span>此专栏升级中，暂无内容</span>
-    </div>
-    <div v-else>
+    <div>
       <div class="whitebg lanmu">
         <img src="../../assets/image/fm.png" />
         <h1>{{type}}</h1>
-        <p>本专栏主要记录一些小的组件案例 或 demo，以便之后使用，提高开发效率！ ٩(๑&gt;◡&lt;๑)۶ 。</p>
+        <p>本专栏主要记录一些小的组件案例 或 demo，以便之后使用！ ٩(๑&gt;◡&lt;๑)۶ 。</p>
       </div>
-      <ul class="wall">
-        <li class="wall-column" v-for="item in contentData" :key="item.bid">
-          <div>
-            <a href="javascript:void(0);">
-              <img v-if="item.imgSrc" :src="imgUrl+item.imgSrc" :alt="item.title" />
-              <img v-else src="../../assets/image/moren.jpg" :alt="item.title" />
-              <p>
-                <span @click.stop="handleLook(item.bid,isStatic,item.title)">详情</span>
-                <span @click="handleClose(item.herf)">案例</span>
-              </p>
-            </a>
-            <div class="title">
-              <h5>{{item.title}}</h5>
-              <div class="wall-lines">
-                <small>
-                  <i class="fa fa-calendar"></i>
-                  <span>{{item.publishTime?item.publishTime.slice(0,10):''}}</span>
-                </small>
-                <small>
-                  <i class="fa fa-tag"></i>
-                  <span
-                    v-for="(tag,index) in item.keywords"
-                    :key="index"
-                  >{{tag}} {{index!==item.keywords.length-1?'、':''}}</span>
-                </small>
-                <small>
-                  <i class="fa fa-eye"></i>
-                  <span>{{item.viweNum}}</span>
-                </small>
+      <div v-if="!contentData.length" class="box-bj-sd warp">
+        <span>此专栏暂无内容</span>
+      </div>
+      <div v-else>
+        <ul class="wall">
+          <li class="wall-column" v-for="item in contentData" :key="item.bid">
+            <div>
+              <a href="javascript:void(0);">
+                <img :src="$url+'/'+item.imgSrc" :alt="item.title" />
+                <!-- <img v-if="$url+'/'+item.imgSrc" :src="imgUrl+item.imgSrc" :alt="item.title" /> -->
+                <!-- <img v-else src="../../assets/image/moren.jpg" :alt="item.title" /> -->
+                <p>
+                  <span @click.stop="handleLook(item.bid)">详情</span>
+                  <span @click="handleClose(item.herf)">案例</span>
+                </p>
+              </a>
+              <div class="title">
+                <h5>{{item.title}}</h5>
+                <div class="wall-lines">
+                  <small>
+                    <i class="fa fa-calendar"></i>
+                    <span>{{item.publishTime?item.publishTime.slice(0,10):''}}</span>
+                  </small>
+                  <small>
+                    <i class="fa fa-tag"></i>
+                    <span
+                      v-for="(tag,index) in item.keywords"
+                      :key="index"
+                    >{{tag}} {{index!==item.keywords.length-1?'、':''}}</span>
+                  </small>
+                  <small>
+                    <i class="fa fa-eye"></i>
+                    <span>{{item.viweNum}}</span>
+                  </small>
+                </div>
               </div>
             </div>
-          </div>
-        </li>
-      </ul>
-      <Page
-        show-total
-        @on-change="changePage"
-        @on-page-size-change="changeSizePage"
-        :page-size-opts="pageSizeOpts"
-        :page-size="limit"
-        :total="total"
-        show-sizer
-      />
+          </li>
+        </ul>
+        <Page
+          show-total
+          @on-change="changePage"
+          @on-page-size-change="changeSizePage"
+          :page-size-opts="pageSizeOpts"
+          :page-size="limit"
+          :total="total"
+          show-sizer
+        />
+      </div>
     </div>
     <!-- 弹出层 -->
     <transition name="carousel">
@@ -81,50 +84,77 @@ export default {
     imgUrl: process.env.baseUrl + "/zllublogAdmin/",
     isCarousel: false,
     isCarouselBgc: false,
-    contentData: [{ title: "awdqwd" }],
-    pageNo: 0,
+    contentData: [],
+    pageNo: 1,
     pageSize: 16,
     total: 0,
     herf: "",
-    type: "作品欣赏",
+    type: "代码案例",
     pageSizeOpts: [16, 32, 48, 64, 80],
     limit: 16
   }),
-  async asyncData(context) {
-    if (context.isStatic) {
-      return await {
-        isStatic: context.isStatic
-      };
-    }
-  },
-  computed: {
-    articleData() {
-      return this.$store.state.article.articleAll;
-    },
-    typeMark() {
-      return this.$store.state.article.typeMark;
-    }
-  },
+  // async asyncData(context) {
+  //   if (context.isStatic) {
+  //     return await {
+  //       isStatic: context.isStatic
+  //     };
+  //   }
+  // },
+  // computed: {
+  //   articleData() {
+  //     return this.$store.state.article.articleAll;
+  //   },
+  //   typeMark() {
+  //     return this.$store.state.article.typeMark;
+  //   }
+  // },
   created() {
-    this.$store.commit("setType", this.type);
+    // this.$store.commit("setType", this.type);
     this.getArticle();
   },
-  watch: {
-    articleData() {
-      this.getArticle();
-    },
-    typeMark() {
-      this.getArticle();
-    }
-  },
+  // watch: {
+  //   articleData() {
+  //     this.getArticle();
+  //   },
+  //   typeMark() {
+  //     this.getArticle();
+  //   }
+  // },
   methods: {
     getArticle() {
-      let data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
-
-      if (data) {
-        this.contentData = data.list;
-        this.total = data.total;
+      // let data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
+      let data = {};
+      if (this.pageNo !== 1 || this.pageSize !== 16) {
+        data = {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        };
       }
+      data.type = this.type;
+      this.$axios
+        .get(this.$url + "/zll/article/list", { params: data })
+        .then(res => {
+          if (res.data.result) {
+            this.contentData = res.data.list.map(item => {
+              item.keywords = item.keywords.split("、").filter(item => {
+                return item !== "";
+              });
+              item.publishTime = item.publishTime.slice(0, 10);
+              return item;
+            });
+
+            // this.contentData = res.data.list;
+            this.total = res.data.count;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+      // if (data) {
+      //   this.contentData = data.list;
+      //   this.total = data.total;
+      // }
     },
     changePage(event) {
       this.pageNo = event;
@@ -137,14 +167,15 @@ export default {
       // goBack();
     },
     //跳转到详情页
-    handleLook(bid, isStatic) {
+    handleLook(bid) {
       // 将bid存储到store中
-      this.$store.commit("setBid", bid);
-      if (!isStatic) {
-        this.$router.push({ path: "/detail/" + bid });
-      } else {
-        window.location.href = this.URL + bid;
-      }
+
+      // this.$store.commit("setBid", bid);
+      // if (!isStatic) {
+      this.$router.push({ path: "/detail", query: { id: bid } });
+      // } else {
+      //   window.location.href = this.URL + bid;
+      // }
     },
     //跳转到 demo 页
     // handleHerf(herf) {
@@ -168,8 +199,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.works{
-  >div{
+.works {
+  > div {
     width: 100%;
   }
 }
@@ -181,7 +212,7 @@ export default {
 .warp {
   padding: 20px;
   width: 100%;
-  height: 400px;
+  height: 700px;
   display: flex;
   justify-content: center;
   align-items: center;

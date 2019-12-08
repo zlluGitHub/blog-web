@@ -130,7 +130,7 @@ export default {
         };
       }
       this.$axios
-        .get(process.env.baseUrl + "/zll/article/list", { params: data })
+        .get(this.$url + "/zll/article/list", { params: data })
         .then(res => {
           if (res.data.result) {
             this.articleData = res.data;

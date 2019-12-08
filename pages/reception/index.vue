@@ -7,7 +7,11 @@
         <h1>{{type}}</h1>
         <p>记录 pc端 和 移动端 开发周边技术栈。比如 html5、css3、JavaScript 以及目前比较火的 Vue、React 等框架。常用的 UI 框架及建站 CMS。另外总结了在使用 Echarts、D3、Three 等框架时所遇到的技术问题等。</p>
       </div>
-      <ArticleList :content="contentData"/>
+      <ArticleList
+        :content="contentData"
+        @on-change-page="changePage"
+        @on-size-page="changeSizePage"
+      />
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" :static="isStatic" />
@@ -25,7 +29,7 @@ export default {
   data: () => ({
     pageNo: 1,
     pageSize: 10,
-    contentData:{},
+    contentData: {},
     type: "前端技术",
 
     isStatic: false,
@@ -47,7 +51,7 @@ export default {
   //     };
   //   }
   // },
-  computed: {
+  // computed: {
     // articleData() {
     //   return this.$store.state.article.article;
     // },
@@ -60,7 +64,7 @@ export default {
     // getImgData() {
     //   return this.$store.state.scatter.swiper;
     // }
-  },
+  // },
   // watch: {
   //   articleData(data) {
   //     this.data = data.list.slice(0, 10);
@@ -75,48 +79,60 @@ export default {
   //   }
   // },
   created() {
-    let data = {};
-    if (this.pageNo !== 1 || this.pageSize !== 15) {
-      data = {
-        pageNo: this.pageNo,
-        pageSize: this.pageSize
-      };
-    }
-    data.type = this.type;
-    this.$axios
-      .get(process.env.baseUrl + "/zll/article/list", { params: data })
-      .then(res => {
-        if (res.data.result) {
-          this.contentData = res.data;
-        }
-        // this.$store.commit("setShareData", res.data.list);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.getArticle();
     // this.$store.commit("setType", this.type);
   },
-  mounted() {
-    // let data = null;
-    // if (this.pageNo !== 1 || this.pageSize !== 15) {
-    //   data = {
-    //     pageNo: this.pageNo,
-    //     pageSize: this.pageSize
-    //   };
-    // }
-    // this.$axios
-    //   .get(process.env.baseUrl + "/zll/say", { params: data })
-    //   .then(res => {
-    //     if (res.data.result) {
-    //       this.sayList = res.data.list;
-    //       this.total = res.data.count;
-    //     }
-    //     // this.$store.commit("setShareData", res.data.list);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-  },
-  methods: {}
+  // mounted() {
+  // let data = null;
+  // if (this.pageNo !== 1 || this.pageSize !== 15) {
+  //   data = {
+  //     pageNo: this.pageNo,
+  //     pageSize: this.pageSize
+  //   };
+  // }
+  // this.$axios
+  //   .get(process.env.baseUrl + "/zll/say", { params: data })
+  //   .then(res => {
+  //     if (res.data.result) {
+  //       this.sayList = res.data.list;
+  //       this.total = res.data.count;
+  //     }
+  //     // this.$store.commit("setShareData", res.data.list);
+  //   })
+  //   .catch(error => {
+  //     console.log(error);
+  //   });
+  // },
+  methods: {
+    getArticle() {
+      let data = {};
+      if (this.pageNo !== 1 || this.pageSize !== 15) {
+        data = {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        };
+      }
+      data.type = this.type;
+      this.$axios
+        .get(this.$url + "/zll/article/list", { params: data })
+        .then(res => {
+          if (res.data.result) {
+            this.contentData = res.data;
+          }
+          // this.$store.commit("setShareData", res.data.list);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    changePage(event) {
+      this.pageNo = event;
+      this.getArticle();
+    },
+    changeSizePage(event) {
+      this.pageSize = event;
+      this.getArticle();
+    }
+  }
 };
 </script>

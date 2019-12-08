@@ -34,12 +34,12 @@
                   GitHub
                 </a>
               </li>
-              <li class="yijian-li">
+              <!-- <li class="yijian-li">
                 <a href="javascript:void(0);" @click="handleClikFeedBack">
                   <i class="fa fa-heartbeat"></i>
                   爱的小屋
                 </a>
-              </li>
+              </li> -->
               <li class="seach-li">
                 <a class="seach" @click="SearchShow" href="javascript:void(0);">
                   <Icon type="ios-search" size="22" />搜索
@@ -88,74 +88,52 @@
                     </li>
                   </ul>
                 </li>
+                <li :class="[active==='e'?'active':'']" class="li">
+                  <a @click="handleTo('网站模板','/type','','e')" href="javascript:void(0);">
+                    <Icon type="md-desktop" />网站模板
+                    <Icon type="ios-arrow-down" class="iShow" />
+                  </a>
+                  <ul class="nav-two">
+                    <li :class="[active==='e'?'active':'']" class="li">
+                      <nuxt-link to="/business" @click.native="handleTo('企业网站','/business','e')">企业网站</nuxt-link>
+                    </li>
+                    <li>
+                      <nuxt-link to="/webblog" @click.native="handleTo('个人博客','/webblog','e')">个人博客</nuxt-link>
+                    </li>
+                    <li>
+                      <nuxt-link to="/webadmin" @click.native="handleTo('后台网站','/webadmin','e')">后台网站</nuxt-link>
+                    </li>
+                  </ul>
+                </li>
                 <li :class="[active==='c'?'active':'']" class="li">
                   <a @click="handleTo('素材资源','/type','','c')" href="javascript:void(0);">
                     <i class="fa fa-share-alt fa-fw"></i>素材资源
                     <Icon type="ios-arrow-down" class="iShow" />
                   </a>
                   <ul class="nav-two">
-                    <li :class="[active==='e'?'active':'']" class="li">
+                    <li :class="[active==='c'?'active':'']" class="li">
                       <nuxt-link to="/links" @click.native="handleTo('在线文档','/links','c')">在线文档</nuxt-link>
-                      <!-- <a @click="handleTo('在线文档','/links','','c')" href="javascript:void(0);">在线文档</a> -->
                     </li>
-                    <!-- <li>
-                      <a @click="handleTo('资源下载','/type','','c')" href="javascript:void(0);">资源下载</a>
-                    </li>-->
-                    <!-- <li>
-                      <a @click="handleTo('网站模板','/type','','c')" href="javascript:void(0);">网站模板</a>
-                    </li>-->
                     <li>
-                      <nuxt-link to="/works" @click.native="handleTo('作品欣赏','/works','c')">作品欣赏</nuxt-link>
-                      <!-- <a @click="handleTo('作品欣赏','/works','','c')" href="javascript:void(0);">作品欣赏</a> -->
+                      <nuxt-link to="/works" @click.native="handleTo('代码案例','/works','c')">代码案例</nuxt-link>
                     </li>
                   </ul>
                 </li>
 
                 <li :class="[active==='d'?'active':'']" class="li">
-                  <!-- <a @click="handleActive('d')" href="javascript:void(0);">
-                    <i class="fa fa-file-image-o"></i>点滴生活
-                    <Icon type="ios-arrow-down" class="iShow" />
-                  </a>-->
                   <nuxt-link to="/say" @click.native="handleTo('微语记录','/say','d')">
                     <i class="fa fa-file-image-o"></i>微语记录
-                    <!-- <Icon type="ios-arrow-down" class="iShow" /> -->
                   </nuxt-link>
-                  <!-- <ul class="nav-two">
-                    <li>
-                      <nuxt-link to="/say" @click.native="handleTo('微语记录','/say','d')">微语记录</nuxt-link>
-                    </li>
-                    <li>
-                      <nuxt-link to="/album" @click.native="handleTo('电子相册','/album','d')">电子相册</nuxt-link>
-                    </li>
-                  </ul>-->
                 </li>
                 <li :class="[active==='h'?'active':'']">
                   <nuxt-link to="/music" @click.native="handleTo('音乐盒','/music','h')">
                     <i class="fa fa-music"></i>音乐盒
                   </nuxt-link>
-                  <!-- <a @click="handleTo('音乐盒','/friends','','h')" href="javascript:void(0);">
-                    <i class="fa fa-music"></i>音乐盒
-                  </a>-->
                 </li>
                 <li :class="[active==='i'?'active':'']" class="li">
                   <nuxt-link to="/about" @click.native="handleTo('关于本站','/about','i')">
                     <i class="fa fa-bookmark"></i> 关于本站
                   </nuxt-link>
-                  <!-- <a @click="handleActive('i')" href="javascript:void(0);">
-                    <i class="fa fa-bookmark"></i> 关于本站
-                    <Icon type="ios-arrow-down" class="iShow" />
-                  </a>-->
-                  <!-- <ul class="nav-two">
-                    <li>
-                      <nuxt-link to="/about" @click.native="handleTo('关于我','/about','i')">关于我</nuxt-link>
-                    </li>
-                    <li>
-                      <nuxt-link
-                        to="/statistics"
-                        @click.native="handleTo('本站统计','/statistics','i')"
-                      >本站统计</nuxt-link>
-                    </li>
-                  </ul>-->
                 </li>
                 <li :class="[active==='f'?'active':'']">
                   <nuxt-link to="/word" @click.native="handleTo('留言板','/word','f')">
@@ -254,7 +232,7 @@ export default {
       let data = {
         client_id: "8b089dc0bdefbbfc7d95",
         state: 12,
-        state: process.env.baseUrl + "/"
+        state: this.$url + "/"
       };
       window.location.href = `https://github.com/login/oauth/authorize?client_id=${data.client_id}&state=${data.state}&redirect_uri=${data.state}`;
       // 4f9e49538ae9d1079898
@@ -308,7 +286,6 @@ export default {
   position: fixed;
   width: 100%;
   z-index: 100;
-
   height: 105px;
   background: #fff;
   margin-bottom: 10px;
@@ -466,7 +443,7 @@ export default {
           > li {
             position: relative;
             padding-bottom: 12px;
-            margin-left: 20px;
+            margin-left: 15px;
             a:hover {
               color: #45b6f7;
             }
@@ -525,9 +502,13 @@ export default {
           }
           li:hover:nth-child(3) ul.nav-two {
             opacity: 1;
-            height: 80px;
+            height: 110px;
           }
           li:hover:nth-child(4) ul.nav-two {
+            opacity: 1;
+            height: 80px;
+          }
+          li:hover:nth-child(5) ul.nav-two {
             opacity: 1;
             height: 80px;
           }
@@ -537,8 +518,8 @@ export default {
           }
 
           li:hover:nth-child(2):after,
-          // li:hover:nth-child(4):after,
-          // li:hover:nth-child(6):after,
+          li:hover:nth-child(4):after,
+          li:hover:nth-child(6):after,
            li:hover:nth-child(3):after {
             opacity: 1;
           }

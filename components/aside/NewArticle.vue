@@ -22,7 +22,7 @@
 export default {
   name: "rtuijian",
   data: () => ({
-    URL: process.env.baseUrl + "/detail/",
+    // URL: this.$url + "/detail/",
     titleData: [],
     isStatic: false
   }),
@@ -53,7 +53,7 @@ export default {
   methods: {
     handleData() {
       this.$axios
-        .get(process.env.baseUrl + "/zll/article/list")
+        .get(this.$url + "/zll/article/list")
         .then(res => {
           if (res.data.result) {
             this.titleData = res.data.list;

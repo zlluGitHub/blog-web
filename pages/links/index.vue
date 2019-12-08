@@ -6,7 +6,7 @@
         <ul>
           <li v-for="item in data.shareA" :key="item.title">
             <a :href="item.url" target="_blank" class="navs-link-logo">
-              <img :src="URL+item.imgUrl" :alt="item.title" />
+              <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
               <h3>{{item.title}}</h3>
             </a>
           </li>
@@ -16,7 +16,7 @@
         <ul>
           <li v-for="item in data.shareB" :key="item.title">
             <a :href="item.url" target="_blank" class="navs-link-logo">
-              <img :src="URL+item.imgUrl" :alt="item.title" />
+              <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
               <h3>{{item.title}}</h3>
             </a>
           </li>
@@ -26,7 +26,7 @@
         <ul>
           <li v-for="item in data.shareC" :key="item.title">
             <a :href="item.url" target="_blank" class="navs-link-logo">
-              <img :src="URL+item.imgUrl" :alt="item.title" />
+              <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
               <h3>{{item.title}}</h3>
             </a>
           </li>
@@ -36,7 +36,7 @@
         <ul>
           <li v-for="item in data.shareD" :key="item.title">
             <a :href="item.url" target="_blank" class="navs-link-logo">
-              <img :src="URL+item.imgUrl" :alt="item.title" />
+              <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
               <h3>{{item.title}}</h3>
             </a>
           </li>
@@ -46,7 +46,7 @@
         <ul>
           <li v-for="item in data.shareE" :key="item.title">
             <a :href="item.url" target="_blank" class="navs-link-logo">
-              <img :src="URL+item.imgUrl" :alt="item.title" />
+              <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
               <h3>{{item.title}}</h3>
             </a>
           </li>
@@ -64,7 +64,7 @@ export default {
   name: "links",
   data() {
     return {
-      URL: process.env.baseUrl + "/zllublogAdmin/",
+      // URL: process.env.baseUrl + "/zllublogAdmin/",
       data: {}
     };
   },
@@ -82,7 +82,7 @@ export default {
     // if (this.$store.state.share.shareData.length === 0) {
     // 请求在线文档数据
     this.$axios
-      .get(process.env.baseUrl + "/zll/links")
+      .get(this.$url + "/zll/links")
       .then(res => {
         if (res.data.result) {
           this.data = this.handleShareData(res.data.list);

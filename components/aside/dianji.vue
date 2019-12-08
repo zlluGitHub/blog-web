@@ -3,9 +3,9 @@
     <h3 class="h3-style">
       <i class="fa fa-line-chart"></i>点击排行
     </h3>
-    <ul class="dianji-list">
+    <ul class="dianji-list" v-if="titleData.length">
       <li v-for="item in titleData" :key="item.bid">
-        <img :src="imgUrl+item.imgSrc" :alt="item.title" />
+        <img :src="$url+'/'+item.imgSrc" :alt="item.title" />
         <nuxt-link :to="{ path: '/detail', query: { id: item.bid}}"  @click.native="handleLook(item.bid)">{{item.title}}</nuxt-link>
         <!-- <a
           @click="handleLook(item.bid,isStatic,item.title)"
@@ -13,6 +13,9 @@
         >{{item.title}}</a>-->
       </li>
     </ul>
+      <div v-else style="padding:100px 0;text-align: center;">
+        暂无内容！
+    </div>
   </div>
 </template>
 <script>
@@ -52,7 +55,7 @@ export default {
 
   methods: {
     handleData() {
-      this.$axios.get(process.env.baseUrl + "/zll/article/point").then(res => {
+      this.$axios.get(this.$url + "/zll/article/point").then(res => {
         if (res.data.result) {
           this.titleData = res.data.list;
         }
