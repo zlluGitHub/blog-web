@@ -6,12 +6,12 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: "月光下的露珠_技术博客 - 记录生活点滴 | luBlog个人博客原创作品分享",
+    title: "菜鸟也疯狂_技术博客 - 记录生活点滴 | Crazy@Rookie个人博客原创作品分享",
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'keywords', name: 'keywords', content: '个人网站,小程序,web前端,个人博客,技术分享,月光下的露珠,原创博客,luBlog' },
-      { hid: 'description', name: 'description', content: '月光下的露珠、luBlog个人博客网站专注于个人原创技术作品分享，记录生活点滴，分享web前端开发相关技术，追求用户体验设计的个人原创博客IT技术分享，欢迎关注luBlog博客！。' }
+      { hid: 'keywords', name: 'keywords', content: '个人网站,小程序,web前端,个人博客,技术分享,菜鸟也疯狂,原创博客' },
+      { hid: 'description', name: 'description', content: '菜鸟也疯狂、Crazy@Rookie个人博客网站专注于个人原创技术作品分享，记录生活点滴，分享web前端开发相关技术，追求用户体验设计的个人原创博客IT技术分享，欢迎关注菜鸟也疯狂技术博客！。' }
     ],
     // title: process.env.npm_package_name || '',
     // meta: [
@@ -92,58 +92,58 @@ module.exports = {
     extend(config, ctx) {
     }
   },
-  server: {
-    port: 1314, // default: 3000
-    // host: '0.0.0.0', // default: localhost
-  },
+  // server: {
+  //   port: 1314, // default: 3000
+  //   // host: '0.0.0.0', // default: localhost
+  // },
   // router: {
   // base: 'dist/',
   //   middleware: 'auth'//每个路由改变时被调用
   // },
-  generate: {
-    subFolders: true,//true 时为每个路由创建一个目录并生成index.html文件
-    // interval: 500,
-    // 动态路由生成静态文件
+  // generate: {
+  //   subFolders: true,//true 时为每个路由创建一个目录并生成index.html文件
+  //   // interval: 500,
+  //   // 动态路由生成静态文件
 
-    // 方法一
-    // routes: function (callback) {
-    //   axios.get('https://zhenglinglu.cn/zllublogAdmin/article/get.article.php')
-    //     .then((res) => {
-    //       var routes = res.data.list.map((user) => {
-    //         return '/detail/' + user.id
-    //       })
-    //       callback(null, {routes:routes,data:user})
-    //     })
-    //     .catch(callback)
-    // }
+  //   // 方法一
+  //   // routes: function (callback) {
+  //   //   axios.get('https://zhenglinglu.cn/zllublogAdmin/article/get.article.php')
+  //   //     .then((res) => {
+  //   //       var routes = res.data.list.map((user) => {
+  //   //         return '/detail/' + user.id
+  //   //       })
+  //   //       callback(null, {routes:routes,data:user})
+  //   //     })
+  //   //     .catch(callback)
+  //   // }
 
-    //方法二
-    async routes() {
-      let data = await axios.get('https://zhenglinglu.cn/zllublogAdmin/article/get.article.php')
-        .then((res) => {
-          let totle = res.data.list.length - 1;
-          return res.data.list.map((data, index, oldArr) => {
-            return {
-              route: '/detail/' + data.bid,
-              payload: {
-                prev: index !== 0 ? oldArr[index - 1] : false,
-                middle: data,
-                next: index !== totle ? oldArr[index + 1] : false
-              }
-            }
-          })
-        })
+  //   //方法二
+  //   async routes() {
+  //     let data = await axios.get('https://zhenglinglu.cn/zllublogAdmin/article/get.article.php')
+  //       .then((res) => {
+  //         let totle = res.data.list.length - 1;
+  //         return res.data.list.map((data, index, oldArr) => {
+  //           return {
+  //             route: '/detail/' + data.bid,
+  //             payload: {
+  //               prev: index !== 0 ? oldArr[index - 1] : false,
+  //               middle: data,
+  //               next: index !== totle ? oldArr[index + 1] : false
+  //             }
+  //           }
+  //         })
+  //       })
 
-      // let data2 = await axios.get(process.env.BASE_URL + '/zllublogAdmin/article/get.article.php')
-      //   .then((res) => {
-      //     return res.data.list.map((user) => {
-      //       return {
-      //         route: '/detail/' + user.id,
-      //         payload: user
-      //       }
-      //     })
-      //   })
-      return [...data]
-    }
-  }
+  //     // let data2 = await axios.get(process.env.BASE_URL + '/zllublogAdmin/article/get.article.php')
+  //     //   .then((res) => {
+  //     //     return res.data.list.map((user) => {
+  //     //       return {
+  //     //         route: '/detail/' + user.id,
+  //     //         payload: user
+  //     //       }
+  //     //     })
+  //     //   })
+  //     return [...data]
+  //   }
+  // }
 }

@@ -2,7 +2,16 @@
   <div>
     <div class="web-box">
       <div v-if="data.shareA">
-        <h2>文档教程/博客/社区</h2>
+         <h2>博客推荐</h2>
+        <ul>
+          <li v-for="item in data.shareF" :key="item.title">
+            <a :href="item.url" target="_blank" class="navs-link-logo">
+              <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
+              <h3>{{item.title}}</h3>
+            </a>
+          </li>
+        </ul>
+        <h2>文档教程/社区</h2>
         <ul>
           <li v-for="item in data.shareA" :key="item.title">
             <a :href="item.url" target="_blank" class="navs-link-logo">
@@ -82,7 +91,7 @@ export default {
     // if (this.$store.state.share.shareData.length === 0) {
     // 请求在线文档数据
     this.$axios
-      .get(this.$url + "/zll/links")
+      .get(this.$url + "/zll/links/list")
       .then(res => {
         if (res.data.result) {
           this.data = this.handleShareData(res.data.list);

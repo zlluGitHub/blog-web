@@ -112,7 +112,7 @@
                   </a>
                   <ul class="nav-two">
                     <li :class="[active==='c'?'active':'']" class="li">
-                      <nuxt-link to="/links" @click.native="handleTo('在线文档','/links','c')">在线文档</nuxt-link>
+                      <nuxt-link to="/links" @click.native="handleTo('网址导航','/links','c')">网址导航</nuxt-link>
                     </li>
                     <li>
                       <nuxt-link to="/works" @click.native="handleTo('代码案例','/works','c')">代码案例</nuxt-link>
