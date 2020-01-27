@@ -1,67 +1,98 @@
 <template>
-  <div class="loading">
-    <div id="preloader_1">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+<div class="loader-box">
+    <div class="loader">
+    <div class="face">
+      <div class="circle"></div>
+    </div>
+    <div class="face">
+      <div class="circle"></div>
     </div>
   </div>
+</div>
+
 </template>
 <style lang="scss" scoped>
+.loader-box{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  background:rgba(255, 255, 255, 1)
+}
+.loader {
+    width: 12em;
+    height: 12em;
+    font-size: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-#preloader_1 {
-  position: relative;
-  top: 48%;
-  left: 47%;
+.loader .face {
+    position: absolute;
+    border-radius: 50%;
+    border-style: solid;
+    animation: animate 3s linear infinite;
 }
-#preloader_1 span {
-  display: block;
-  bottom: 0px;
-  width: 9px;
-  height: 8px;
-  border-radius: 8px;
-  background: #9b59b6;
-  position: absolute;
-  animation: preloader_1 1.5s infinite ease-in-out;
+
+.loader .face:nth-child(1) {
+    width: 100%;
+    height: 100%;
+    color: gold;
+    border-color: currentColor transparent transparent currentColor;
+    border-width: 0.2em 0.2em 0em 0em;
+    --deg: -45deg;
+    animation-direction: normal;
 }
-#preloader_1 span:nth-child(2) {
-  left: 11px;
-  animation-delay: 0.2s;
+
+.loader .face:nth-child(2) {
+    width: 70%;
+    height: 70%;
+    color: lime;
+    border-color: currentColor currentColor transparent transparent;
+    border-width: 0.2em 0em 0em 0.2em;
+    --deg: -135deg;
+    animation-direction: reverse;
 }
-#preloader_1 span:nth-child(3) {
-  left: 22px;
-  animation-delay: 0.4s;
+
+.loader .face .circle {
+    position: absolute;
+    width: 50%;
+    height: 0.1em;
+    top: 50%;
+    left: 50%;
+    background-color: transparent;
+    transform: rotate(var(--deg));
+    transform-origin: left;
 }
-#preloader_1 span:nth-child(4) {
-  left: 33px;
-  animation-delay: 0.6s;
+
+.loader .face .circle::before {
+    position: absolute;
+    top: -0.5em;
+    right: -0.5em;
+    content: '';
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    border-radius: 50%;
+    box-shadow: 0 0 2em,
+                0 0 4em,
+                0 0 6em,
+                0 0 8em,
+                0 0 10em,
+                0 0 0 0.5em rgba(255, 255, 0, 0.1);
 }
-#preloader_1 span:nth-child(5) {
-  left: 44px;
-  animation-delay: 0.8s;
+
+@keyframes animate {
+    to {
+        transform: rotate(1turn);
+    }
 }
-@keyframes preloader_1 {
-  0% {
-    height: 5px;
-    transform: translateY(0px);
-    background: #9b59b6;
-  }
-  25% {
-    height: 50px;
-    transform: translateY(15px);
-    background: #3498db;
-  }
-  50% {
-    height: 5px;
-    transform: translateY(0px);
-    background: #9b59b6;
-  }
-  100% {
-    height: 5px;
-    transform: translateY(0px);
-    background: #9b59b6;
-  }
-}
+
 </style>

@@ -168,7 +168,7 @@ h3.h3-style::before {
     }
     p {
       display: block;
-      text-indent: 2em;
+    //   text-indent: 2em;
       .imgWidth {
         width: 100%;
       }
@@ -310,6 +310,7 @@ h3.h3-style::before {
 
 ::-webkit-scrollbar{
     width:8px;
+    height:8px;
     background-color:#fff
 }
 ::-webkit-scrollbar-track{
@@ -337,6 +338,25 @@ h3.h3-style::before {
     display:inline-block;
   }
 }
-// .list .text{
-//    w
-// }
+.ivu-page{
+    padding-top: 15px;
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+}
+.web-box {
+    width: 1200px;
+    padding: 10px;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+  .demo-spin-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 450px;
+    .fa-pulse {
+      font-size: 28px;
+    }
+  }

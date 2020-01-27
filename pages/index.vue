@@ -134,7 +134,13 @@ export default {
         .then(res => {
           if (res.data.result) {
             this.articleData = res.data;
+          } else {
+            this.$Message["error"]({
+              background: true,
+              content: "数据加载失败！呜呜~"
+            });
           }
+          this.$store.commit("setLoading", false);
           // data.forEach(ele => {
           //   ele.keywords = ele.keywords.split("、");
           //   ele.publishTime = ele.publishTime.slice(0, 10);

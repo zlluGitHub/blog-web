@@ -23,9 +23,9 @@ export default {
   data() {
     return {
       banners: [
-        "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/banner1.jpg",
-        "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/banner2.jpg",
-        "https://www.zhenglinglu.cn/zllublogAdmin/images/aside/banner4.jpg"
+        "http://zhenglinglu.cn/banner/img1.jpg",
+        "http://zhenglinglu.cn/banner/img2.jpg",
+        "http://zhenglinglu.cn/banner/img3.jpg"
       ],
       // 所有配置均为可选（同Swiper配置）
       swiperOption: {

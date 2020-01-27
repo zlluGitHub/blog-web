@@ -7,10 +7,10 @@
         href="javascript:void(0);"
       >JavaScript</a>
       <a
-        @click="handleTab(2,'Html5、css3')"
+        @click="handleTab(2,'html、css')"
         :class="[mark===2?'newscurrent':'']"
         href="javascript:void(0);"
-      >H5 / CSS3</a>
+      >H5 / CSS</a>
       <a
         @click="handleTab(3,'Vue、React')"
         :class="[mark===3?'newscurrent':'']"

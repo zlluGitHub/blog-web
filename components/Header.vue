@@ -37,17 +37,14 @@
               <!-- <li class="yijian-li">
                 <a href="javascript:void(0);" @click="handleClikFeedBack">
                   <i class="fa fa-heartbeat"></i>
-                  爱的小屋
+                  爱的小窝
                 </a>
               </li> -->
               <li class="seach-li">
                 <a class="seach" @click="SearchShow" href="javascript:void(0);">
-                  <Icon type="ios-search" size="22" />搜索
+                  <Icon type="ios-search" size="16" />搜索
                 </a>
               </li>
-              <!-- <li class="login-li">
-                <a @click="handleLogin" href="javascript:void(0);">登录</a>
-              </li> -->
             </ul>
             <nav>
               <ul class="nav-ul">
@@ -74,11 +71,9 @@
                         to="/backstage"
                         @click.native="handleTo('后端基础','/backstage','b')"
                       >后端基础</nuxt-link>
-                      <!-- <a @click="handleTo('后端技术','/type','','b')" href="javascript:void(0);">后端基础</a> -->
                     </li>
                     <li>
                       <nuxt-link to="/base" @click.native="handleTo('数据库','/base','b')">数据库</nuxt-link>
-                      <!-- <a @click="handleTo('数据库','/type','','b')" href="javascript:void(0);">数据库</a> -->
                     </li>
                     <li>
                       <nuxt-link to="/wxcx" @click.native="handleTo('微信程序','/wxcx','b')">微信程序</nuxt-link>
@@ -88,55 +83,63 @@
                     </li>
                   </ul>
                 </li>
-                <li :class="[active==='e'?'active':'']" class="li">
-                  <a @click="handleTo('网站模板','/type','','e')" href="javascript:void(0);">
-                    <Icon type="md-desktop" />网站模板
+                <li :class="[active==='c'?'active':'']" class="li">
+                  <a href="javascript:void(0);">
+                    <Icon type="md-desktop" />素材模板
                     <Icon type="ios-arrow-down" class="iShow" />
                   </a>
                   <ul class="nav-two">
-                    <li :class="[active==='e'?'active':'']" class="li">
-                      <nuxt-link to="/business" @click.native="handleTo('企业网站','/business','e')">企业网站</nuxt-link>
+                    <li>
+                      <nuxt-link to="/subunit" @click.native="handleTo('常用组件','/webblog','c')">常用组件</nuxt-link>
                     </li>
                     <li>
-                      <nuxt-link to="/webblog" @click.native="handleTo('个人博客','/webblog','e')">个人博客</nuxt-link>
-                    </li>
-                    <li>
-                      <nuxt-link to="/webadmin" @click.native="handleTo('后台网站','/webadmin','e')">后台网站</nuxt-link>
+                      <nuxt-link
+                        to="/template"
+                        @click.native="handleTo('网站模板','/template','c')"
+                      >网站模板</nuxt-link>
                     </li>
                   </ul>
                 </li>
-                <li :class="[active==='c'?'active':'']" class="li">
-                  <a @click="handleTo('素材资源','/type','','c')" href="javascript:void(0);">
-                    <i class="fa fa-share-alt fa-fw"></i>素材资源
+                <li :class="[active==='d'?'active':'']" class="li">
+                  <a href="javascript:void(0);">
+                    <i class="fa fa-share-alt fa-fw"></i>数据可视化
                     <Icon type="ios-arrow-down" class="iShow" />
                   </a>
                   <ul class="nav-two">
-                    <li :class="[active==='c'?'active':'']" class="li">
-                      <nuxt-link to="/links" @click.native="handleTo('网址导航','/links','c')">网址导航</nuxt-link>
+                    <li :class="[active==='e'?'active':'']">
+                      <nuxt-link to="/charts" @click.native="handleTo('可视图谱','/charts','d')">可视图谱</nuxt-link>
                     </li>
-                    <li>
-                      <nuxt-link to="/works" @click.native="handleTo('代码案例','/works','c')">代码案例</nuxt-link>
+                    <li :class="[active==='e'?'active':'']">
+                      <nuxt-link to="/works" @click.native="handleTo('代码案例','/works','d')">代码案例</nuxt-link>
                     </li>
+                    <!-- <li :class="[active==='e'?'active':'']">
+                      <nuxt-link to="/say" @click.native="handleTo('大屏制作','/say','d')">大屏制作</nuxt-link>
+                    </li> -->
                   </ul>
+                </li>
+                <li :class="[active==='e'?'active':'']" class="li">
+                  <nuxt-link to="/links" @click.native="handleTo('网址导航','/links','e')">网址导航</nuxt-link>
                 </li>
 
-                <li :class="[active==='d'?'active':'']" class="li">
-                  <nuxt-link to="/say" @click.native="handleTo('微语记录','/say','d')">
-                    <i class="fa fa-file-image-o"></i>微语记录
-                  </nuxt-link>
+                <li :class="[active==='f'?'active':'']" class="li">
+                  <a href="javascript:void(0);">
+                    <i class="fa fa-share-alt fa-fw"></i>与我相关
+                    <Icon type="ios-arrow-down" class="iShow" />
+                  </a>
+                  <ul class="nav-two">
+                    <li :class="[active==='e'?'active':'']">
+                      <nuxt-link to="/music" @click.native="handleTo('音乐大厅','/music','f')">音乐大厅</nuxt-link>
+                    </li>
+                    <li :class="[active==='e'?'active':'']">
+                      <nuxt-link to="/say" @click.native="handleTo('微语记录','/say','f')">微语记录</nuxt-link>
+                    </li>
+                    <li>
+                      <nuxt-link to="/about" @click.native="handleTo('关于我','/about','f')">关于我</nuxt-link>
+                    </li>
+                  </ul>
                 </li>
-                <li :class="[active==='h'?'active':'']">
-                  <nuxt-link to="/music" @click.native="handleTo('音乐盒','/music','h')">
-                    <i class="fa fa-music"></i>音乐盒
-                  </nuxt-link>
-                </li>
-                <li :class="[active==='i'?'active':'']" class="li">
-                  <nuxt-link to="/about" @click.native="handleTo('关于本站','/about','i')">
-                    <i class="fa fa-bookmark"></i> 关于本站
-                  </nuxt-link>
-                </li>
-                <li :class="[active==='f'?'active':'']">
-                  <nuxt-link to="/word" @click.native="handleTo('留言板','/word','f')">
+                <li :class="[active==='g'?'active':'']">
+                  <nuxt-link to="/word" @click.native="handleTo('留言板','/word','g')">
                     <i class="fa fa-edit"></i>留言板
                   </nuxt-link>
                 </li>
@@ -245,7 +248,7 @@ export default {
       //     console.log(err);
       //   });
       // https://www.zhenglinglu.cn/?code=4f9e49538ae9d1079898&state=12
-    //  access_token=118b5f90de8578f16d99454d7e535938c52e4d89&scope=&token_type=bearer
+      //  access_token=118b5f90de8578f16d99454d7e535938c52e4d89&scope=&token_type=bearer
     },
     handleClikFeedBack() {
       this.$store.dispatch("setChangingOver", {
@@ -502,7 +505,7 @@ export default {
           }
           li:hover:nth-child(3) ul.nav-two {
             opacity: 1;
-            height: 110px;
+            height: 80px;
           }
           li:hover:nth-child(4) ul.nav-two {
             opacity: 1;
@@ -510,17 +513,18 @@ export default {
           }
           li:hover:nth-child(5) ul.nav-two {
             opacity: 1;
-            height: 80px;
+            height: 110px;
           }
           li:hover:nth-child(6) ul.nav-two {
             opacity: 1;
-            height: 80px;
+            height: 110px;
           }
 
           li:hover:nth-child(2):after,
           li:hover:nth-child(4):after,
+          // li:hover:nth-child(5):after,
           li:hover:nth-child(6):after,
-           li:hover:nth-child(3):after {
+          li:hover:nth-child(3):after {
             opacity: 1;
           }
 
@@ -531,6 +535,9 @@ export default {
             left: 10px;
           }
           li:nth-child(4) ul {
+            left: 10px;
+          }
+          li:nth-child(5) ul {
             left: 10px;
           }
           li:nth-child(6) ul {

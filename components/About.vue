@@ -3,17 +3,17 @@
     <div class="about-top">
       <img src="../assets/image/touxiang0.jpg" alt="头像" />
       <div class="top-right">
-        <h3>Crazy@Rookie</h3>
+        <h3>lu@Blog</h3>
         <p>一切伟大的行动和思想，都有一个微不足道的开始。</p>
       </div>
     </div>
     <div class="introduce">
       <div class="int-top">
         <h4>博主简介</h4>
-        <p>博主网名：菜鸟也疯狂</p>
+        <p>博主网名：月光下的露珠</p>
         <p>
           博客网址：
-          <a href="https://www.zhenglinglu.cn" target="_blank">https://www.zhenglinglu.cn</a>
+          <a href="http://zhenglinglu.cn" target="_blank">http://zhenglinglu.cn</a>
         </p>
         <p>
           GitHub：
@@ -23,14 +23,18 @@
           >https://github.com/zlluGitHub</a>
         </p>
         <p>博主邮箱：1182567968@qq.com</p>
-        <p>个人独白：博主与很多95后IT同龄人一样，喜欢研究、瞎折腾，在很早之前就非常崇拜那些从事网站开发的大牛们（虽然当时不懂），为此从那时起开始就接触网站开发这一块，随着学习的不断深入令自己没有想到的是水竟然这么深，从事这方面应该都懂得吧，哈哈... ，现在自己也是在一步步的追随着目前各种新的技术，GET各种新的技能来提升自身能力。由于本站是博主第一个上线版的个人学习记录网站，作为初学者还有很多不足之处还望各位多多指点 ヾ(@^▽^@)ノ。</p>
+        <!-- <p>个人独白：博主与很多95后IT同龄人一样，喜欢研究、瞎折腾，在很早之前就非常崇拜那些从事网站开发的大牛们（虽然当时不懂），为此从那时起开始就接触网站开发这一块，随着学习的不断深入令自己没有想到的是水竟然这么深，从事这方面应该都懂得吧，哈哈... ，现在自己也是在一步步的追随着目前各种新的技术，GET各种新的技能来提升自身能力。由于本站是博主第一个上线版的个人学习记录网站，作为初学者还有很多不足之处还望各位多多指点 ヾ(@^▽^@)ノ。</p> -->
+      </div>
+      <div class="wx">
+        <img src="../assets/image/wx.jpg" />
+        <div>欢迎叨扰(*^▽^*)</div>
       </div>
       <div class="int-jieshao">
         <h4>本站简介</h4>
-        <p>建站时间：2018年2月7日 --- 至今</p>
+        <p>建站时间：2018年7月29日 --- 至今</p>
         <p>备案号：冀ICP备18004100号</p>
         <p>服务器：腾讯云服务器</p>
-        <p>技术栈：UI界面使用自己编写的 UI 组件 + Nuxt + iview，后台使用 nodeJs + Express + mysql 数据库。</p>
+        <p>技术栈：UI界面使用自己编写的 UI 组件 + Nuxt + iview，后台使用 nodeJs + Express + mysql + mongodb 数据库。</p>
         <p>本站宗旨：记录点滴的同时把最实用的经验分享给最需要的读者，希望每一位来访的朋友都能有所收获！</p>
       </div>
       <div class="int-top">
@@ -55,6 +59,9 @@ export default {
   }),
   created() {
     // this.$store.dispatch("setChangingOver", { notice: false, position: true });
+  },
+  mounted() {
+    this.$store.commit("setLoading", false);
   },
   methods: {
     getAboutMeData() {
@@ -118,6 +125,7 @@ export default {
   }
   .introduce {
     padding-bottom: 45px;
+    position: relative;
     h4 {
       font-size: 20px;
       padding: 6px 0px;
@@ -140,6 +148,19 @@ export default {
         padding: 5px 0;
       }
     }
+  }
+}
+.wx {
+  position: absolute;
+ right: 0;
+ top: 52px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+  img {
+    width: 150px;
+    display: block;
+    height: 150px;
   }
 }
 </style>

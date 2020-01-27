@@ -2,14 +2,14 @@
   <div class="works">
     <div>
       <div class="whitebg lanmu">
-        <img src="../../assets/image/fm.png" />
+        <img src="../../assets/image/web.jpg" />
         <h1>{{type}}</h1>
-        <p>本专栏主要记录一些小的组件案例 或 demo，以便之后使用！ ٩(๑&gt;◡&lt;๑)۶ 。</p>
+        <p>此版块主要记录个人在学习过程中所做的一些 Demo 案例。包括一些可视化图谱，例如：D3、Three、vis、echarts等等。</p>
       </div>
       <div v-if="!contentData.length" class="box-bj-sd warp">
         <span>此专栏暂无内容</span>
       </div>
-      <div v-else>
+      <div v-else class="content-box box-bj-sd">
         <ul class="wall">
           <li class="wall-column" v-for="item in contentData" :key="item.bid">
             <div>
@@ -19,7 +19,7 @@
                 <!-- <img v-else src="../../assets/image/moren.jpg" :alt="item.title" /> -->
                 <p>
                   <span @click.stop="handleLook(item.bid)">详情</span>
-                  <span @click="handleClose(item.herf)">案例</span>
+                  <span @click="handleClose(item.herf)">预览</span>
                 </p>
               </a>
               <div class="title">
@@ -29,13 +29,13 @@
                     <i class="fa fa-calendar"></i>
                     <span>{{item.publishTime?item.publishTime.slice(0,10):''}}</span>
                   </small>
-                  <small>
+                  <!-- <small>
                     <i class="fa fa-tag"></i>
                     <span
                       v-for="(tag,index) in item.keywords"
                       :key="index"
                     >{{tag}} {{index!==item.keywords.length-1?'、':''}}</span>
-                  </small>
+                  </small>-->
                   <small>
                     <i class="fa fa-eye"></i>
                     <span>{{item.viweNum}}</span>
@@ -142,10 +142,14 @@ export default {
               item.publishTime = item.publishTime.slice(0, 10);
               return item;
             });
-
-            // this.contentData = res.data.list;
             this.total = res.data.count;
+          } else {
+            this.$Message["error"]({
+              background: true,
+              content: "数据加载失败！呜呜~"
+            });
           }
+          this.$store.commit("setLoading", false);
         })
         .catch(error => {
           console.log(error);
@@ -186,7 +190,7 @@ export default {
       this.isCarousel = !this.isCarousel;
       this.isCarouselBgc = this.isCarousel;
       if (herf) {
-        this.herf = herf;
+        this.herf = this.$url + "/" + herf;
       }
       if (!this.isCarousel) {
         let time = setTimeout(() => {
@@ -194,6 +198,15 @@ export default {
           clearTimeout(time);
         }, 350);
       }
+    },
+    // 获取随机颜色
+    getRandomColor() {
+      return (
+        "#" +
+        ("00000" + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(
+          -6
+        )
+      );
     }
   }
 };
@@ -204,11 +217,6 @@ export default {
     width: 100%;
   }
 }
-.lanmu {
-  margin: 0px 8px;
-  margin-bottom: 10px;
-}
-
 .warp {
   padding: 20px;
   width: 100%;
@@ -222,18 +230,18 @@ ul {
   flex-wrap: wrap;
   li {
     background-color: #fff;
-    margin: 10px;
+    margin: 5px;
     border: 1px solid #eee;
     border-radius: 3px;
     overflow: hidden;
     padding: 5px;
     // padding-bottom: 20px;
-    box-shadow: 0 0 10px #999;
+    // box-shadow: 0 0 10px #999;
     //  transform: scale(1);
     > div {
       position: relative;
       .title {
-        background: rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.8);
         transition: all 0.3s ease;
         position: absolute;
         padding: 0 18px;
@@ -245,7 +253,7 @@ ul {
           margin-bottom: 10px;
         }
       }
-      a {
+      > a {
         p {
           position: absolute;
           transition: all 0.3s ease;
@@ -257,12 +265,19 @@ ul {
           span {
             border: 1px solid #fff;
             border-radius: 5px;
-            background-color: rgba(253, 252, 252, 0.8);
+            background-color: rgba(253, 252, 252, 0.1);
             color: #45b6f7;
             padding: 6px 20px;
           }
           span:nth-child(1) {
             margin-right: 5px;
+            color: #fff;
+            background-color: #2db7f5;
+          }
+          span:nth-child(2) {
+            // margin-right: 5px;
+            color: #fff;
+            background-color: #19be6b;
           }
         }
       }
@@ -272,7 +287,7 @@ ul {
         transform: translate(0, -5px);
         background: rgba(255, 255, 255, 0.9);
       }
-      a {
+      > a {
         p {
           transform: scale(1);
           opacity: 1;
@@ -294,7 +309,7 @@ ul {
     h5 {
       font-weight: bold;
       margin-right: 3px;
-      color: #f04343;
+      color: #666;
       margin-top: 10px;
     }
 
@@ -313,7 +328,43 @@ ul {
   //   transform: scale(1.05);
   // }
 }
+.box-bj-sd {
+  background-color: #fff;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  padding: 10px;
+}
+.content-box {
+  border-radius: 3px;
+}
+.tag {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
 
+.tag li {
+  margin: 10px 12px;
+  border: 0;
+}
+
+.tag li a {
+  display: flex;
+  padding: 7px 14px;
+
+  font-size: 13px;
+  border-radius: 5px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.12);
+  color: #666;
+  // background-color: #ccc;
+  transition: all 0.3s ease;
+}
+
+.tag li a:hover {
+  opacity: 1 !important;
+  transform: scale(1.1);
+}
 .bgc {
   position: fixed;
   top: 0;
@@ -337,8 +388,8 @@ ul {
   .carousel-warp {
     margin-top: 20px;
     z-index: 500;
-    width: 85%;
-    height: 85%;
+    width: 100%;
+    height: 100%;
     box-shadow: 0 0 10px #fff;
     margin: auto;
     border: 2px solid #fff;

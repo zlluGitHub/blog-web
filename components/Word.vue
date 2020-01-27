@@ -330,27 +330,35 @@ export default {
       this.$axios
         .get(this.$url + "/zll/blog/word", { params: data })
         .then(res => {
-          let data = res.data.list;
-          data.forEach(item => {
-            let content = item.content;
-            if (content.indexOf("<img src=") !== -1) {
-              content = content.replace(
-                /<img src="/g,
-                '<img src="' + this.$url + "/"
-              );
-            }
-            item.content = content;
-          });
-          this.replyData = data;
-          this.total = res.data.count;
-          // let data = res.data.list;
-          // $("#input_conta" + this.uid).html(""); //清除发布框的文本内容
-          // this.name = "";
-          // this.email = "";
-          // this.webUrl = "";
-          // this.$store.commit("setCommentAll", data);
-          // this.handleData();
-          // this.bid = getuid();
+          if (res.data.result) {
+            let data = res.data.list;
+            data.forEach(item => {
+              let content = item.content;
+              if (content.indexOf("<img src=") !== -1) {
+                content = content.replace(
+                  /<img src="/g,
+                  '<img src="' + this.$url + "/"
+                );
+              }
+              item.content = content;
+            });
+            this.replyData = data;
+            this.total = res.data.count;
+            // let data = res.data.list;
+            // $("#input_conta" + this.uid).html(""); //清除发布框的文本内容
+            // this.name = "";
+            // this.email = "";
+            // this.webUrl = "";
+            // this.$store.commit("setCommentAll", data);
+            // this.handleData();
+            // this.bid = getuid();
+          } else {
+            this.$Message["error"]({
+              background: true,
+              content: "数据加载失败！呜呜~"
+            });
+          }
+          this.$store.commit("setLoading", false);
         });
     },
     //回复按钮
@@ -420,6 +428,7 @@ export default {
             url = "/zll/blog/word/reply";
             data.uid = this.id;
           }
+
           this.$axios
             .post(this.$url + url, Qs.stringify(data))
             .then(res => {

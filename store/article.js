@@ -1,15 +1,13 @@
-import { log } from "util";
-
 const state = {
-  tagData:{},
-  tagValue:'',
+  tagData: {},
+  tagValue: '',
   search: '',
-
+  loading: true,
   articleAll: [],
   type: '',
   typeMark: '',
   bid: '',
- 
+
   isSearchShow: false,
   tabName: ''
   // singleArticle: {},
@@ -18,6 +16,9 @@ const state = {
   // articleReplyData: []
 }
 const mutations = {
+  setLoading(state, data) {
+    state.loading = data;
+  },
   setTagValue(state, data) {
     state.tagValue = data;
   },
@@ -29,7 +30,6 @@ const mutations = {
   },
 
   setArtileAll(state, data) {
-    console.log(data);
     //筛选发布文章
     state.articleAll = data.filter(item => {
       return item.isPublic === 'yes'
@@ -42,32 +42,7 @@ const mutations = {
   setTab(state, data) {
     state.tabName = data;
   },
-  setType(state, type) {
-    switch (type) {
-      case '前端技术':
-        state.typeMark = '前端技术';
-        break;
-      case '后端基础':
-        state.typeMark = '后端基础';
-        break;
-      case '数据库':
-        state.typeMark = '数据库';
-        break;
-      case '微信程序':
-        state.typeMark = '微信程序';
-        break;
-      case '技术杂谈':
-        state.typeMark = '技术杂谈';
-        break;
-      case '作品欣赏':
-        state.typeMark = '作品欣赏';
-        break;
-      default:
-        state.typeMark = '';
-        break;
-    }
-    state.type = type;
-  },
+  
   setBid(state, id) {
     state.bid = id;
   },

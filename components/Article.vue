@@ -241,7 +241,7 @@ export default {
               title: this.articleData.title
             };
           }
-          // this.$store.commit("setShareData", res.data.list);
+          this.$store.commit("setLoading",false);
         })
         .catch(error => {
           console.log(error);

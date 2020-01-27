@@ -13,55 +13,63 @@ export default {
   data: () => ({
     content: []
   }),
-  computed: {
-    musicData() {
-      return this.$store.state.music.musicData;
-    }
-  },
-  watch: {
-    musicData(value) {
-      this.content = value;
-       this.initAudio();
-    }
-  },
+  // computed: {
+  //   musicData() {
+  //     return this.$store.state.music.musicData;
+  //   }
+  // },
+  // watch: {
+  //   musicData(value) {
+  //     this.content = value;
+  //     this.initAudio();
+  //   }
+  // },
   mounted() {
-    this.content = this.$store.state.music.musicData;
+    // this.content = this.$store.state.music.musicData;
     this.initAudio();
+    this.$store.commit("setLoading", false);
   },
   methods: {
     initAudio() {
-      if (this.content) {
-        const ap = new APlayer({
-          container: this.$refs.audio,
-          fixed: false,
-          mini: false,
-          autoplay: false,
-          // theme: "#FADFA3",
-          loop: "all",
-          // order: "random",
-          preload: "auto",
-          volume: 0.7,
-          mutex: true,
-          listFolded: false,
-          listMaxHeight: 90,
-          lrcType: 3,
-          // audio: this.content
-          audio: [
-            {
-            name: "God Is A Girl",
-            artist: "Groove Coverage",
-            url:
-              "https://webfs.yun.kugou.com/201912071724/8b7484d2205e05223572ac47e1525119/G003/M05/1D/01/o4YBAFS8KBiAWantADW2L7v3dH0122.mp3",
-            cover:
-              "https://p3fx.kgimg.com/stdmusic/20190418/20190418034756147779.jpg"
+      // if (this.content) {
+      const ap = new APlayer({
+        container: this.$refs.audio,
+        fixed: false,
+        mini: false,
+        autoplay: false,
+        // theme: "#FADFA3",
+        loop: "all",
+        // order: "random",
+        preload: "auto",
+        volume: 0.7,
+        mutex: true,
+        listFolded: false,
+        listMaxHeight: 90,
+        lrcType: 3,
+        // audio: this.content
+        audio: [
+          {
+            name: "Céline Dion",
+            artist: "Various Artists",
+            url: this.$url + "/music/mp3/dion.mp3",
+            cover: this.$url + "/music/img/dion.png",
+            lrc: this.$url + "/music/lrc/dion.lrc"
             //  theme: '#46718b',
           },
           {
-            name: "Pretty Boy",
-            artist: "Shades of Purple",
-            url: "https://webfs.yun.kugou.com/201912071727/988dae82943d81418629e1a8a8cded32/part/0/960052/G004/M05/01/04/RA0DAFS5NHCAFdWZAEPrQbncnXU891.mp3",
-            cover: 'https://www.zhenglinglu.cn/staticimg/music/img/faded.jpg"',
-            // lrc: "https://www.zhenglinglu.cn/staticimg/music/lrc/faded.lrc"
+            name: "Take Me Hand",
+            artist: "DAISHI DANCE、Cecile Corbel",
+            url: this.$url + "music/mp3/take_me_hand.mp3",
+            cover: this.$url + "music/img/take_me_hand.jpg",
+            lrc: this.$url + "music/lrc/take_me_hand.lrc"
+            //  theme: '#46718b',
+          },
+          {
+            name: "Solheim - Faded",
+            artist: "Alan Walker、Iselin Solheim",
+            url: this.$url + "/music/mp3/faded.mp3",
+            cover: this.$url + "/music/img/faded.jpg",
+            lrc: this.$url + "/music/lrc/faded.lrc"
             //  theme: '#46718b',
           }
           //   {
@@ -71,11 +79,11 @@ export default {
           //     cover: "https://zhenglinglu.cn/static/img/touxiang0.ff5a451.jpg"
           //     //  theme: '#46718b',
           //   }
-          ]
-        });
+        ]
+      });
 
-        // console.log(document.querySelector(".musics").querySelector(".aplayer-lrc").classList.add("lrc-active"));
-      }
+      // console.log(document.querySelector(".musics").querySelector(".aplayer-lrc").classList.add("lrc-active"));
+      // }
     }
   }
 };

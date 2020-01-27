@@ -5,9 +5,8 @@
   "author": "zlluGitHub",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
-    "dev1": "cross-env BASE_URL=http://localhost:3000 NODE_ENV=development nodemon server/index.js --watch server",
-    "build": "cross-env nuxt build",
+    "dev": "cross-env BASE_URL=http://localhost:3000 NODE_ENV=development nodemon server/index.js --watch server",
+    "build": "cross-env BASE_URL=http://zhenglinglu.cn nuxt build",
     "build1": "cross-env BASE_URL=https://www.zhenglinglu.cn nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "generate": "cross-env BASE_URL=https://www.zhenglinglu.cn NODE_ENV=production nuxt generate",
@@ -17,6 +16,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.5.4",
     "cross-env": "^5.2.0",
+    "echarts": "^4.6.0",
     "express": "^4.16.4",
     "nuxt": "^2.0.0",
     "qs": "^6.8.0",
@@ -32,6 +32,7 @@
     "node-sass": "^4.12.0",
     "nodemon": "^1.18.9",
     "sass-loader": "^7.1.0",
-    "vue-jest": "^4.0.0-0"
+    "vue-jest": "^4.0.0-0",
+    "vue2-ace-editor": "0.0.15"
   }
 }

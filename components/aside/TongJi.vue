@@ -65,7 +65,7 @@ export default {
     // let list = this.$store.state.article.article.list;
     // this.total = list ? list.length : 0;
     //获取将来时间
-    let nextDate = new Date("1/19/2019 00:00:00");
+    let nextDate = new Date("7/29/2018 00:00:00");
     //设置定时器
     setInterval(() => {
       //获取当前时间

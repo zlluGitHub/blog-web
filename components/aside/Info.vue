@@ -1,18 +1,12 @@
 <template>
   <div class="box-bj-sd">
-    <a class="denglu" href="javascript:void(0);">
-      <img
-        class="card_img"
-        height="100px"
-        width="100px"
-        src="../../assets/image/touxiang0.jpg"
-        alt="头像"
-      />
-      <h2>Crazy@Rookie</h2>
-    </a>
+    <nuxt-link to="/about" class="denglu">
+      <img class="card_img" src="../../assets/image/touxiang0.jpg" alt="头像" />
+      <h2>lu@Blog</h2>
+    </nuxt-link>
     <p>
       网名：
-      <span>菜鸟也疯狂</span>
+      <span>月光下的露珠</span>
     </p>
     <p>
       现居：
@@ -34,8 +28,7 @@
         </li>
         <li>
           <!-- <strong class="shujv">{{ViweNum}}</strong> -->
-          <strong class="shujv">5206</strong>
-          <span></span>访客
+          <strong class="shujv">{{ViweNum}}</strong>访客
         </li>
         <li>
           <strong class="shujv">{{SayNum}}</strong>
@@ -83,6 +76,7 @@ export default {
       if (this.content) {
         this.ArticleNum = this.content.arCount;
         this.SayNum = this.content.sayCount;
+        this.ViweNum = this.content.visitCount;
       }
       // var data = this.$store.state.article.articleAll;
       // if (data.length !== 0) {
@@ -105,17 +99,18 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-a::after {
-  content: "";
-  position: absolute;
-  background: url("../../assets/image/v.png") no-repeat;
-  background-size: 12px;
-  width: 12px;
-  height: 12px;
-  left: 60px;
-  bottom: 20px;
-  opacity: 0.8;
-}
+
+// a::after {
+//   content: "";
+//   position: absolute;
+//   background: url("../../assets/image/v.png") no-repeat;
+//   background-size: 12px;
+//   width: 12px;
+//   height: 12px;
+//   left: 60px;
+//   bottom: 20px;
+//   opacity: 0.8;
+// }
 a {
   display: flex;
   padding: 12px;
@@ -123,8 +118,8 @@ a {
   color: #666;
   position: relative;
   img {
-    width: 60px;
-    height: 60px;
+    height: 70px;
+    width: 70px;
     border-radius: 100px;
     border: 2px solid #ccc;
     box-shadow: 0 0 12px 1px #ccc;
@@ -132,8 +127,8 @@ a {
   }
   h2 {
     font-family: Georgia;
-    font-size: 15px;
-    margin-top: 30px;
+    font-size: 18px;
+    margin-top: 40px;
   }
 }
 p {
@@ -154,12 +149,21 @@ p {
       text-align: center;
       color: #888;
       .shujv {
+        margin-right: 3px;
         font-family: Georgia;
         font-weight: 600;
         font-size: 15px;
-        color: #222;
+        color: #666;
       }
     }
+  }
+}
+.denglu {
+  img {
+    transition: all 1s ease;
+  }
+  img:hover {
+    transform: rotate(360deg);
   }
 }
 </style>

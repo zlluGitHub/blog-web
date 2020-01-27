@@ -106,6 +106,8 @@ export default {
 } */
 
 .dianji-list li a {
+  display: inline-block;
+  width: 211px;
   color: #525252;
   transition: all 0.3s ease;
   padding-right: 5px;

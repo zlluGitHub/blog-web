@@ -100,7 +100,13 @@ export default {
         .then(res => {
           if (res.data.result) {
             this.contentData = res.data;
+          } else {
+            this.$Message["error"]({
+              background: true,
+              content: "数据加载失败！呜呜~"
+            });
           }
+          this.$store.commit("setLoading", false);
           // this.$store.commit("setShareData", res.data.list);
         })
         .catch(error => {

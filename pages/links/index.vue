@@ -1,59 +1,76 @@
 <template>
   <div>
-    <div class="web-box">
-      <div v-if="data.shareA">
-         <h2>博客推荐</h2>
+    <div class="web-box" v-if="data">
+      <div v-if="data.shareF">
+        <h2>博客推荐</h2>
         <ul>
-          <li v-for="item in data.shareF" :key="item.title">
+          <li v-for="(item,i) in data.shareF" :key="i+'f'">
             <a :href="item.url" target="_blank" class="navs-link-logo">
               <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
               <h3>{{item.title}}</h3>
             </a>
           </li>
         </ul>
+      </div>
+      <div v-if="data.shareG">
+        <h2>可视化图表库</h2>
+        <ul>
+          <li v-for="(item,i) in data.shareG" :key="i+'g'">
+            <a :href="item.url" target="_blank" class="navs-link-logo">
+              <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
+              <h3>{{item.title}}</h3>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div v-if="data.shareA">
         <h2>文档教程/社区</h2>
         <ul>
-          <li v-for="item in data.shareA" :key="item.title">
+          <li v-for="(item,i) in data.shareA" :key="i+'a'">
             <a :href="item.url" target="_blank" class="navs-link-logo">
               <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
               <h3>{{item.title}}</h3>
             </a>
           </li>
         </ul>
-
+      </div>
+      <div v-if="data.shareB">
         <h2>前端框架/构建组件</h2>
         <ul>
-          <li v-for="item in data.shareB" :key="item.title">
+          <li v-for="(item,i) in data.shareB" :key="i+'b'">
             <a :href="item.url" target="_blank" class="navs-link-logo">
               <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
               <h3>{{item.title}}</h3>
             </a>
           </li>
         </ul>
-
+      </div>
+      <div v-if="data.shareC">
         <h2>移动框架/构建组件</h2>
         <ul>
-          <li v-for="item in data.shareC" :key="item.title">
+          <li v-for="(item,i) in data.shareC" :key="i+'c'">
             <a :href="item.url" target="_blank" class="navs-link-logo">
               <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
               <h3>{{item.title}}</h3>
             </a>
           </li>
         </ul>
-
+      </div>
+      <div v-if="data.shareD">
         <h2>前端常用工具</h2>
         <ul>
-          <li v-for="item in data.shareD" :key="item.title">
+          <li v-for="(item,i) in data.shareD" :key="i+'d'">
             <a :href="item.url" target="_blank" class="navs-link-logo">
               <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
               <h3>{{item.title}}</h3>
             </a>
           </li>
         </ul>
-
+      </div>
+      <div v-if="data.shareE">
         <h2>开发平台</h2>
         <ul>
-          <li v-for="item in data.shareE" :key="item.title">
+          <li v-for="(item,i) in data.shareE" :key="i+'e'">
             <a :href="item.url" target="_blank" class="navs-link-logo">
               <img :src="$url+'/'+item.imgUrl" :alt="item.title" />
               <h3>{{item.title}}</h3>
@@ -61,9 +78,10 @@
           </li>
         </ul>
       </div>
-      <div v-else class="demo-spin-col">
-        <i class="fa fa-spinner fa-pulse"></i>
-      </div>
+    </div>
+
+    <div v-else class="web-box demo-spin-col">
+      <i class="fa fa-spinner fa-pulse"></i>
     </div>
   </div>
 </template>
@@ -74,7 +92,7 @@ export default {
   data() {
     return {
       // URL: process.env.baseUrl + "/zllublogAdmin/",
-      data: {}
+      data: null
     };
   },
   // computed: {
@@ -88,14 +106,20 @@ export default {
   //   }
   // },
   created() {
-    // if (this.$store.state.share.shareData.length === 0) {
+    // if (this.$store.state.share.shareData === 0) {
     // 请求在线文档数据
     this.$axios
       .get(this.$url + "/zll/links/list")
       .then(res => {
         if (res.data.result) {
           this.data = this.handleShareData(res.data.list);
+        } else {
+          this.$Message["error"]({
+            background: true,
+            content: "数据加载失败！呜呜~"
+          });
         }
+        this.$store.commit("setLoading", false);
 
         // this.$store.commit("setShareData", res.data.list);
       })
@@ -115,6 +139,7 @@ export default {
       let shareD = [];
       let shareE = [];
       let shareF = [];
+      let shareG = [];
       data.map(item => {
         switch (item.type) {
           case "a":
@@ -141,11 +166,15 @@ export default {
             shareF.push(item);
             // mark = false;
             break;
+          case "g":
+            shareG.push(item);
+            // mark = false;
+            break;
           default:
             break;
         }
       });
-      return { shareA, shareB, shareC, shareD, shareE, shareF };
+      return { shareA, shareB, shareC, shareD, shareE, shareF, shareG };
     }
   }
 };

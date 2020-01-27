@@ -131,8 +131,6 @@ export default {
   },
   methods: {
     handleClose() {
-      console.log(this.isCarousel);
-
       this.isCarousel = !this.isCarousel;
       this.isCarouselBgc = this.isCarousel;
       if (!this.isCarousel) {

@@ -5,7 +5,7 @@
       <Say />
     </section>
     <!-- 右半部分 -->
-    <AsideMain :configure="asideConfig" :static="isStatic" />
+    <AsideMain :configure="asideConfig" />
   </div>
 </template>
 <script>

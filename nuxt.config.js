@@ -1,17 +1,17 @@
-const axios = require('axios');
+// const axios = require('axios');
 module.exports = {
-  mode: 'universal',//同构应用程序（服务器端呈现+客户端导航）
-  // mode: 'spa',//没有服务器端呈现（仅客户端导航）
+  // mode: 'universal',//同构应用程序（服务器端呈现+客户端导航）
+  mode: 'spa',//没有服务器端呈现（仅客户端导航）
   /*
   ** Headers of the page
   */
   head: {
-    title: "菜鸟也疯狂_技术博客 - 记录生活点滴 | Crazy@Rookie个人博客原创作品分享",
+    title: "月光下的露珠_技术博客 - 记录生活点滴 | luBlog个人博客原创作品分享",
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'keywords', name: 'keywords', content: '个人网站,小程序,web前端,个人博客,技术分享,菜鸟也疯狂,原创博客' },
-      { hid: 'description', name: 'description', content: '菜鸟也疯狂、Crazy@Rookie个人博客网站专注于个人原创技术作品分享，记录生活点滴，分享web前端开发相关技术，追求用户体验设计的个人原创博客IT技术分享，欢迎关注菜鸟也疯狂技术博客！。' }
+      { hid: 'keywords', name: 'keywords', content: '个人网站,小程序,web前端,个人博客,技术分享,月光下的露珠,原创博客,luBlog,郑玲璐' },
+      { hid: 'description', name: 'description', content: '月光下的露珠、luBlog个人博客网站专注于个人原创技术作品分享，记录生活点滴，分享web前端开发相关技术，追求用户体验设计的个人原创博客IT技术分享，欢迎关注luBlog博客！' }
     ],
     // title: process.env.npm_package_name || '',
     // meta: [
@@ -22,6 +22,9 @@ module.exports = {
     // ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      { src: 'https://cdn.bootcss.com/echarts/4.4.0-rc.1/echarts.min.js' }
     ]
   },
   /*
@@ -48,10 +51,12 @@ module.exports = {
   plugins: [
     { src: '@/plugins/iview' },
     { src: "~/plugins/vue-swiper.js", ssr: false },
+    // { src: "~/plugins/echarts.min.js", ssr: false },
+    // { src: "http://pv.sohu.com/cityjson?ie=utf-8", ssr: false },
     { src: "~/plugins/globle.js", ssr: false },
     { src: "~/plugins/apiayer.js", ssr: false },
     { src: "~/plugins/jquery.js", ssr: false },
-    { src: "~/plugins/particles.js", ssr: false },
+    { src: "~/plugins/particles.js", ssr: false }
   ],
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000' //'http://localhost:9096' http://49.233.172.175:3000
@@ -88,14 +93,17 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-    analyze: false,
+    analyze: true,
     extend(config, ctx) {
     }
   },
-  // server: {
-  //   port: 1314, // default: 3000
-  //   // host: '0.0.0.0', // default: localhost
-  // },
+  server: {
+    port: 1314, // default: 3000
+    // host: '0.0.0.0', // default: localhost
+  },
+  render: {
+    resourceHints: false,
+  },
   // router: {
   // base: 'dist/',
   //   middleware: 'auth'//每个路由改变时被调用

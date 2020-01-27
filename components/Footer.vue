@@ -3,7 +3,7 @@
     <footer>
       <p>
         CopyRight © 2018-{{year}}
-        <a href="https://www.zhenglinglu.cn">luBlogの博客</a> 版权所有。
+        <a href="http://wry520.cn">Crazy@Rookie博客</a> 版权所有。
         <br />备案号：冀ICP备18004100号
       </p>
     </footer>
