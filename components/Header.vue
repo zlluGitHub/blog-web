@@ -39,7 +39,7 @@
                   <i class="fa fa-heartbeat"></i>
                   爱的小窝
                 </a>
-              </li> -->
+              </li>-->
               <li class="seach-li">
                 <a class="seach" @click="SearchShow" href="javascript:void(0);">
                   <Icon type="ios-search" size="16" />搜索
@@ -114,7 +114,7 @@
                     </li>
                     <!-- <li :class="[active==='e'?'active':'']">
                       <nuxt-link to="/say" @click.native="handleTo('大屏制作','/say','d')">大屏制作</nuxt-link>
-                    </li> -->
+                    </li>-->
                   </ul>
                 </li>
                 <li :class="[active==='e'?'active':'']" class="li">
@@ -207,7 +207,7 @@ export default {
     },
     handleTo(name, url, mark) {
       // console.log(name, url, mark);
-
+      this.$store.commit("setSearchShow", false);
       // let pageData = this.$store.getters.getTypeData(nav);
       // this.$store.dispatch("setArticleTypeData", pageData);
       // this.$store.dispatch("setRouter", { nav, url, title });

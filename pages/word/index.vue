@@ -4,7 +4,7 @@
     <section class="box-bj-sd">
       <div class="word-title">
         <h1>留言板</h1>
-        <p>客官来都来了，难道不想说点什么吗 φ(>ω&lt;*)</p>
+        <p>客官来都来了，难道不留点什么吗 φ(>ω&lt;*)</p>
       </div>
       <div class="massage public">
         <span>我要吐槽</span>
@@ -58,7 +58,6 @@ export default {
   created() {
     this.$store.commit("setType", this.type);
   },
-
   methods: {}
 };
 </script>

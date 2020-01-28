@@ -11,7 +11,6 @@ export default {
   data: () => ({
     isSearchShow: false
   }),
-
   computed: {
     searchIsShow() {
       return this.$store.state.article.isSearchShow;
@@ -19,6 +18,8 @@ export default {
   },
   watch: {
     searchIsShow(val) {
+       // 返回顶部
+      this.$goBack();
       this.isSearchShow = val;
     }
   },

@@ -24,7 +24,9 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      { src: 'https://cdn.bootcss.com/echarts/4.4.0-rc.1/echarts.min.js' }
+      { src: 'http://zhenglinglu.cn/javascripts/echarts.min.js' },
+      { src: 'http://zhenglinglu.cn/javascripts/echarts-wordcloud.min.js' },
+      { src: 'http://zhenglinglu.cn/javascripts/particles.min.js' }
     ]
   },
   /*
@@ -56,7 +58,7 @@ module.exports = {
     { src: "~/plugins/globle.js", ssr: false },
     { src: "~/plugins/apiayer.js", ssr: false },
     { src: "~/plugins/jquery.js", ssr: false },
-    { src: "~/plugins/particles.js", ssr: false }
+    // { src: "~/plugins/particles.js", ssr: false }
   ],
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000' //'http://localhost:9096' http://49.233.172.175:3000

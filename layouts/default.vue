@@ -20,7 +20,7 @@
     <!-- 回到顶部 -->
     <BackTop />
     <!-- 背景粒子 -->
-    <!-- <div id="particles-js"></div> -->
+    <div id="particles-js"></div>
     <!-- 右键菜单 -->
     <Menus />
   </div>
@@ -59,8 +59,7 @@ export default {
       this.show = val;
     }
   },
-  created() {
-  },
+  // created() {},
   mounted() {
     //   // 请求留言数据
     //   this.$axios
@@ -147,13 +146,16 @@ export default {
     //         item.cover = this.URL + item.cover;
     //       });
     this.initMusit();
+    this.$nextTick(() => {
+      //背景粒子
+      this.bgAnimation();
+    });
     // this.initMusit(data);
     //       this.$store.commit("setMusic", data);
     //     });
     // },
     // mounted() {
-    //   //背景粒子
-    //   // this.bgAnimation();
+
     //   /**登录授权开始*/
     //   let code = this.getUrlParam('code');
     //   if (code) {
@@ -350,7 +352,7 @@ export default {
             }
           },
           color: {
-            value: "#ffffff"
+            value: "#666"
           },
           shape: {
             type: "star",
@@ -390,7 +392,7 @@ export default {
           line_linked: {
             enable: true,
             distance: 150,
-            color: "#ffffff",
+            color: "#666",
             opacity: 0.1,
             width: 1
           },
@@ -460,3 +462,13 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+}
+</style>

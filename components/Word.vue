@@ -18,7 +18,7 @@
           </label>
           <label>
             <Input prefix="ios-mail" v-model="email" placeholder="请输入您的邮箱..." class="input-width" />
-            <i>*</i>
+            <!-- <i>*</i> -->
           </label>
           <label>
             <Input prefix="md-at" v-model="webUrl" placeholder="请输入您的网址..." class="input-width" />
@@ -133,7 +133,7 @@
                 placeholder="请输入您的邮箱..."
                 class="input-width"
               />
-              <i>*</i>
+              <!-- <i>*</i> -->
             </label>
             <label>
               <Input prefix="md-at" v-model="webUrl" placeholder="请输入您的网址..." class="input-width" />
@@ -390,12 +390,14 @@ export default {
           title: "温馨提示",
           content: "请输入您的称呼！"
         });
-      } else if (!this.email) {
-        this.$Modal.info({
-          title: "温馨提示",
-          content: "请输入您的邮箱地址！"
-        });
-      } else if (!checkEmail(this.email)) {
+      } 
+      // else if (!this.email) {
+      //   this.$Modal.info({
+      //     title: "温馨提示",
+      //     content: "请输入您的邮箱地址！"
+      //   });
+      // } 
+      else if (!checkEmail(this.email)) {
         this.$Modal.info({
           title: "温馨提示",
           content: "邮箱格式不正确！"

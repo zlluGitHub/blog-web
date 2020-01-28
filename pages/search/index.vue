@@ -5,12 +5,16 @@
       <h3 class="h3-tag">
         <p>
           关于（
-          <i>{{searchValue}}</i>） 关键词共检索到
+          <i>{{searchValue}}</i>）共检索到
           （
           <i>{{total}}</i>） 条记录
         </p>
       </h3>
-      <ArticleList :content="contentData" />
+      <ArticleList
+        :content="contentData"
+        @on-change-page="changePage"
+        @on-size-page="changeSizePage"
+      />
     </section>
     <!-- 右半部分 -->
     <AsideMain :configure="asideConfig" :static="isStatic" />
@@ -117,6 +121,14 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    changePage(event) {
+      this.pageNo = event;
+      this.getData();
+    },
+    changeSizePage(event) {
+      this.pageSize = event;
+      this.getData();
     }
   }
 };

@@ -139,7 +139,7 @@
                 placeholder="请输入您的邮箱..."
                 class="input-width"
               />
-              <i>*</i>
+              <!-- <i>*</i> -->
             </label>
           </div>
           <div class="comments-warp">
@@ -380,12 +380,14 @@ export default {
           title: "温馨提示",
           content: "请输入您的称呼！"
         });
-      } else if (!this.email) {
-        this.$Modal.info({
-          title: "温馨提示",
-          content: "请输入您的邮箱地址！"
-        });
-      } else if (!checkEmail(this.email)) {
+      } 
+      // else if (!this.email) {
+      //   this.$Modal.info({
+      //     title: "温馨提示",
+      //     content: "请输入您的邮箱地址！"
+      //   });
+      // } 
+      else if (!checkEmail(this.email)) {
         this.$Modal.info({
           title: "温馨提示",
           content: "邮箱格式不正确！"
@@ -415,7 +417,7 @@ export default {
             url: this.imgUrl,
             uid: id,
             // time: this.time,
-            title: this.artTitle,
+            title: this.wordObj.title,
             mark: 1
           };
           if (this.replyName) {

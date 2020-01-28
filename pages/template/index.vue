@@ -49,7 +49,8 @@
         />
       </div>
       <div class="web-box demo-spin-col" v-else>
-        <i class="fa fa-spinner fa-pulse"></i>
+        <!-- <i class="fa fa-spinner fa-pulse"></i> -->
+        <span>暂无内容</span>
       </div>
     </div>
   </div>
