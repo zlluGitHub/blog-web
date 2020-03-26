@@ -16,11 +16,11 @@
         :class="[mark===3?'newscurrent':'']"
         href="javascript:void(0);"
       >Vue / React</a>
-      <a
+      <!-- <a
         @click="handleTab(4,'Echarts、d3')"
         :class="[mark===4?'newscurrent':'']"
         href="javascript:void(0);"
-      >Echarts / D3</a>
+      >Echarts / D3</a> -->
       <a
         @click="handleTab(5,'NodeJs')"
         :class="[mark===5?'newscurrent':'']"

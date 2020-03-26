@@ -19,7 +19,7 @@
                 <!-- <img v-else src="../../assets/image/moren.jpg" :alt="item.title" /> -->
                 <p>
                   <span @click.stop="handleLook(item.bid)">详情</span>
-                  <span @click="handleClose(item.herf)">预览</span>
+                  <span @click.stop="handleClose(item.herf)">预览</span>
                 </p>
               </a>
               <div class="title">
@@ -57,7 +57,7 @@
       </div>
     </div>
     <!-- 弹出层 -->
-    <transition name="carousel">
+    <!-- <transition name="carousel">
       <div class="click-box" v-if="isCarousel">
         <div v-if="herf" class="carousel-warp">
           <Icon type="ios-close-circle-outline zl-close" @click="handleClose" />
@@ -68,10 +68,10 @@
           <i class="fa fa-spinner fa-pulse"></i>
         </div>
       </div>
-    </transition>
-    <transition name="carouselBgc">
+    </transition>-->
+    <!-- <transition name="carouselBgc">
       <div class="bgc" v-if="isCarouselBgc"></div>
-    </transition>
+    </transition>-->
   </div>
 </template>
 <script>
@@ -123,13 +123,10 @@ export default {
   methods: {
     getArticle() {
       // let data = this.$store.getters.getTypeArticle(this.pageNo, this.pageSize);
-      let data = {};
-      if (this.pageNo !== 1 || this.pageSize !== 16) {
-        data = {
-          pageNo: this.pageNo,
-          pageSize: this.pageSize
-        };
-      }
+      let data = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      };
       data.type = this.type;
       this.$axios
         .get(this.$url + "/zll/article/list", { params: data })
@@ -182,23 +179,24 @@ export default {
       // }
     },
     //跳转到 demo 页
-    // handleHerf(herf) {
-    //   window.location.href = herf;
-    // },
-    // 展示demo
-    handleClose(herf) {
-      this.isCarousel = !this.isCarousel;
-      this.isCarouselBgc = this.isCarousel;
-      if (herf) {
-        this.herf = this.$url + "/" + herf;
-      }
-      if (!this.isCarousel) {
-        let time = setTimeout(() => {
-          this.isCarouselBgc = false;
-          clearTimeout(time);
-        }, 350);
-      }
+    handleHerf(herf) {
+      window.open(this.$url + "/" + herf);
     },
+    // 展示demo
+    // handleClose(herf) {
+    //   window.open(this.$url + "/" + herf);
+    //   // this.isCarousel = !this.isCarousel;
+    //   // this.isCarouselBgc = this.isCarousel;
+    //   // if (herf) {
+    //   //   this.herf = this.$url + "/" + herf;
+    //   // }
+    //   // if (!this.isCarousel) {
+    //   //   let time = setTimeout(() => {
+    //   //     this.isCarouselBgc = false;
+    //   //     clearTimeout(time);
+    //   //   }, 350);
+    //   // }
+    // },
     // 获取随机颜色
     getRandomColor() {
       return (

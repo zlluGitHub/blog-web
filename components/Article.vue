@@ -1,6 +1,9 @@
 <template>
   <article>
-    <div class="box-bj-sd warp">
+    <div v-if="!articleData.content" class="box-bj-sd warp">
+      <span>暂无内容</span>
+    </div>
+    <div v-else class="box-bj-sd warp">
       <h1>{{articleData.title}}</h1>
       <ul class="meta">
         <li>
@@ -106,6 +109,9 @@
     <div class="say-box" id="word">
       <ArticleWord :word="wordObj" />
     </div>
+    <transition name="carouselBgc">
+      <div class="bgc" v-if="isCarouselBgc"></div>
+    </transition>
   </article>
 </template>
 <script>
@@ -148,6 +154,7 @@ export default {
     title: "",
     isStatic: false,
     isClickStar: false,
+    isCarouselBgc: false,
     // URL: this.$url + "/detail/?id=",
     // -------------
     data: {},
@@ -241,7 +248,7 @@ export default {
               title: this.articleData.title
             };
           }
-          this.$store.commit("setLoading",false);
+          this.$store.commit("setLoading", false);
         })
         .catch(error => {
           console.log(error);

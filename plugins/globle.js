@@ -17,6 +17,6 @@ import Vue from 'vue';
 
 Vue.prototype.$goBack = goBack;
 
-Vue.prototype.$url = 'http://zhenglinglu.cn';
+// Vue.prototype.$url = 'http://zhenglinglu.cn';
 
-// Vue.prototype.$url = 'http://localhost:3000';
+Vue.prototype.$url = 'http://localhost:3000';
