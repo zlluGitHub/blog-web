@@ -1,0 +1,490 @@
+<template>
+	<div>
+		<!-- 头部 -->
+		<Header />
+		<div class="section-warp">
+			<!-- 搜索框 -->
+			<SearchInput />
+			<!-- 中间内容 -->
+			<router-view />
+		</div>
+		<!-- 尾部 -->
+		<Footer />
+		<!-- 加载动画 -->
+		<!-- carousel -->
+		<transition name="loading">
+			<Loading v-if="show" />
+		</transition>
+		<!-- 音乐 -->
+		<div class="music aplayer-left" ref="audioId"></div>
+		<!-- 回到顶部 -->
+		<BackTop />
+		<!-- 背景粒子 -->
+		<div id="particles-js"></div>
+		<!-- 右键菜单 -->
+		<Menus />
+	</div>
+</template>
+<script>
+	// import ;
+	import { analysisString, agentInfo } from "./assets/js/globle.js";
+	import Header from "./components/Header";
+	import Footer from "./components/Footer";
+	import Loading from "./components/Loading";
+	import SearchInput from "./components/SearchInput";
+	import Menus from "./components/Menu";
+	// import Qs from "qs";
+	export default {
+		name: "default",
+		components: {
+			Header,
+			Footer,
+			Loading,
+			SearchInput,
+			Menus
+		},
+		data: () => ({
+			show: true,
+			name: "",
+			location: "",
+			system: ""
+			// URL: process.env.baseUrl + "/zllublogAdmin/"
+		}),
+		computed: {
+			loading() {
+				return this.$store.state.article.loading;
+			}
+		},
+		watch: {
+			loading(val) {
+				this.show = val;
+			}
+		},
+		// created() {},
+		mounted() {
+			//*****************************解决刷新页面数据丢失开始**************************************** */
+			if (sessionStorage.getItem("store")) {
+				this.$store.replaceState(
+					Object.assign(
+						{},
+						this.$store.state,
+						JSON.parse(sessionStorage.getItem("store"))
+					)
+				);
+				sessionStorage.removeItem("store");
+			}
+
+			//在页面刷新时将vuex里的信息保存到sessionStorage里
+			window.addEventListener("beforeunload", () => {
+				sessionStorage.setItem("store", JSON.stringify(this.$store.state));
+			});
+			//   // 请求留言数据
+			//   this.$axios
+			//     .get(
+			//       process.env.baseUrl + "/zllublogAdmin/comment/get.comment.content.php"
+			//     )
+			//     .then(res => {
+			//       let data = res.data.list;
+			//       data.forEach(item1 => {
+			//         //最外层循环
+			//         if (item1.data.indexOf("},{") === -1) {
+			//           item1.data = [
+			//             analysisString(
+			//               item1.data.substring(
+			//                 item1.data.indexOf("[{") + 2,
+			//                 item1.data.indexOf("}]")
+			//               )
+			//             )
+			//           ];
+			//         } else {
+			//           var arr = item1.data;
+			//           arr = arr
+			//             .substring(arr.indexOf("[{") + 2, arr.indexOf("}]"))
+			//             .split("},{");
+			//           item1.data = arr.map(item2 => {
+			//             return analysisString(item2.toString());
+			//           });
+			//         }
+			//       });
+
+			//       // var arr = data[1].data;
+
+			//       // // console.log(arr, "222222222222222222222222222222222");
+			//       // arr = arr.substring(arr.indexOf("[{") + 2, arr.indexOf("}]"));
+			//       // console.log(arr, "3333333333333333333333333333333");
+
+			//       // arr = arr.split("},{");
+
+			//       // console.log(arr, "444444444444444444444444444444444444");
+
+			//       // arr = arr[0].split('","');
+			//       // console.log(arr, "55555555555555555555555555555");
+			//       // arr = arr[0].substring(arr.indexOf('":"') + 3, arr.length).toString();
+			//       // console.log({
+			//       //   name: arr
+			//       // });
+
+			//       // console.log(arr.split('},{') );
+			//       // console.log(JSON.parse(arr));
+
+			//       // console.log(eval("(" + data[0].data.toString() + ")"));
+
+			//       // console.log(typeof data[0].data);
+			//       // console.log("'" + data[0].data + "'");
+			//       // // var str = JSON.stringify(data[0].data).replace("\\","")
+			//       // var str = data[0].data.toString();
+			//       // console.log(str);
+			//       // // console.log(data[0].data.toString());
+			//       // console.log(JSON.parse(str));
+			//       // // this.show = false;
+			//       this.$store.commit("setCommentAll", data);
+			//     });
+
+			//   // 请求微语数据
+			//   this.$axios
+			//     .get(process.env.baseUrl + "/zllublogAdmin/say/get.say.php")
+			//     .then(res => {
+			//       let data = res.data.list;
+			//       data.forEach(ele => {
+			//         ele.sendTime = ele.sendTime.slice(0, 10);
+			//       });
+			//       // this.data = data;
+			//       this.$store.commit("setSayAll", data);
+			//     });
+
+			//   // 请求音乐数据
+			//   this.$axios
+			//     .get(process.env.baseUrl + "/zllublogAdmin/music/get.music.php")
+			//     .then(res => {
+			//       var data = res.data.list;
+			//       data.forEach(item => {
+			//         item.url = this.URL + item.url;
+			//         item.lrc = this.URL + item.lrc;
+			//         item.cover = this.URL + item.cover;
+			//       });
+			this.initMusit();
+			this.$nextTick(() => {
+				//背景粒子
+				this.bgAnimation();
+			});
+			// this.initMusit(data);
+			//       this.$store.commit("setMusic", data);
+			//     });
+			// },
+			// mounted() {
+
+			//   /**登录授权开始*/
+			//   let code = this.getUrlParam('code');
+			//   if (code) {
+			//       this.$axios.post(`https://github.com/login/oauth/access_token?client_id=8b089dc0bdefbbfc7d95&client_secret=61f6952cb122165e69f19f448491054500249715&code=${code}&redirect_uri=${process.env.baseUrl}/`).then(res => {
+			//         console.log(res);
+			//       })
+			//       .catch(function(err) {
+			//         console.log(err);
+			//       });
+			//   }
+
+			//   /* 登录授权结束 */
+			/**
+			 * Get the user IP throught the webkitRTCPeerConnection
+			 * @param onNewIP {Function} listener function to expose the IP locally
+			 * @return undefined
+			 */
+			function getUserIP(onNewIP) {
+				//  onNewIp - your listener function for new IPs
+				//compatibility for firefox and chrome
+				var myPeerConnection =
+					window.RTCPeerConnection ||
+					window.mozRTCPeerConnection ||
+					window.webkitRTCPeerConnection;
+				var pc = new myPeerConnection({
+						iceServers: []
+					}),
+					noop = function() {},
+					localIPs = {},
+					ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g,
+					key;
+
+				function iterateIP(ip) {
+					if (!localIPs[ip]) onNewIP(ip);
+					localIPs[ip] = true;
+				}
+
+				//create a bogus data channel
+				pc.createDataChannel("");
+
+				// create offer and set local description
+				pc.createOffer()
+					.then(function(sdp) {
+						sdp.sdp.split("\n").forEach(function(line) {
+							if (line.indexOf("candidate") < 0) return;
+							line.match(ipRegex).forEach(iterateIP);
+						});
+
+						pc.setLocalDescription(sdp, noop, noop);
+					})
+					.catch(function(reason) {
+						// An error occurred, so handle the failure to connect
+					});
+
+				//listen for candidate events
+				pc.onicecandidate = function(ice) {
+					if (
+						!ice ||
+						!ice.candidate ||
+						!ice.candidate.candidate ||
+						!ice.candidate.candidate.match(ipRegex)
+					)
+						return;
+					ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
+				};
+			}
+
+			if (!window.sessionStorage.getItem("vi")) {
+				//获取浏览器信息
+				agentInfo._init();
+				getUserIP(ip => {
+					this.submitInfo(ip);
+				});
+			}
+		},
+		methods: {
+			// 提交访问信息
+			submitInfo(ip) {
+				// 返回当前访问人信息
+				let data = {
+					ip: ip,
+					path: "/",
+					content: "访问首页。"
+				};
+
+				if (this.name) {
+					data.name = this.name;
+				}
+
+				if (this.location) {
+					data.location = this.location;
+				}
+
+				if (agentInfo.OSname) {
+					data.OSname = agentInfo.OSname;
+				}
+
+				if (agentInfo.browserName) {
+					data.browserName = agentInfo.browserName;
+				}
+
+				if (agentInfo.browserVer) {
+					data.browserVer = agentInfo.browserVer;
+				}
+
+				// this.$axios
+				// .get("http://ip.taobao.com/service/getIpInfo.php?ip=", Qs.stringify(data))
+				// .then(res => {
+				//     window.sessionStorage.setItem("vi", res.data.result);
+				// });
+
+				this.$axios
+					.post(this.$url + "/zll/visit/add", this.$qs.stringify(data))
+					.then(res => {
+						window.sessionStorage.setItem("vi", res.data.result);
+					});
+			},
+
+			initMusit(data) {
+				const ap = new APlayer({
+					container: this.$refs.audioId,
+					fixed: true,
+					lrcType: 3,
+					// audio: data
+					audio: [
+						// {
+						//   name: "God Is A Girl",
+						//   artist: "Groove Coverage",
+						//   url:
+						//     "https://webfs.yun.kugou.com/201912071724/8b7484d2205e05223572ac47e1525119/G003/M05/1D/01/o4YBAFS8KBiAWantADW2L7v3dH0122.mp3",
+						//   cover:
+						//     "https://p3fx.kgimg.com/stdmusic/20190418/20190418034756147779.jpg"
+						//   //  theme: '#46718b',
+						// },
+						// {
+						//   name: "Pretty Boy",
+						//   artist: "Shades of Purple",
+						//   url: "https://webfs.yun.kugou.com/201912071727/988dae82943d81418629e1a8a8cded32/part/0/960052/G004/M05/01/04/RA0DAFS5NHCAFdWZAEPrQbncnXU891.mp3",
+						//   cover: 'https://www.zhenglinglu.cn/staticimg/music/img/faded.jpg"',
+						//   // lrc: "https://www.zhenglinglu.cn/staticimg/music/lrc/faded.lrc"
+						//   //  theme: '#46718b',
+						// }
+						{
+							name: "Céline Dion",
+							artist: "Various Artists",
+							url: this.$url + "/music/mp3/dion.mp3",
+							cover: this.$url + "/music/img/dion.png",
+							lrc: this.$url + "/music/lrc/dion.lrc"
+							//  theme: '#46718b',
+						},
+						{
+							name: "Take Me Hand",
+							artist: "DAISHI DANCE、Cecile Corbel",
+							url: this.$url + "music/mp3/take_me_hand.mp3",
+							cover: this.$url + "music/img/take_me_hand.jpg",
+							lrc: this.$url + "music/lrc/take_me_hand.lrc"
+							//  theme: '#46718b',
+						},
+						{
+							name: "Solheim - Faded",
+							artist: "Alan Walker、Iselin Solheim",
+							url: this.$url + "/music/mp3/faded.mp3",
+							cover: this.$url + "/music/img/faded.jpg",
+							lrc: this.$url + "/music/lrc/faded.lrc"
+							//  theme: '#46718b',
+						}
+						//, {
+						//     name: '小幸运',
+						//     artist: '冯提莫',
+						//     url: 'https://zhenglinglu.cn/music/xiaoxingyun.mp3',
+						//     cover: 'https://zhenglinglu.cn/static/img/touxiang0.ff5a451.jpg',
+						//       //  theme: '#46718b',
+						// }
+					]
+				});
+				document
+					.querySelector(".aplayer-left")
+					.querySelector(".aplayer-lrc")
+					.classList.add("lrc-height");
+				document
+					.querySelector(".aplayer-left")
+					.querySelector(".aplayer-lrc")
+					.querySelector(".aplayer-lrc-contents")
+					.classList.add("lrc-padding-top");
+			},
+			bgAnimation() {
+				particlesJS("particles-js", {
+					particles: {
+						number: {
+							value: 80,
+							density: {
+								enable: true,
+								value_area: 800
+							}
+						},
+						color: {
+							value: "#666"
+						},
+						shape: {
+							type: "star",
+							stroke: {
+								width: 0,
+								color: "#000000"
+							},
+							polygon: {
+								nb_sides: 5
+							},
+							image: {
+								src: "img/github.svg",
+								width: 100,
+								height: 100
+							}
+						},
+						opacity: {
+							value: 0.1,
+							random: false,
+							anim: {
+								enable: false,
+								speed: 1,
+								opacity_min: 0.1,
+								sync: false
+							}
+						},
+						size: {
+							value: 5,
+							random: true,
+							anim: {
+								enable: false,
+								speed: 40,
+								size_min: 0.1,
+								sync: false
+							}
+						},
+						line_linked: {
+							enable: true,
+							distance: 150,
+							color: "#666",
+							opacity: 0.1,
+							width: 1
+						},
+						move: {
+							enable: true,
+							speed: 6,
+							direction: "none",
+							random: false,
+							straight: false,
+							out_mode: "out",
+							attract: {
+								enable: false,
+								rotateX: 600,
+								rotateY: 1200
+							}
+						}
+					},
+					interactivity: {
+						detect_on: "canvas",
+						events: {
+							onhover: {
+								enable: true,
+								mode: "repulse"
+							},
+							onclick: {
+								enable: true,
+								mode: "push"
+							},
+							resize: true
+						},
+						modes: {
+							grab: {
+								distance: 400,
+								line_linked: {
+									opacity: 0.1
+								}
+							},
+							bubble: {
+								distance: 400,
+								size: 40,
+								duration: 2,
+								opacity: 0.1,
+								speed: 3
+							},
+							repulse: {
+								distance: 200
+							},
+							push: {
+								particles_nb: 4
+							},
+							remove: {
+								particles_nb: 2
+							}
+						}
+					},
+					retina_detect: true,
+					config_demo: {
+						hide_card: false,
+						background_color: "#b61924",
+						background_image: "",
+						background_position: "50% 50%",
+						background_repeat: "no-repeat",
+						background_size: "cover"
+					}
+				});
+			}
+		}
+	};
+</script>
+<style lang="scss">
+	body {
+		background: url("./assets/image/bl.png") no-repeat fixed bottom left,
+			url("./assets/image/tr.png") no-repeat fixed top right, #f0f2f7 !important;
+		z-index: -1;
+	}
+	@import "./assets/css/globle.scss";
+</style>
+
