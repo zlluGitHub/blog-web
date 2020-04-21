@@ -1,11 +1,40 @@
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 module.exports = {
-  chainWebpack: config => {
-    if (process.env.use_analyzer) {     // 分析
+  configureWebpack: config => {
+    if (process.env.NODE_ENV === 'production') { // 去掉console.log
+      config.optimization.minimizer[0].options.terserOptions.compress.warnings = false
+      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
+      config.optimization.minimizer[0].options.terserOptions.compress.drop_debugger = true
+      config.optimization.minimizer[0].options.terserOptions.compress.pure_funcs = ['console.log']
+    }
+  },
+  chainWebpack: config => { // 打包分析
+
+    if (process.env.use_analyzer) {
       config
         .plugin('webpack-bundle-analyzer')
         .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
     }
+
+    // 移除 prefetch 插件
+    config.plugins.delete("prefetch");
+    // 移除 preload 插件
+    config.plugins.delete('preload');
+    // 压缩代码
+    config.optimization.minimize(true);
+    // 分割代码
+    config.optimization.splitChunks({
+      chunks: 'all'
+    })
+    
+    // 通过 chainWebpack 调整图片的大小限制，我们将图片大小限制设置为 6kb，低于6kb的图片全部被内联，高于6kb的图片会放在单独的img文件夹中。
+    const imagesRule = config.module.rule("images")
+    imagesRule
+      .use('url-loader')
+      .loader('url-loader')
+      .tap(options => Object.assign(options, { limit: 6144 }))
   },
+
   // chainWebpack: config => {
   //   // ie报错无效字符 添加该配置项 解决该问题
   //   config.module
@@ -47,5 +76,6 @@ module.exports = {
       }
     },
   },
-  lintOnSave: false   // 取消 eslint 验证
+  lintOnSave: false,   // 取消 eslint 验证
+
 }

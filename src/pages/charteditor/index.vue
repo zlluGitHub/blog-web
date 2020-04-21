@@ -419,7 +419,11 @@ export default {
                 content: "数据请求失败！"
               });
             }
-             this.$store.commit("setLoading", false);
+					this.$event.emit("inLoading", false);
+            	let time = window.setTimeout(() => {
+							window.clearTimeout(time);
+							this.$event.emit("pageLoading", false);
+						}, this.$loadingTime);
           });
       }
     },

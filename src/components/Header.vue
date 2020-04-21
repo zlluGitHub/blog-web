@@ -208,6 +208,10 @@ export default {
     handleTo(name, url, mark) {
       // console.log(name, url, mark);
       this.$store.commit("setSearchShow", false);
+      if (this.$route.path!==url) {
+        this.$event.emit("inLoading", true);
+      }
+      
       // let pageData = this.$store.getters.getTypeData(nav);
       // this.$store.dispatch("setArticleTypeData", pageData);
       // this.$store.dispatch("setRouter", { nav, url, title });

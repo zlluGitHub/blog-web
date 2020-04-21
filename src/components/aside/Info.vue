@@ -6,7 +6,7 @@
     </router-link>
     <p>
       网名：
-      <span>月光下的露珠</span>
+      <span>露珠博客</span>
     </p>
     <p>
       现居：

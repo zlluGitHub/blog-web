@@ -19,8 +19,9 @@ Vue.use(iView);
 // import echarts from 'echarts'
 // Vue.prototype.$echarts = echarts;
 
-import event from './utils/event'
-Vue.prototype.$event = event
+import event from './utils/event';
+Vue.prototype.$event = event;
+Vue.prototype.$loadingTime = 500;
 
 //返回顶部
 const goBack = () => {

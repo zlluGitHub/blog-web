@@ -27,7 +27,11 @@ export default {
   mounted() {
     // this.content = this.$store.state.music.musicData;
     this.initAudio();
-    this.$store.commit("setLoading", false);
+    					this.$event.emit("inLoading", false);
+   	let time = window.setTimeout(() => {
+							window.clearTimeout(time);
+							this.$event.emit("pageLoading", false);
+						}, this.$loadingTime);
   },
   methods: {
     initAudio() {

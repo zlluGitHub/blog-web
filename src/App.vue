@@ -6,7 +6,16 @@
 			<!-- 搜索框 -->
 			<SearchInput />
 			<!-- 中间内容 -->
-			<router-view />
+			<transition name="page">
+				<router-view />
+			</transition>
+			<transition name="loading">
+				<div class="cell" v-if="inLoading">
+					<div class="card">
+						<span class="whirly-loader">Loading…</span>
+					</div>
+				</div>
+			</transition>
 		</div>
 		<!-- 尾部 -->
 		<Footer />
@@ -26,7 +35,6 @@
 	</div>
 </template>
 <script>
-	// import ;
 	import { analysisString, agentInfo } from "./assets/js/globle.js";
 	import Header from "./components/Header";
 	import Footer from "./components/Footer";
@@ -45,23 +53,30 @@
 		},
 		data: () => ({
 			show: true,
+			inLoading: false,
 			name: "",
 			location: "",
 			system: ""
 			// URL: process.env.baseUrl + "/zllublogAdmin/"
 		}),
-		computed: {
-			loading() {
-				return this.$store.state.article.loading;
-			}
-		},
-		watch: {
-			loading(val) {
-				this.show = val;
-			}
-		},
+		// computed: {
+		// 	loading() {
+		// 		return this.$store.state.article.loading;
+		// 	}
+		// },
+		// watch: {
+		// 	loading(val) {
+		// 		this.show = val;
+		// 	}
+		// },
 		// created() {},
 		mounted() {
+			this.$event.on("pageLoading", e => {
+				this.show = e;
+			});
+			this.$event.on("inLoading", e => {
+				this.inLoading = e;
+			});
 			//*****************************解决刷新页面数据丢失开始**************************************** */
 			if (sessionStorage.getItem("store")) {
 				this.$store.replaceState(
@@ -78,118 +93,12 @@
 			window.addEventListener("beforeunload", () => {
 				sessionStorage.setItem("store", JSON.stringify(this.$store.state));
 			});
-			//   // 请求留言数据
-			//   this.$axios
-			//     .get(
-			//       process.env.baseUrl + "/zllublogAdmin/comment/get.comment.content.php"
-			//     )
-			//     .then(res => {
-			//       let data = res.data.list;
-			//       data.forEach(item1 => {
-			//         //最外层循环
-			//         if (item1.data.indexOf("},{") === -1) {
-			//           item1.data = [
-			//             analysisString(
-			//               item1.data.substring(
-			//                 item1.data.indexOf("[{") + 2,
-			//                 item1.data.indexOf("}]")
-			//               )
-			//             )
-			//           ];
-			//         } else {
-			//           var arr = item1.data;
-			//           arr = arr
-			//             .substring(arr.indexOf("[{") + 2, arr.indexOf("}]"))
-			//             .split("},{");
-			//           item1.data = arr.map(item2 => {
-			//             return analysisString(item2.toString());
-			//           });
-			//         }
-			//       });
-
-			//       // var arr = data[1].data;
-
-			//       // // console.log(arr, "222222222222222222222222222222222");
-			//       // arr = arr.substring(arr.indexOf("[{") + 2, arr.indexOf("}]"));
-			//       // console.log(arr, "3333333333333333333333333333333");
-
-			//       // arr = arr.split("},{");
-
-			//       // console.log(arr, "444444444444444444444444444444444444");
-
-			//       // arr = arr[0].split('","');
-			//       // console.log(arr, "55555555555555555555555555555");
-			//       // arr = arr[0].substring(arr.indexOf('":"') + 3, arr.length).toString();
-			//       // console.log({
-			//       //   name: arr
-			//       // });
-
-			//       // console.log(arr.split('},{') );
-			//       // console.log(JSON.parse(arr));
-
-			//       // console.log(eval("(" + data[0].data.toString() + ")"));
-
-			//       // console.log(typeof data[0].data);
-			//       // console.log("'" + data[0].data + "'");
-			//       // // var str = JSON.stringify(data[0].data).replace("\\","")
-			//       // var str = data[0].data.toString();
-			//       // console.log(str);
-			//       // // console.log(data[0].data.toString());
-			//       // console.log(JSON.parse(str));
-			//       // // this.show = false;
-			//       this.$store.commit("setCommentAll", data);
-			//     });
-
-			//   // 请求微语数据
-			//   this.$axios
-			//     .get(process.env.baseUrl + "/zllublogAdmin/say/get.say.php")
-			//     .then(res => {
-			//       let data = res.data.list;
-			//       data.forEach(ele => {
-			//         ele.sendTime = ele.sendTime.slice(0, 10);
-			//       });
-			//       // this.data = data;
-			//       this.$store.commit("setSayAll", data);
-			//     });
-
-			//   // 请求音乐数据
-			//   this.$axios
-			//     .get(process.env.baseUrl + "/zllublogAdmin/music/get.music.php")
-			//     .then(res => {
-			//       var data = res.data.list;
-			//       data.forEach(item => {
-			//         item.url = this.URL + item.url;
-			//         item.lrc = this.URL + item.lrc;
-			//         item.cover = this.URL + item.cover;
-			//       });
 			this.initMusit();
 			this.$nextTick(() => {
 				//背景粒子
 				this.bgAnimation();
 			});
-			// this.initMusit(data);
-			//       this.$store.commit("setMusic", data);
-			//     });
-			// },
-			// mounted() {
 
-			//   /**登录授权开始*/
-			//   let code = this.getUrlParam('code');
-			//   if (code) {
-			//       this.$axios.post(`https://github.com/login/oauth/access_token?client_id=8b089dc0bdefbbfc7d95&client_secret=61f6952cb122165e69f19f448491054500249715&code=${code}&redirect_uri=${process.env.baseUrl}/`).then(res => {
-			//         console.log(res);
-			//       })
-			//       .catch(function(err) {
-			//         console.log(err);
-			//       });
-			//   }
-
-			//   /* 登录授权结束 */
-			/**
-			 * Get the user IP throught the webkitRTCPeerConnection
-			 * @param onNewIP {Function} listener function to expose the IP locally
-			 * @return undefined
-			 */
 			function getUserIP(onNewIP) {
 				//  onNewIp - your listener function for new IPs
 				//compatibility for firefox and chrome

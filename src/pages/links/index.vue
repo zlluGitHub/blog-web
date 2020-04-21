@@ -118,8 +118,12 @@ export default {
             background: true,
             content: "数据加载失败！呜呜~"
           });
-        }
-        this.$store.commit("setLoading", false);
+        };
+        this.$event.emit("inLoading", false);
+       	let time = window.setTimeout(() => {
+							window.clearTimeout(time);
+							this.$event.emit("pageLoading", false);
+						}, this.$loadingTime);
 
         // this.$store.commit("setShareData", res.data.list);
       })

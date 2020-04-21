@@ -88,8 +88,10 @@ export default {
               content: "数据加载失败！呜呜~"
             });
           }
-          this.$store.commit("setLoading", false);
-          // this.$store.commit("setShareData", res.data.list);
+         	let time = window.setTimeout(() => {
+							window.clearTimeout(time);
+							this.$event.emit("pageLoading", false);
+						}, this.$loadingTime);
         })
         .catch(error => {
           console.log(error);
