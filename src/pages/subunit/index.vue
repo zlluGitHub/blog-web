@@ -107,11 +107,11 @@ export default {
               content: "数据加载失败！呜呜~"
             });
           }
-                    this.$event.emit("inLoading", false);
-       	let time = window.setTimeout(() => {
-							window.clearTimeout(time);
-							this.$event.emit("pageLoading", false);
-						}, this.$loadingTime);
+          this.$event.emit("inLoading", false);
+          let time = window.setTimeout(() => {
+            window.clearTimeout(time);
+            this.$event.emit("pageLoading", false);
+          }, this.$loadingTime);
         })
         .catch(error => {
           console.log(error);
@@ -244,5 +244,4 @@ export default {
     }
   }
 }
-
 </style>
