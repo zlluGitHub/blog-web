@@ -1,4 +1,5 @@
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin")
 module.exports = {
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') { // 去掉console.log
@@ -6,6 +7,18 @@ module.exports = {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
       config.optimization.minimizer[0].options.terserOptions.compress.drop_debugger = true
       config.optimization.minimizer[0].options.terserOptions.compress.pure_funcs = ['console.log']
+    }
+
+    if (process.env.NODE_ENV === 'production') {
+      return {
+        plugins: [
+          new CompressionPlugin({
+            test: /\.js$|\.html$|\.css/, //匹配文件名
+            threshold: 10240,//对超过10k的数据压缩
+            deleteOriginalAssets: false //不删除源文件
+          })
+        ]
+      }
     }
   },
   chainWebpack: config => { // 打包分析
@@ -26,7 +39,7 @@ module.exports = {
     config.optimization.splitChunks({
       chunks: 'all'
     })
-    
+
     // 通过 chainWebpack 调整图片的大小限制，我们将图片大小限制设置为 6kb，低于6kb的图片全部被内联，高于6kb的图片会放在单独的img文件夹中。
     const imagesRule = config.module.rule("images")
     imagesRule
