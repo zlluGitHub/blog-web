@@ -24,10 +24,10 @@
             />
             <i>*</i>
           </label>
-          <label>
+          <!-- <label>
             <Input prefix="ios-mail" v-model="email" placeholder="请输入您的邮箱..." class="input-width" />
             <i>*</i>
-          </label>
+          </label>-->
         </div>
         <div class="comments-warp">
           <div class="publish_container">
@@ -132,15 +132,14 @@
               />
               <i>*</i>
             </label>
-            <label>
+            <!-- <label>
               <Input
                 prefix="ios-mail"
                 v-model="email"
                 placeholder="请输入您的邮箱..."
                 class="input-width"
               />
-              <!-- <i>*</i> -->
-            </label>
+            </label>-->
           </div>
           <div class="comments-warp">
             <div class="publish_container">
@@ -380,19 +379,20 @@ export default {
           title: "温馨提示",
           content: "请输入您的称呼！"
         });
-      } 
+      }
       // else if (!this.email) {
       //   this.$Modal.info({
       //     title: "温馨提示",
       //     content: "请输入您的邮箱地址！"
       //   });
-      // } 
-      else if (!checkEmail(this.email)) {
-        this.$Modal.info({
-          title: "温馨提示",
-          content: "邮箱格式不正确！"
-        });
-      } else if (!this.content) {
+      // }
+      // else if (!checkEmail(this.email)) {
+      //   this.$Modal.info({
+      //     title: "温馨提示",
+      //     content: "邮箱格式不正确！"
+      //   });
+      // }
+      else if (!this.content) {
         this.$Modal.info({
           title: "温馨提示",
           content: "请输入评论内容！"
@@ -418,7 +418,8 @@ export default {
             uid: id,
             // time: this.time,
             title: this.wordObj.title,
-            mark: 1
+            mark: 1,
+            id: this.total ? this.total * 1 + 1 : 1
           };
           if (this.replyName) {
             data.reply = this.replyName;
@@ -488,11 +489,13 @@ export default {
   display: flex;
   .comments-img {
     margin-right: 10px;
-    img {
-      display: block;
+    > img {
+      display: inline-block;
       width: 60px;
       height: 60px;
-      border-radius: 12px;
+      border-radius: 50%;
+      border: 1px solid #eee;
+      padding: 3px;
     }
   }
   .inner-word {
@@ -568,9 +571,11 @@ export default {
         border-bottom: 1px dashed #eee;
         padding: 15px 10px;
         > img {
-          width: 50px;
-          height: 50px;
-          border-radius: 10px;
+          width: 35px;
+          height: 35px;
+          border-radius: 50%;
+          border: 1px solid #eee;
+          padding: 3px;
         }
         .text-box {
           width: 92%;
@@ -588,7 +593,7 @@ export default {
             h3 {
               font-weight: 400;
               font-size: 16px;
-              color: #f90;
+              color: #1abc9c;
               span {
                 font-size: 12px;
                 color: #666;

@@ -16,10 +16,9 @@
             />
             <i>*</i>
           </label>
-          <label>
+          <!-- <label>
             <Input prefix="ios-mail" v-model="email" placeholder="请输入您的邮箱..." class="input-width" />
-            <!-- <i>*</i> -->
-          </label>
+          </label>-->
           <label>
             <Input prefix="md-at" v-model="webUrl" placeholder="请输入您的网址..." class="input-width" />
           </label>
@@ -71,7 +70,7 @@
                   <h3 v-else class="reply-title">
                     {{item.name}}
                     <span>回复</span>
-                    {{item.replyName}}
+                    {{item.reply}}
                   </h3>
                   <div>
                     <span>发布于：</span>
@@ -126,15 +125,14 @@
               />
               <i>*</i>
             </label>
-            <label>
+            <!-- <label>
               <Input
                 prefix="ios-mail"
                 v-model="email"
                 placeholder="请输入您的邮箱..."
                 class="input-width"
               />
-              <!-- <i>*</i> -->
-            </label>
+            </label>-->
             <label>
               <Input prefix="md-at" v-model="webUrl" placeholder="请输入您的网址..." class="input-width" />
             </label>
@@ -323,6 +321,7 @@ export default {
     },
     // 请求留言数据
     getContent() {
+      this.$Message.destroy();
       let data = {
         pageNo: this.pageNo,
         pageSize: this.pageSize
@@ -358,10 +357,10 @@ export default {
               content: "数据加载失败！呜呜~"
             });
           }
-         	let time = window.setTimeout(() => {
-							window.clearTimeout(time);
-							this.$event.emit("pageLoading", false);
-						}, this.$loadingTime);
+          let time = window.setTimeout(() => {
+            window.clearTimeout(time);
+            this.$event.emit("pageLoading", false);
+          }, this.$loadingTime);
         });
     },
     //回复按钮
@@ -378,6 +377,7 @@ export default {
     // },
     //提交数据
     handlePublic() {
+      this.$Message.destroy();
       $("#input_conta img").each(function() {
         let src = $(this).attr("src");
         let start = src.indexOf("images"),
@@ -393,19 +393,20 @@ export default {
           title: "温馨提示",
           content: "请输入您的称呼！"
         });
-      } 
+      }
       // else if (!this.email) {
       //   this.$Modal.info({
       //     title: "温馨提示",
       //     content: "请输入您的邮箱地址！"
       //   });
-      // } 
-      else if (!checkEmail(this.email)) {
-        this.$Modal.info({
-          title: "温馨提示",
-          content: "邮箱格式不正确！"
-        });
-      } else if (!text) {
+      // }
+      // else if (!checkEmail(this.email)) {
+      //   this.$Modal.info({
+      //     title: "温馨提示",
+      //     content: "邮箱格式不正确！"
+      //   });
+      // }
+      else if (!text) {
         this.$Modal.info({
           title: "温馨提示",
           content: "请输入评论内容！"
@@ -424,14 +425,15 @@ export default {
           data.email = this.email;
           data.url = this.imgUrl;
           data.web = this.webUrl;
+          data.id = this.total ? this.total * 1 + 1 : 0;
           if (this.replyName) {
             data.reply = this.replyName;
           }
 
           let url = "/zll/blog/word";
-          if (this.id) {
+          if (this.bid) {
             url = "/zll/blog/word/reply";
-            data.uid = this.id;
+            data.uid = this.bid;
           }
 
           this.$axios
@@ -451,7 +453,7 @@ export default {
                   background: true,
                   content: "留言提交成功！٩(๑>◡<๑)۶ "
                 });
-                this.id = "";
+                this.bid = "";
                 this.replyName = "";
                 this.isShowModal = false;
                 this.mark = true;
@@ -474,6 +476,7 @@ export default {
 
     // 更新点赞留言
     handletHumbs(id, mark) {
+      this.$Message.destroy();
       let arrStar = this.isClickStar,
         state = false;
       for (let index = 0; index < arrStar.length; index++) {
@@ -522,7 +525,7 @@ export default {
 
     // 弹出回复留言窗口
     handleReply(id, name) {
-      this.id = id;
+      this.bid = id;
       this.replyName = name;
       this.imgUrl = this.randomImg(1, 25);
       this.isShowModal = !this.isShowModal;
@@ -536,8 +539,11 @@ export default {
 <style lang="scss" scoped>
 .word {
   padding: 15px;
-  img {
+  .comments-img > img {
     display: inline-block;
+    border-radius: 50%;
+    border: 1px solid #eee;
+    padding: 3px;
   }
   .show-face-enter-active {
     transition: all 0.25s ease-in;
@@ -600,7 +606,9 @@ export default {
         > img {
           width: 35px;
           height: 35px;
-          border-radius: 10px;
+          border-radius: 50%;
+          border: 1px solid #eee;
+          padding: 3px;
         }
         .text-box {
           width: 92%;
@@ -617,7 +625,7 @@ export default {
             h3 {
               font-weight: 400;
               font-size: 16px;
-              color: #f90;
+              color: #1abc9c;
               span {
                 font-size: 12px;
                 color: #666;

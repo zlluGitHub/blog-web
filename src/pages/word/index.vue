@@ -6,12 +6,12 @@
 				<h1>留言板</h1>
 				<p>客官来都来了，难道不留点什么吗 φ(>ω&lt;*)</p>
 			</div>
-			<div class="massage public">
+			<!-- <div class="massage public">
 				<span>我要吐槽</span>
 				<p class="email-span">
 					<span>下述邮件地址不会被公开，只作为回复时的联系方式！</span>
 				</p>
-			</div>
+			</div> -->
 			<Word :config="wordConfig" />
 		</section>
 		<!-- 右半部分 -->
