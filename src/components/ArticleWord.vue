@@ -172,7 +172,7 @@
 <script>
 // import { URL } from "../constant/constant.js";
 import { dateTime, getUrl, checkEmail, icon } from "../assets/js/globle";
-import Qs from "qs";
+// import Qs from "qs";
 export default {
   name: "viwephotos",
   data: () => ({
@@ -332,7 +332,7 @@ export default {
           return item;
         });
         this.$axios
-          .post(this.$url + "/zll/word/article/update/star", Qs.stringify(data))
+          .post(this.$url + "/zll/word/article/update/star", this.$qs.stringify(data))
           .then(res => {
             if (res.data.result) {
               this.$Message["success"]({
@@ -425,7 +425,7 @@ export default {
             data.reply = this.replyName;
           }
           this.$axios
-            .post(url, Qs.stringify(data))
+            .post(url, this.$qs.stringify(data))
             .then(res => {
               this.$Message.destroy();
               if (res.data.result) {

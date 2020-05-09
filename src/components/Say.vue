@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="say-box box-bj-sd">
-      <h1>微语记录</h1>
+      <h1>记录册</h1>
       <div v-if="sayList.length!==0">
         <ul class="twiter" v-for="(item,index) in sayList" :key="index">
           <li>

@@ -29,13 +29,13 @@ const goBack = () => {
   clearInterval(timer);
   //设置定时器
   let timer = setInterval(function () {
-      //获取滚动条到顶部的距离
-      var osTop = document.documentElement.scrollTop || document.body.scrollTop;
-      var ispeed = Math.floor(-osTop / 6);
-      document.documentElement.scrollTop = document.body.scrollTop = osTop + ispeed;
-      if (osTop == 0) {
-          clearInterval(timer);
-      };
+    //获取滚动条到顶部的距离
+    var osTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var ispeed = Math.floor(-osTop / 6);
+    document.documentElement.scrollTop = document.body.scrollTop = osTop + ispeed;
+    if (osTop == 0) {
+      clearInterval(timer);
+    };
   }, 30);
 };
 
@@ -65,25 +65,17 @@ import store from './store' // this.$store.commit("setUser", user);
 //引入路由文件
 import router from './router'
 //// 路由拦截
-// const whiteList = ['/task'];//不需要登录能访问的path
-// router.beforeEach((to, from, next) => {
-//   console.log('beforeEach');
-//   // let userInfo = JSON.parse(sessionStorage.getItem('state'));//获取缓存看是否登录过
-//   let state = sessionStorage.getItem('state');//获取缓存看是否登录过
-//   if (whiteList.indexOf(to.path) < 0) {//访问了需要登录才能访问的页面
-//     if (state === 'true') {//登录过来直接进去
-//       next();
-//     } else {
-//       if (to.path == '/login') {
-//         next();
-//       } else {
-//         next('/login');
-//       }
-//     }
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  //如果未匹配到路由
+  if (to.matched.length === 0) {
+    //如果上级也未匹配到路由则跳转登录页面，如果上级能匹配到则转上级路由
+    from.name ? next({ name: from.name }) : next('/');
+  } else {
+    //如果匹配到正确跳转
+    next();
+  }
+
+});
 
 new Vue({
   router,

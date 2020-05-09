@@ -12,7 +12,7 @@
       </li>
       <li><span>标签数量：&nbsp;{{tagData.count?tagData.count:0}}&nbsp;个</span></li>
       <li>最近更新：&nbsp;{{lastTime?lastTime:'0000-00-00'}}</li>
-      <li>正常运行：&nbsp;{{d}}&nbsp;天&nbsp;{{h}}&nbsp;小时&nbsp;{{f}}&nbsp;分钟</li>
+      <!-- <li>正常运行：&nbsp;{{d}}&nbsp;天&nbsp;{{h}}&nbsp;小时&nbsp;{{f}}&nbsp;分钟</li> -->
     </ul>
   </div>
 </template>

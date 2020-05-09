@@ -4,7 +4,7 @@ import Router from 'vue-router';
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history',
+  mode: 'history',
   // mode: 'hash', //默认 有#号
   routes: [
     {
@@ -62,11 +62,11 @@ export default new Router({
       name: 'links',
       component: () => import('../pages/links')
     },
-    {
-      path: '/music',
-      name: 'music',
-      component: () => import('../pages/music')
-    },
+    // {
+    //   path: '/music',
+    //   name: 'music',
+    //   component: () => import('../pages/music')
+    // },
     {
       path: '/other',
       name: 'other',

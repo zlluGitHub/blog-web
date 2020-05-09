@@ -5,20 +5,16 @@
       <h2>lu@Blog</h2>
     </router-link>
     <p>
-      网名：
-      <span>露珠博客</span>
+      网名：<span>露珠博客</span>
     </p>
     <p>
-      现居：
-      <span>北京-海淀区</span>
+      现居：<span>北京-海淀区</span>
     </p>
     <p>
-      职业：
-      <span>Web前端开发</span>
+      职业：<span>Web前端开发</span>
     </p>
     <p>
-      Email：
-      <span>1182567968@qq.com</span>
+      Email：<span>1182567968@qq.com</span>
     </p>
     <div class="author_footer">
       <ul>

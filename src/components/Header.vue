@@ -83,7 +83,7 @@
                     </li>
                   </ul>
                 </li>
-                <li :class="[active==='c'?'active':'']" class="li">
+                <!-- <li :class="[active==='c'?'active':'']" class="li">
                   <a href="javascript:void(0);">
                     <Icon type="md-desktop" />素材模板
                     <Icon type="ios-arrow-down" class="iShow" />
@@ -99,10 +99,11 @@
                       >网站模板</router-link>
                     </li>
                   </ul>
-                </li>
+                </li>-->
+
                 <li :class="[active==='d'?'active':'']" class="li">
                   <a href="javascript:void(0);">
-                    <i class="fa fa-share-alt fa-fw"></i>数据可视化
+                    <i class="fa fa-share-alt fa-fw"></i>可视化
                     <Icon type="ios-arrow-down" class="iShow" />
                   </a>
                   <ul class="nav-two">
@@ -117,11 +118,18 @@
                     </li>-->
                   </ul>
                 </li>
-                <li :class="[active==='e'?'active':'']" class="li">
-                  <router-link to="/links" @click.native="handleTo('网址导航','/links','e')">网址导航</router-link>
+                <li :class="[active==='c'?'active':'']">
+                  <router-link to="/say" @click.native="handleTo('记录册','/say','c')">
+                    <i class="fa fa-book"></i>记录册
+                  </router-link>
+                </li>
+                <li :class="[active==='e'?'active':'']">
+                  <router-link to="/links" @click.native="handleTo('网址导航','/links','e')">
+                    <i class="fa fa-link"></i>网址导航
+                  </router-link>
                 </li>
 
-                <li :class="[active==='f'?'active':'']" class="li">
+                <!-- <li :class="[active==='f'?'active':'']" class="li">
                   <a href="javascript:void(0);">
                     <i class="fa fa-share-alt fa-fw"></i>与我相关
                     <Icon type="ios-arrow-down" class="iShow" />
@@ -137,6 +145,11 @@
                       <router-link to="/about" @click.native="handleTo('关于我','/about','f')">关于我</router-link>
                     </li>
                   </ul>
+                </li>-->
+                <li :class="[active==='f'?'active':'']">
+                  <router-link to="/about" @click.native="handleTo('关于我','/about','f')">
+                    <i class="fa fa-user-o"></i>关于我
+                  </router-link>
                 </li>
                 <li :class="[active==='g'?'active':'']">
                   <router-link to="/word" @click.native="handleTo('留言板','/word','g')">
@@ -208,10 +221,10 @@ export default {
     handleTo(name, url, mark) {
       // console.log(name, url, mark);
       this.$store.commit("setSearchShow", false);
-      if (this.$route.path!==url) {
+      if (this.$route.path !== url) {
         this.$event.emit("inLoading", true);
       }
-      
+
       // let pageData = this.$store.getters.getTypeData(nav);
       // this.$store.dispatch("setArticleTypeData", pageData);
       // this.$store.dispatch("setRouter", { nav, url, title });
@@ -457,7 +470,7 @@ export default {
             a {
               margin: 0px 2px;
               font-size: 15px;
-              padding-right: 0px;
+              // padding-right: 0px;
               transition: color 0.25s ease-in;
             }
             ul.nav-two {

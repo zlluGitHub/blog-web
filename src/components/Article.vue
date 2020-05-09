@@ -55,8 +55,7 @@
 					<!-- <b>转载：</b>
           本站原创文章由LING☆璐个人发表，如需转载敬请将本文链接作为出处标注，谢谢合作！
 					<br />-->
-					<span>本文链接地址：</span>
-					{{URL+bid}}
+					<span>本文链接地址：</span>http://zhenglinglu.cn/detail/?id={{bid}}
 					<!-- <a :href="'https://zhenglinglu.cn/article?bid='+bid" target="_blank">{{articleData.title}}</a> -->
 				</p>
 				<div class="post-like-donate">
@@ -64,16 +63,15 @@
             <a href="JavaScript:void(0);">棒棒哦！</a>(
             <b id="diggnum">{{starNum}}</b> )
 					</span>-->
-					<a href="javascript:void(0);" class="donate">
+					<!-- <a href="javascript:void(0);" class="donate">
 						<i class="fa fa-bitcoin"></i> 打赏
-					</a>
+					</a> -->
 					<a href="javascript:void(0);" @click.stop="handleClickStar" class="Love">
-						<i class="fa fa-thumbs-o-up"></i> 点赞 (
-						<span class="love-count">{{starNum}}</span>)
+						<i class="fa fa-thumbs-o-up"></i> 点赞(<span class="love-count"> {{starNum}} </span>)
 					</a>
-					<a href="javascript:void(0);" class="share">
+					<!-- <a href="javascript:void(0);" class="share">
 						<i class="fa fa-share-alt"></i> 分享
-					</a>
+					</a> -->
 				</div>
 			</div>
 		</div>
@@ -120,7 +118,7 @@
 	// import Vue from "vue";
 	// import { URL } from "../constant/constant.js";
 	// import { goBack } from "../assets/gloable.js";
-	import Qs from "qs";
+	// import Qs from "qs";
 	export default {
 		name: "article-sing",
 		components: {
@@ -306,12 +304,13 @@
 
 			//点赞
 			handleClickStar() {
+				 this.$Message.destroy();
 				if (!this.isClickStar) {
 					let data = {
 						id: this.bid
 					};
 					this.$axios
-						.post(this.$url + "/zll/article/update/star", Qs.stringify(data))
+						.post(this.$url + "/zll/article/update/star",this.$qs.stringify(data))
 						.then(res => {
 							this.starNum = this.starNum * 1 + 1;
 							this.$Message["success"]({

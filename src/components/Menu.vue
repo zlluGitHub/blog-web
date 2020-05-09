@@ -18,10 +18,10 @@
       </li>
       <!-- <li>
         <a href="javascript:void(0);" rel="sidebar" @click="addFavorite">加入收藏</a>
-      </li> -->
+      </li>-->
       <!-- <li>
         <a @click="handleClikFeedBack" href="javascript:void(0);">建议/反馈</a>
-      </li> -->
+      </li>-->
     </ul>
   </div>
 </template>
@@ -38,20 +38,26 @@ export default {
       var scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop;
       menu.style.display = "block";
-      menu.style.left = ev.clientX + "px";
+
+      let zoom = 1;
+      if (screen.width > 1300) {
+        // let zoom = 0.9;
+      }
+
+      menu.style.left = ev.clientX * zoom + "px";
       //当滑动滚动条时也能准确获取菜单位置
-      menu.style.top = ev.clientY + scrollTop + "px";
+      menu.style.top = (ev.clientY + scrollTop) * zoom + "px";
       //阻止默认事件
       return false;
     };
-    var app = document.querySelector('body');
+    var app = document.querySelector("body");
     app.onclick = function(params) {
       document.getElementById("menu").style.display = "none";
     };
   },
   methods: {
     handleClik() {
-       this.$store.commit("setSearchShow", true);
+      this.$store.commit("setSearchShow", true);
       // this.$store.dispatch("setChangingOver", {
       //   search: true
       // });

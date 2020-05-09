@@ -175,7 +175,7 @@ import {
   analysisString,
   icon
 } from "../assets/js/globle";
-import Qs from "qs";
+// import Qs from "qs";
 export default {
   name: "wordsa",
   data: () => ({
@@ -437,7 +437,7 @@ export default {
           }
 
           this.$axios
-            .post(this.$url + url, Qs.stringify(data))
+            .post(this.$url + url, this.$qs.stringify(data))
             .then(res => {
               this.$Message.destroy();
               if (res.data.result) {
@@ -503,7 +503,7 @@ export default {
           return item;
         });
         this.$axios
-          .post(this.$url + "/zll/blog/word/update/star", Qs.stringify(data))
+          .post(this.$url + "/zll/blog/word/update/star", this.$qs.stringify(data))
           .then(res => {
             if (res.data.result) {
               this.$Message["success"]({
