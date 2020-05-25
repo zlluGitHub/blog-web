@@ -30,19 +30,24 @@
               </li>
               <li>
                 <a href="https://github.com/zlluGitHub" target="_blank">
-                  <i class="fa fa-github-alt"></i>
+                  <i class="fa fa-github"></i>
                   GitHub
                 </a>
               </li>
-              <!-- <li class="yijian-li">
-                <a href="javascript:void(0);" @click="handleClikFeedBack">
-                  <i class="fa fa-heartbeat"></i>
-                  爱的小窝
+              <li class="yijian-li">
+                <a href="https://gitee.com/zlluGitHub" target="_blank">
+                  <i class="fa fa-github-alt"></i>
+                  Gitee
                 </a>
-              </li>-->
+              </li>
               <li class="seach-li">
                 <a class="seach" @click="SearchShow" href="javascript:void(0);">
                   <Icon type="ios-search" size="16" />搜索
+                </a>
+              </li>
+              <li class="seach-li">
+                <a class="seach" :href="$url+'/admin/'">
+                 <Icon type="md-exit"  size="16" />登录
                 </a>
               </li>
             </ul>
@@ -55,10 +60,14 @@
                   </router-link>
                 </li>
                 <li :class="[active==='b'?'active':'']" class="li">
-                  <router-link to="/study" @click.native="handleTo('技术专栏','/study','b')">
+                  <!-- <router-link to="/study" @click.native="handleTo('技术专栏','/study','b')">
                     <i class="fa fa-file-code-o"></i>技术专栏
                     <Icon type="ios-arrow-down" class="iShow" />
-                  </router-link>
+                  </router-link> -->
+                  <a href="javascript:void(0);">
+                    <i class="fa fa-file-code-o"></i>技术专栏
+                    <Icon type="ios-arrow-down" class="iShow" />
+                  </a>
                   <ul class="nav-two">
                     <li>
                       <router-link
@@ -119,8 +128,8 @@
                   </ul>
                 </li>
                 <li :class="[active==='c'?'active':'']">
-                  <router-link to="/say" @click.native="handleTo('记录册','/say','c')">
-                    <i class="fa fa-book"></i>记录册
+                  <router-link to="/say" @click.native="handleTo('时间线','/say','c')">
+                    <i class="fa fa-book"></i>时间线
                   </router-link>
                 </li>
                 <li :class="[active==='e'?'active':'']">

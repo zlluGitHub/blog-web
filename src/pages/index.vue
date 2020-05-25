@@ -32,9 +32,10 @@
 				</div>-->
 			</div>
 			<!-- tab页文章 -->
-			<TabsList />
+			<!-- <TabsList /> -->
 			<!--  :type="type"
 			:static="isStatic"-->
+			<h3 data-v-2d6fb106="" class="h3-style"><i class="fa fa-list"></i>文章列表 </h3>
 			<ArticleList :content="articleData" @on-change-page="changePage" @on-size-page="changeSizePage" />
 		</section>
 		<!-- 右半部分 -->
@@ -45,7 +46,7 @@
 	import Swiper from "../components/Swiper";
 	import AsideMain from "../components/AsideMain";
 	import ArticleList from "../components/ArticleList";
-	import TabsList from "../components/TabsList";
+	// import TabsList from "../components/TabsList";
 	// import { goBack } from "../assets/js/gloable.js";
 	export default {
 		name: "main-id",
@@ -53,7 +54,7 @@
 			Swiper,
 			AsideMain,
 			ArticleList,
-			TabsList
+			// TabsList
 		},
 		data: () => ({
 			articleData: [],

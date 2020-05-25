@@ -87,16 +87,16 @@ export default new Router({
       name: 'search',
       component: () => import('../pages/search')
     },
-    {
-      path: '/study',
-      name: 'study',
-      component: () => import('../pages/study')
-    },
-    {
-      path: '/subunit',
-      name: 'subunit',
-      component: () => import('../pages/subunit')
-    },
+    // {
+    //   path: '/study',
+    //   name: 'study',
+    //   component: () => import('../pages/study')
+    // },
+    // {
+    //   path: '/subunit',
+    //   name: 'subunit',
+    //   component: () => import('../pages/subunit')
+    // },
     // // {
     // //   path: '/tabs',
     // //   name: 'tabs',
@@ -107,11 +107,11 @@ export default new Router({
       name: 'tags',
       component: () => import('../pages/tags')
     },
-    {
-      path: '/template',
-      name: 'template',
-      component: () => import('../pages/template')
-    },
+    // {
+    //   path: '/template',
+    //   name: 'template',
+    //   component: () => import('../pages/template')
+    // },
     {
       path: '/word',
       name: 'word',

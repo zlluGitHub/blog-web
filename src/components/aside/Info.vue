@@ -14,7 +14,7 @@
       职业：<span>Web前端开发</span>
     </p>
     <p>
-      Email：<span>1182567968@qq.com</span>
+      邮箱：<span>1182567968@qq.com</span>
     </p>
     <div class="author_footer">
       <ul>
@@ -28,7 +28,7 @@
         </li>
         <li>
           <strong class="shujv">{{SayNum}}</strong>
-          <span>微语</span>
+          <span>动态</span>
         </li>
       </ul>
     </div>

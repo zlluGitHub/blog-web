@@ -3,7 +3,7 @@
     <footer>
       <p>
         CopyRight © 2018-{{year}}
-        <a href="http://wry520.cn">Crazy@Rookie博客</a> 版权所有。
+        <a href="http://zhenglinglu.cn/">露珠博客</a> 版权所有。
         <br />备案号：冀ICP备18004100号
       </p>
     </footer>
@@ -28,6 +28,7 @@ export default {
   border-top: #00c1de 5px solid;
   background-color: #23282d;
   color: #999;
+  z-index: 10000;
   footer {
     width: 1200px;
     margin: 0 auto;

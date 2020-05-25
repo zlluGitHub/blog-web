@@ -112,6 +112,7 @@ export default {
 .tongji {
   font-size: 14px;
   margin-top: 10px;
+  padding: 20px;
   li {
     display: flex;
     justify-content: space-between;

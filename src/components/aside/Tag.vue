@@ -87,6 +87,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   font-size: 12px;
+  padding: 20px;
 }
 
 .tag li {

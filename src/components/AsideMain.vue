@@ -4,7 +4,7 @@
     <DaySay v-if="configure.isSay" :say="say" />
 
     <!-- 名片 -->
-    <Info v-if="configure.isInfo" :info="info"/>
+    <Info v-if="configure.isInfo" :info="info" />
 
     <!-- 最新文章 -->
     <NewArticle v-if="configure.isArticle" :static="isStatic" />
@@ -16,18 +16,19 @@
     <dianji v-if="configure.isClick" :static="isStatic" />
 
     <!-- 标签 -->
-    <Tag v-if="configure.isTags" />
+    <Affix :offset-top="70">
+      <Tag v-if="configure.isTags" />
 
-    <!-- <RiLi v-if="configure.isDay"/> -->
+      <!-- <RiLi v-if="configure.isDay"/> -->
 
-    <!-- 评论 -->
-    <PingLun v-if="configure.isComment" />
+      <!-- 评论 -->
+      <!-- <PingLun v-if="configure.isComment" /> -->
 
-    <!-- 统计 -->
-    <TongJi v-if="configure.isCount" :statisty="statisty" />
-
+      <!-- 统计 -->
+      <!-- <TongJi style="margin-top: 15px;" v-if="configure.isCount" :statisty="statisty" /> -->
+    </Affix>
     <!-- 友情链接 -->
-    <YouQing v-if="configure.isYouQing" />
+    <!-- <YouQing v-if="configure.isYouQing" /> -->
   </aside>
   <aside v-else>
     <div class="tip-content box-bj-sd">暂无内容！</div>
@@ -36,9 +37,9 @@
 <script>
 import DaySay from "./aside/DaySay";
 import Info from "./aside/Info";
-import PingLun from "./aside/PingLun";
+// import PingLun from "./aside/PingLun";
 // import RiLi from "./aside/RiLi";
-import TongJi from "./aside/TongJi";
+// import TongJi from "./aside/TongJi";
 import TuiJian from "./aside/TuiJian";
 // import YouQing from "./aside/YouQing";
 import Tag from "./aside/Tag";
@@ -49,9 +50,9 @@ export default {
   components: {
     DaySay,
     Info,
-    PingLun,
+    // PingLun,
     // YouQing,
-    TongJi,
+    // TongJi,
     TuiJian,
     Tag,
     NewArticle,
@@ -75,8 +76,15 @@ export default {
       if (res.data.result) {
         let data = res.data.data;
         this.say = { content: data.say };
-        this.info = { arCount: data.articleCount, sayCount: data.sayCount ,visitCount:data.visitCount};
-        this.statisty = { time: data.listTime.slice(0, 10),linkCount:data.linkCount };
+        this.info = {
+          arCount: data.articleCount,
+          sayCount: data.sayCount,
+          visitCount: data.visitCount
+        };
+        this.statisty = {
+          time: data.listTime.slice(0, 10),
+          linkCount: data.linkCount
+        };
       }
     });
   }

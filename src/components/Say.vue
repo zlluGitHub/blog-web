@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="say-box box-bj-sd">
-      <h1>记录册</h1>
+      <h1>时间线</h1>
       <div v-if="sayList.length!==0">
-        <ul class="twiter" v-for="(item,index) in sayList" :key="index">
+        <!-- <ul class="twiter" v-for="(item,index) in sayList" :key="index">
           <li>
             <div class="comments">
               <div class="comment">
@@ -24,16 +24,29 @@
               </div>
             </div>
           </li>
-        </ul>
-        <Page
-          show-total
-          @on-change="changePage"
-          @on-page-size-change="changeSizePage"
-          :total="total"
-          show-sizer
-          :page-size-opts="[15,30,45,60,75]"
-          :page-size="pageSize"
-        />
+        </ul>-->
+        <Timeline>
+          <TimelineItem>
+            <!-- <Icon type="ios-trophy"></Icon> -->
+            <Icon type="md-flag" size="16" slot="dot" />
+            <span style="color:#fff">a</span>
+          </TimelineItem>
+          <TimelineItem v-for="(item,index) in sayList" :key="index+'qw'">
+            <p class="time">{{item.sendTime.slice(0,10)}}</p>
+            <p class="content" v-html="item.content">发布 iPhone</p>
+          </TimelineItem>
+        </Timeline>
+        <div class="page">
+          <Page
+            show-total
+            @on-change="changePage"
+            @on-page-size-change="changeSizePage"
+            :total="total"
+            show-sizer
+            :page-size-opts="[15,30,45,60,75]"
+            :page-size="pageSize"
+          />
+        </div>
       </div>
       <div v-else class="demo-spin-col" span="8">
         <Spin fix>
@@ -74,7 +87,7 @@ export default {
           pageNo: this.pageNo,
           pageSize: this.pageSize
         };
-      };
+      }
 
       this.$axios
         .get(this.$url + "/zll/say", { params: data })
@@ -88,10 +101,10 @@ export default {
               content: "数据加载失败！呜呜~"
             });
           }
-         	let time = window.setTimeout(() => {
-							window.clearTimeout(time);
-							this.$event.emit("pageLoading", false);
-						}, this.$loadingTime);
+          let time = window.setTimeout(() => {
+            window.clearTimeout(time);
+            this.$event.emit("pageLoading", false);
+          }, this.$loadingTime);
         })
         .catch(error => {
           console.log(error);
@@ -128,7 +141,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .say-box {
-  padding: 20px;
+  padding: 20px 40px;
   border-radius: 3px;
   background-color: #fff;
   padding-bottom: 0px;
@@ -143,108 +156,117 @@ export default {
     padding-bottom: 30px;
     border-bottom: 1px solid #ddd;
   }
+  .time {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .content {
+    padding-left: 5px;
+  }
+  //   ul.twiter {
+  //     overflow: hidden;
+  //     margin: 0 0;
 
-  ul.twiter {
-    overflow: hidden;
-    margin: 0 0;
-
-    li {
-      margin-left: 14px;
-      .comments:before {
-        content: "";
-        position: absolute;
-        top: 0px;
-        left: 80px;
-        width: 2px;
-        top: -20px;
-        bottom: -20px;
-        background: rgba(0, 0, 0, 0.1);
-      }
-      .comments {
-        position: relative;
-        .comment:before {
-          content: "";
-          position: absolute;
-          top: 13px;
-          left: 82px;
-          width: 10px;
-          height: 10px;
-          border: 3px solid #fff;
-          border-radius: 100%;
-          margin: 16px 0 0 -6px;
-          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
-            inset 0 1px 1px rgba(0, 0, 0, 0.1);
-          background-color: #ccc;
-        }
-        .comment {
-          overflow: hidden;
-          padding: 0 0 1em;
-          word-wrap: break-word;
-          padding: 10px;
-          padding-top: 21px;
-          padding-bottom: 0px;
-          img {
-            float: left;
-            margin-right: 30px;
-            border-radius: 100%;
-            overflow: hidden;
-            box-shadow: 0px 0px 15px 1.5px #ccc;
-            transform: translate(0, -10px);
-            z-index: 100;
-            transform: rotate(0);
-            transition: transform 0.5s ease-in;
-          }
-          .comment-body {
-            .text:before {
-              content: "";
-              position: absolute;
-              top: 30px;
-              left: 96px;
-              width: 9px;
-              height: 9px;
-              border-width: 0 0 1px 1px;
-              border-style: solid;
-              border-color: #e5e5e5;
-              background: #fff;
-              transform: rotate(45deg);
-            }
-            .text {
-              padding: 10px;
-              color: #666;
-              margin-left: 90px;
-              border: 1px solid #e5e5e5;
-              border-radius: 3px;
-              font-size: 14px;
-              background: #fff;
-              .twiter_info {
-                margin-top: 10px;
-                margin-left: 5px;
-                font-size: 12px;
-                color: #989595;
-                time {
-                  margin-left: 15px;
-                }
-                i {
-                  margin-right: 6px;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  ul.twiter:hover li .comment img {
-    transform: rotate(360deg);
-  }
-  ul.twiter:hover li .comment:before {
-    background-color: #666;
-  }
+  //     li {
+  //       margin-left: 14px;
+  //       .comments:before {
+  //         content: "";
+  //         position: absolute;
+  //         top: 0px;
+  //         left: 80px;
+  //         width: 2px;
+  //         top: -20px;
+  //         bottom: -20px;
+  //         background: rgba(0, 0, 0, 0.1);
+  //       }
+  //       .comments {
+  //         position: relative;
+  //         .comment:before {
+  //           content: "";
+  //           position: absolute;
+  //           top: 13px;
+  //           left: 82px;
+  //           width: 10px;
+  //           height: 10px;
+  //           border: 3px solid #fff;
+  //           border-radius: 100%;
+  //           margin: 16px 0 0 -6px;
+  //           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+  //             inset 0 1px 1px rgba(0, 0, 0, 0.1);
+  //           background-color: #ccc;
+  //         }
+  //         .comment {
+  //           overflow: hidden;
+  //           padding: 0 0 1em;
+  //           word-wrap: break-word;
+  //           padding: 10px;
+  //           padding-top: 21px;
+  //           padding-bottom: 0px;
+  //           img {
+  //             float: left;
+  //             margin-right: 30px;
+  //             border-radius: 100%;
+  //             overflow: hidden;
+  //             box-shadow: 0px 0px 15px 1.5px #ccc;
+  //             transform: translate(0, -10px);
+  //             z-index: 100;
+  //             transform: rotate(0);
+  //             transition: transform 0.5s ease-in;
+  //           }
+  //           .comment-body {
+  //             .text:before {
+  //               content: "";
+  //               position: absolute;
+  //               top: 30px;
+  //               left: 96px;
+  //               width: 9px;
+  //               height: 9px;
+  //               border-width: 0 0 1px 1px;
+  //               border-style: solid;
+  //               border-color: #e5e5e5;
+  //               background: #fff;
+  //               transform: rotate(45deg);
+  //             }
+  //             .text {
+  //               padding: 10px;
+  //               color: #666;
+  //               margin-left: 90px;
+  //               border: 1px solid #e5e5e5;
+  //               border-radius: 3px;
+  //               font-size: 14px;
+  //               background: #fff;
+  //               .twiter_info {
+  //                 margin-top: 10px;
+  //                 margin-left: 5px;
+  //                 font-size: 12px;
+  //                 color: #989595;
+  //                 time {
+  //                   margin-left: 15px;
+  //                 }
+  //                 i {
+  //                   margin-right: 6px;
+  //                 }
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  //   ul.twiter:hover li .comment img {
+  //     transform: rotate(360deg);
+  //   }
+  //   ul.twiter:hover li .comment:before {
+  //     background-color: #666;
+  //   }
 }
 .page {
   padding: 20px;
+  padding-bottom: 40px;
+  border-top: 1px solid #eee;
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
+  
 }
 </style>

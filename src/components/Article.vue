@@ -10,10 +10,10 @@
 					<i class="fa fa-calendar"></i>
 					发布时间：{{articleData.publishTime}}
 				</li>
-				<li>
+				<!-- <li>
 					<i class="fa fa-user fa-lg"></i>
 					发布者：{{articleData.author}}
-				</li>
+				</li> -->
 				<li class="viewNum">
 					<i class="fa fa-eye fa-lg"></i>
 					围观数：{{articleData.viweNum}}

@@ -23,7 +23,7 @@
 				isSay: true, //每日一句
 				// isInfo: true,   //名片
 				isRecommend: true, //本站推荐
-				isClick: true, //点击排行
+				// isClick: true, //点击排行
 				// isComment: true, //评论
 				// isArticle:true, //最新文章
 				isCount: true, //统计

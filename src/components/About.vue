@@ -28,10 +28,10 @@
 			</div>
 			<div class="int-jieshao">
 				<h4>本站简介</h4>
-				<p>建站时间：2018年7月29日 --- 至今</p>
-				<p>备案号：冀ICP备18004100号</p>
+				<!-- <p>建站时间：2018年7月29日 --- 至今</p> -->
 				<p>服务器：腾讯云服务器</p>
-				<!-- <p>技术栈：UI界面使用自己编写的 UI 组件 + Nuxt + iview，后台使用 nodeJs + Express + mongodb 数据库。</p> -->
+				<p>备案号：冀ICP备18004100号</p>
+				<p>技术栈：Vue全家桶 + Iview + NodeJs + Nginx + Express + Mongodb</p>
 				<p>本站宗旨：记录点滴的同时把最实用的经验分享给最需要的读者，希望每一位来访的朋友都能有所收获！</p>
 			</div>
 			<div class="int-top">
