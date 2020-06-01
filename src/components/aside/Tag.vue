@@ -21,9 +21,7 @@
         </a>
       </li>
     </ul>
-     <div v-else style="padding:100px 0;text-align: center;">
-        暂无内容！
-    </div>
+    <div v-else style="padding:100px 0;text-align: center;">暂无内容！</div>
   </div>
 </template>
 <script>
@@ -44,13 +42,19 @@ export default {
   //   }
   // },
   mounted() {
-    this.$axios.get(this.$url + "/zll/article/tag").then(res => {
-      if (res.data.result) {
-        this.tagsData = res.data.list;
-        this.$store.commit("setTagData", res.data);
-      }
-    });
-    // this.tagsData = this.$store.getters.geTagsData;
+    let data = this.$store.state.comment.tagData;
+    // console.log(this.$store.state.comment);
+    
+    if (data.length === 0) {
+      this.$axios.get(this.$url + "/zll/article/tag").then(res => {
+        if (res.data.result) {
+          this.tagsData = res.data.list;
+          this.$store.commit("setTagData", this.tagsData);
+        }
+      });
+    } else {
+      this.tagsData = data;
+    }
   },
   methods: {
     // 获取随机颜色

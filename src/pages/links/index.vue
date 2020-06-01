@@ -106,33 +106,38 @@ export default {
   //   }
   // },
   created() {
-    // if (this.$store.state.share.shareData === 0) {
-    // 请求在线文档数据
-    this.$axios
-      .get(this.$url + "/zll/links/list")
-      .then(res => {
-        if (res.data.result) {
-          this.data = this.handleShareData(res.data.list);
-        } else {
-          this.$Message["error"]({
-            background: true,
-            content: "数据加载失败！呜呜~"
-          });
-        };
-        this.$event.emit("inLoading", false);
-       	let time = window.setTimeout(() => {
-							window.clearTimeout(time);
-							this.$event.emit("pageLoading", false);
-						}, this.$loadingTime);
-
-        // this.$store.commit("setShareData", res.data.list);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    // } else {
-    //   this.data = this.$store.getters.getShareData;
-    // }
+    let data = this.$store.state.comment.linksData;
+    if (data.length === 0) {
+      // 请求在线文档数据
+      this.$axios
+        .get(this.$url + "/zll/links/list")
+        .then(res => {
+          if (res.data.result) {
+            this.data = this.handleShareData(res.data.list);
+            this.$store.commit("setLinksData", res.data.list);
+          } else {
+            this.$Message["error"]({
+              background: true,
+              content: "数据加载失败！呜呜~"
+            });
+          }
+          this.$event.emit("inLoading", false);
+          let time = window.setTimeout(() => {
+            window.clearTimeout(time);
+            this.$event.emit("pageLoading", false);
+          }, this.$loadingTime);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      this.data = this.handleShareData(data);
+      this.$event.emit("inLoading", false);
+      let time = window.setTimeout(() => {
+        window.clearTimeout(time);
+        this.$event.emit("pageLoading", false);
+      }, this.$loadingTime);
+    }
   },
   methods: {
     //分类

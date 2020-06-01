@@ -72,21 +72,36 @@ export default {
   //   }
   // },
   created() {
-    this.$axios.get(this.$url + "/zll/inform").then(res => {
-      if (res.data.result) {
-        let data = res.data.data;
-        this.say = { content: data.say };
-        this.info = {
-          arCount: data.articleCount,
-          sayCount: data.sayCount,
-          visitCount: data.visitCount
-        };
-        this.statisty = {
-          time: data.listTime.slice(0, 10),
-          linkCount: data.linkCount
-        };
-      }
-    });
+    let data = this.$store.state.comment.informData;
+    if (data.visitCount) {
+      this.say = { content: data.say };
+      this.info = {
+        arCount: data.articleCount,
+        sayCount: data.sayCount,
+        visitCount: data.visitCount
+      };
+      this.statisty = {
+        time: data.listTime.slice(0, 10),
+        linkCount: data.linkCount
+      };
+    } else {
+      this.$axios.get(this.$url + "/zll/inform").then(res => {
+        if (res.data.result) {
+          data = res.data.data;
+          this.$store.commit("setInformData", data);
+          this.say = { content: data.say };
+          this.info = {
+            arCount: data.articleCount,
+            sayCount: data.sayCount,
+            visitCount: data.visitCount
+          };
+          this.statisty = {
+            time: data.listTime.slice(0, 10),
+            linkCount: data.linkCount
+          };
+        }
+      });
+    }
   }
 };
 </script>

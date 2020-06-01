@@ -6,16 +6,17 @@
     <ul class="dianji-list" v-if="titleData.length">
       <li v-for="item in titleData" :key="item.bid">
         <img :src="$url+'/'+item.imgSrc" :alt="item.title" />
-        <router-link :to="{ path: '/detail', query: { id: item.bid}}"  @click.native="handleLook(item.bid)">{{item.title}}</router-link>
+        <router-link
+          :to="{ path: '/detail', query: { id: item.bid}}"
+          @click.native="handleLook(item.bid)"
+        >{{item.title}}</router-link>
         <!-- <a
           @click="handleLook(item.bid,isStatic,item.title)"
           :href="isStatic?URL+item.bid:'javascript:void(0);'"
         >{{item.title}}</a>-->
       </li>
     </ul>
-      <div v-else style="padding:100px 0;text-align: center;">
-        暂无内容！
-    </div>
+    <div v-else style="padding:100px 0;text-align: center;">暂无内容！</div>
   </div>
 </template>
 <script>
@@ -55,12 +56,17 @@ export default {
 
   methods: {
     handleData() {
-      this.$axios.get(this.$url + "/zll/article/point").then(res => {
-        if (res.data.result) {
-          this.titleData = res.data.list;
-        }
-      });
-
+      let data = this.$store.state.comment.dianjiData;
+      if (data.length === 0) {
+        this.$axios.get(this.$url + "/zll/article/point").then(res => {
+          if (res.data.result) {
+            this.$store.commit("setDianjiData", res.data.list);
+            this.titleData = res.data.list;
+          }
+        });
+      } else {
+        this.titleData = data;
+      }
       // var data = [...this.$store.state.article.articleAll];
       // // viweNum
       // let arr = [];

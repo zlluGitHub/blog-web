@@ -15,9 +15,7 @@
         >{{item.title}}</router-link>
       </li>
     </ul>
-    <div v-else style="padding:100px 0;text-align: center;">
-        暂无内容！
-    </div>
+    <div v-else style="padding:100px 0;text-align: center;">暂无内容！</div>
   </div>
 </template>
 <script>
@@ -55,12 +53,17 @@ export default {
 
   methods: {
     handleData() {
-      this.$axios.get(this.$url + "/zll/article/hot").then(res => {
-        if (res.data.result) {
-          this.titleData = res.data.list;
-        }
-      });
-
+      let data = this.$store.state.comment.tuijianData;
+      if (data.length === 0) {
+        this.$axios.get(this.$url + "/zll/article/hot").then(res => {
+          if (res.data.result) {
+            this.titleData = res.data.list;
+            this.$store.commit("setTuijianData", this.titleData);
+          }
+        });
+      } else {
+         this.titleData = data;
+      }
       // var data = this.$store.state.article.articleAll;
       // if (data.length !== 0) {
       //   this.titleData = data
@@ -105,7 +108,6 @@ export default {
 
 .article-list a {
   color: #525252;
-  
 }
 
 .article-list li a {

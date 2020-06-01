@@ -1,5 +1,5 @@
 const state = {
-  tagData: {},
+  // tagData: {},
   tagValue: '',
   search: '',
   loading: true,
@@ -22,9 +22,9 @@ const mutations = {
   setTagValue(state, data) {
     state.tagValue = data;
   },
-  setTagData(state, data) {
-    state.tagData = data;
-  },
+  // setTagData(state, data) {
+  //   state.tagData = data;
+  // },
   setSearchValue(state, data) {
     state.search = data;
   },

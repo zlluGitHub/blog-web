@@ -7,7 +7,7 @@
 				</h3>
 				<ul class="tag">
 					<li @click="handleQuery('')" :class="!type?'active':''">
-						<a :style="'border:1px solid '+ getRandomColor()+';'" href="javascript:void(0);">全部{{count}}</a>
+						<a :style="'border:1px solid '+ getRandomColor()+';'" href="javascript:void(0);">全部（{{count}}）</a>
 					</li>
 					<li
 						v-for="(item,i) in typeArr"
@@ -41,7 +41,7 @@
 							<div class="edit">
 								<span>
 									<i class="fa fa-calendar"></i>
-									{{item.date}}
+									{{item.date.slice(0,10)}}
 								</span>
 								<span>
 									<i class="fa fa-eye"></i>
@@ -61,7 +61,7 @@
 					@on-page-size-change="changeSizePage"
 					:page-size-opts="pageSizeOpts"
 					:page-size="limit"
-					:total="count"
+					:total="total"
 					show-sizer
 				/>
 				<!-- <div class="load-more" @click="handleMore">
@@ -99,14 +99,14 @@
 				pageNo: 1,
 				pageSize: 12,
 				count: 0,
+				total: 0,
 				pageSizeOpts: [12, 24, 36, 48, 60],
 				limit: 12,
 				// URL: process.env.baseUrl + "/zllublogAdmin/",
 				isChartEditor: false,
 				bid: "",
 				content: [],
-				typeArr: [],
-				count: 0
+				typeArr: []
 			};
 		},
 		// computed: {
@@ -155,6 +155,7 @@
 					.then(res => {
 						if (res.data.result) {
 							this.content = res.data.list;
+							this.total = res.data.total;
 						} else {
 							this.$Message["error"]({
 								background: true,
@@ -237,9 +238,8 @@
 
 	.tag li a {
 		display: flex;
-		padding: 7px 14px;
-
-		font-size: 13px;
+		padding: 4px 6px;
+		font-size: 12px;
 		border-radius: 5px;
 		box-shadow: 0 3px 5px rgba(0, 0, 0, 0.12);
 		color: #666;
@@ -272,6 +272,7 @@
 		flex-wrap: wrap;
 		> div {
 			margin: 8px;
+			width: 278px;
 		}
 		.img-warp {
 			box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12);
@@ -280,7 +281,7 @@
 			.img-box {
 				position: relative;
 				display: flex;
-				width: 279px;
+				width: 100%;
 				height: 170px;
 				padding: 2px;
 				cursor: pointer;
@@ -355,6 +356,7 @@
 			color: #aaa;
 			span {
 				// color: #fff;
+				overflow: hidden;
 				i {
 					margin-right: 5px;
 				}

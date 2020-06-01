@@ -9,10 +9,10 @@
         <!-- <a
           @click="handleLook(item.bid,isStatic,item.title)"
           :href="isStatic?URL+item.bid:'javascript:void(0);'"
-        >{{item.title}}</a> -->
-         <router-link
+        >{{item.title}}</a>-->
+        <router-link
           :to="{ path: '/detail', query: { id: item.bid}}"
-          @click.native ="handleLook(item.bid)"
+          @click.native="handleLook(item.bid)"
         >{{item.title}}</router-link>
       </li>
     </ul>
@@ -52,31 +52,23 @@ export default {
   },
   methods: {
     handleData() {
-      this.$axios
-        .get(this.$url + "/zll/article/list")
-        .then(res => {
+      let data = this.$store.state.comment.newArtileData;
+      if (data.length === 0) {
+        this.$axios.get(this.$url + "/zll/article/list").then(res => {
           if (res.data.result) {
             this.titleData = res.data.list;
+            this.$store.commit("setNewArtileData", this.titleData);
           }
-          // data.forEach(ele => {
-          //   ele.keywords = ele.keywords.split("、");
-          //   ele.publishTime = ele.publishTime.slice(0, 10);
-          // });
-          // this.show = false;
-          // this.$store.commit("setArtileAll", data);
         });
-      // var data = [...this.$store.state.article.articleAll];
-      // let arr = [];
-      // if (data.length !== 0) {
-      //   arr = data.reverse();
-      //   this.titleData = arr.slice(0, 8);
-      // }
+      } else {
+        this.titleData = data;
+      }
     },
     //跳转到详情页
     handleLook(bid) {
       console.log(bid);
-      
-         // 返回顶部
+
+      // 返回顶部
       this.$goBack();
       // 将bid存储到store中
       // this.$store.commit("setBid", bid);

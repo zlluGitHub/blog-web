@@ -5,9 +5,9 @@
     </h3>
     <div class="panel-body">
       <p>
-        <i class="fa fa-quote-left fa-lg"></i>
+        <i class="fa fa-quote-left"></i>
         {{Value}}
-        <i class="fa fa-quote-right fa-lg"></i>
+        <i class="fa fa-quote-right"></i>
       </p>
     </div>
   </div>
@@ -21,7 +21,7 @@ export default {
   props: ["say"],
   watch: {
     say(val) {
-      this.Value = val.content;
+      this.Value = this.clearHtml(val.content);
     }
   },
   // computed: {
@@ -36,7 +36,15 @@ export default {
   // },
   created() {
     // let val = this.$store.state.say.sayAll[0];
-    this.Value = this.say ? this.say.content : "博主很懒，什么都没说。。。";
+    this.Value = this.say
+      ? this.clearHtml(this.say.content)
+      : "博主很懒，什么都没说。。。";
+  },
+  methods: {
+    clearHtml(content) {
+      var temp = content.replace(/<\/?.+?>/g, "");
+      return temp.replace(/ /g, ""); //result为得到后的内容
+    }
   }
 };
 </script>
@@ -50,27 +58,24 @@ export default {
     font-size: 13px;
     line-height: 1.8;
     color: #777;
+    position: relative;
+    text-indent: 20px;
     i {
       // width: 0;
       display: inline-block;
       color: rgba(121, 120, 120, 0.6);
-      // position: absolute;
+      position: absolute;
     }
     .fa-quote-left {
-      //   top: 18px;
-      // left: 14px;
-      margin-left: 5px;
-      margin-right: 8px;
-      margin-bottom: 3px;
-      transform: translateY(-8px);
+      top: 16px;
+      left: -3px;
+
+      // transform: translateY(-8px);
     }
     .fa-quote-right {
-      margin-left: 5px;
-      margin-right: 8px;
-      margin-bottom: 3px;
-      transform: translateY(8px);
-      //      bottom: 18px;
-      // right: 14px;
+      // transform: translateY(8px);
+      bottom: 18px;
+      right: 16px;
     }
   }
 }

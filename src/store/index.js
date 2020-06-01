@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import article from './article';
 // import say from './say';
-// import comment from './comment';
+import comment from './comment';
 // import share from './share';
 // import music from './music';
 
@@ -12,7 +12,7 @@ const store = () => new Vuex.Store({
   modules: {
     article,
     // say,
-    // comment,
+    comment,
     // share,
     // music
   }
