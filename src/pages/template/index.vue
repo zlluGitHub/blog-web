@@ -2,8 +2,8 @@
   <div>
     <div>
       <div class="whitebg lanmu">
-        <img src="../../assets/image/web.jpg" />
-        <h1>{{type}}</h1>
+        <!-- <img src="../../assets/image/web.jpg" /> -->
+       <h1><Icon type="md-desktop" size="16"/>{{type}}</h1>
         <p>此版块主要汇集了一些个人感觉不错的前端模板，以便之后开发作为参考。</p>
       </div>
       <div class="web-box" v-if="contentData.length">

@@ -3,8 +3,8 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-        <img src="../../assets/image/web.jpg" />
-        <h1>{{type}}</h1>
+        <!-- <img src="../../assets/image/web.jpg" /> -->
+        <h1><Icon type="md-desktop" size="16"/>{{type}}</h1>
         <p>本专栏中记录了自己在闲暇期间吸取的一些技术知识点，以及在开发过程中所遇到的技术问题，在此做下总结，以备不时之需。同时也希望可以帮到那些和我遇到同样问题的朋友！ ٩(๑&gt;◡&lt;๑)۶ 。</p>
       </div>
       <ArticleList

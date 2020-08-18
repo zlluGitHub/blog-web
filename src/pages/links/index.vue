@@ -191,7 +191,7 @@ export default {
 
 <style lang="scss" scoped>
 .web-box {
-  width: 1200px;
+  // width: 1200px;
   padding: 12px 30px;
   margin: auto;
   background-color: #fff;

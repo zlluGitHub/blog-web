@@ -2,8 +2,8 @@
   <div>
     <div>
       <div class="whitebg lanmu">
-        <img src="../../assets/image/web.jpg" />
-        <h1>{{type}}</h1>
+        <!-- <img src="../../assets/image/web.jpg" /> -->
+        <h1><Icon type="md-desktop" size="16"/>{{type}}</h1>
         <p>此版块主要汇集自己在项目开发中用到的组件，其中包括与 Vue、React、jQuery 相关的组件以及常用的 UI 组件等等。</p>
       </div>
       <div class="web-box" v-if="contentData.length">

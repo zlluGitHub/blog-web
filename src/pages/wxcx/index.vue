@@ -3,8 +3,8 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-        <img src="../../assets/image/web.jpg" />
-        <h1>{{type}}</h1>
+        <!-- <img src="../../assets/image/web.jpg" /> -->
+        <h1><Icon type="md-desktop" size="16"/>{{type}}</h1>
         <p>在这里记录了一些有关微信小程序的一些相关知识点。</p>
       </div>
       <ArticleList

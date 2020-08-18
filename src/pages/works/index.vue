@@ -2,8 +2,8 @@
 	<div class="works">
 		<div>
 			<div class="whitebg lanmu">
-				<img src="../../assets/image/web.jpg" />
-				<h1>{{type}}</h1>
+				<!-- <img src="../../assets/image/web.jpg" /> -->
+				<h1><Icon type="md-desktop" size="16"/>{{type}}</h1>
 				<p>此版块主要记录个人在学习过程中所做的一些 Demo 案例。包括一些可视化图谱，例如：D3、Three、vis、echarts等等。</p>
 			</div>
 			<div v-if="!contentData.length" class="box-bj-sd warp">

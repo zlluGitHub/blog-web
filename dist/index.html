@@ -1,1 +1,40 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=canonical href=http://zhenglinglu.cn/ ><link rel=icon href=favicon.ico><title>露珠博客 - 个人技术博客 | 月光下的露珠，记录生活点滴</title><meta name=keywords content=露珠博客,郑玲璐博客,web前端,个人博客,技术分享,月光下的露珠,原创博客><meta name=description content=月光下的露珠、露珠博客网站专注于个人原创技术作品分享，记录生活点滴，分享web前端开发相关技术，追求用户体验设计的个人原创博客IT技术分享，欢迎关注露珠博客！><meta property=og:title content="露珠博客 - 专注于技术分享的博客平台"><meta property=og:description content=一个专注于技术分享的博客平台,个人原创博客IT技术分享><meta name=twitter:title content="露珠博客 - 专注于技术分享的博客平台"><meta name=twitter:description content=一个专注于技术分享的博客平台,个人原创博客IT技术分享><meta property=og:url content=http://zhenglinglu.cn/ ><link rel=stylesheet href=./editorCss/content.min.css><link rel=stylesheet href=./editorCss/content.mobile.min.css><script src=./publicJs/apiayer.js></script><script src=./publicJs/particles.js></script><script src=./publicJs/echarts.min.js></script><script src=./publicJs/jquery.min.js></script><script src=./publicJs/echarts-wordcloud.min.js></script><link href=/css/vendors~app.0473f8a9.css rel=stylesheet><link href=/css/app.03ff836c.css rel=stylesheet></head><body><div id=app></div><script src=/js/vendors~app.799927ff.js></script><script src=/js/app.5578ad18.js></script></body></html>
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=canonical href=http://zhenglinglu.cn/ ><link rel=icon href=favicon.ico><title>露珠博客 - 个人技术博客 | 月光下的露珠，记录生活点滴</title><meta name=keywords content=露珠博客,郑玲璐博客,web前端,个人博客,技术分享,月光下的露珠,原创博客><meta name=description content=月光下的露珠、露珠博客网站专注于个人原创技术作品分享，记录生活点滴，分享web前端开发相关技术，追求用户体验设计的个人原创博客IT技术分享，欢迎关注露珠博客！><meta property=og:title content="露珠博客 - 专注于技术分享的博客平台"><meta property=og:description content=一个专注于技术分享的博客平台,个人原创博客IT技术分享><meta name=twitter:title content="露珠博客 - 专注于技术分享的博客平台"><meta name=twitter:description content=一个专注于技术分享的博客平台,个人原创博客IT技术分享><meta property=og:url content=http://zhenglinglu.cn/ ><link rel=stylesheet href=./editorCss/content.min.css><link rel=stylesheet href=./editorCss/content.mobile.min.css><script src=./publicJs/apiayer.js></script><script src=./publicJs/particles.js></script><script src=./publicJs/echarts.min.js></script><script src=./publicJs/jquery.min.js></script><script src=./publicJs/echarts-wordcloud.min.js></script><script src=./publicJs/echarts-wordcloud.min.js></script><script src=./publicJs/map/js/china.js></script><script src=./publicJs/map/js/world.js></script><script src=./publicJs/echarts-wordcloud.min.js></script><link href=/css/vendors~app.0473f8a9.css rel=stylesheet><link href=/css/app.c99a88b3.css rel=stylesheet></head><body><div id=app></div><script src=/js/vendors~app.799927ff.js></script><script src=/js/app.d378b33c.js></script></body><script src=./L2Dwidget.min.js></script><script>// 所有模型集合
+  var modelArray = ["chitose", "epsilon2_1", "haru/01", "haru/02", "haruto", "hibiki", "hijiki", "izumi",
+    "koharu", "miku", "nico", "nietzsche", "ni-j", "nipsilon", "nito", "shizuku", "tororo", "tsumiki", "unitychan",
+    "wanko", "z16"
+  ];
+  var random = Math.floor((Math.random() * modelArray.length));
+  var modelName = modelArray.slice(random, random + 1)[0];
+  var pluginModelPath = "assets/", // 模型的文件路径，无需更改
+    pluginRootPath = "./live2d_models/"; // 插件的路径，无需更改
+  var modelPathJson = {
+    "epsilon2_1": "Epsilon2.1",
+    "haru/01": "haru01",
+    "haru/02": "haru02",
+    "nietzsche": "nietzche"
+  }
+
+  var modelJsonPath = "";
+  if (modelPathJson[modelName]) {
+    modelJsonPath = pluginRootPath + modelName + "/" + pluginModelPath + modelPathJson[modelName] +
+      ".model.json";
+  } else {
+    modelJsonPath = pluginRootPath + modelName + "/" + pluginModelPath + modelName + ".model.json";
+  }
+  console.log(modelJsonPath);
+  L2Dwidget.init({
+    model: {
+      jsonPath: modelJsonPath
+    },
+    display: {
+      // position: Math.floor(Math.random() * 10 + 1) > 5 ? "right" : "left" //取值(left | right)
+      position: "right"
+    },
+    mobile: {
+      show: true,
+      scale: 0.5
+    },
+    react: {
+      opacity: 0.8
+    }
+  })</script></html>

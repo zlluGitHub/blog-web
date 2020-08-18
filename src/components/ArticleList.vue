@@ -287,7 +287,7 @@ export default {
         position: relative;
         padding: 2px;
         border: 1px solid #f3f3f3;
-        width: 28%;
+        width: 230px;
         height: 150px;
         margin-right: 18px;
         // border-radius: 3px;
@@ -313,7 +313,7 @@ export default {
         transform: scale(1.1, 1.1);
       }
       .list-right {
-        width: 69%;
+        width: calc(100% - 250px);
 
         p.tags {
           padding-right: 20px;

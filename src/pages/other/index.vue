@@ -3,8 +3,8 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-          <img src="../../assets/image/web.jpg"/>
-        <h1>{{type}}</h1>
+          <!-- <img src="../../assets/image/web.jpg"/> -->
+        <h1><Icon type="md-desktop" size="16"/>{{type}}</h1>
         <p>此专栏主要记录一些有关 Linux 操作系统、Git、NPM 等知识点。另外还包括一些其他的技术要点。</p>
       </div>
          <ArticleList :content="contentData" @on-change-page="changePage"

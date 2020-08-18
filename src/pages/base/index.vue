@@ -3,8 +3,8 @@
 		<!-- 左半部分 -->
 		<section>
 			<div class="whitebg lanmu">
-				<img src="../../assets/image/web.jpg" />
-				<h1>{{type}}</h1>
+				<!-- <img src="../../assets/image/web.jpg" /> -->
+				<h1><Icon type="md-desktop" size="16"/>{{type}}</h1>
 				<p>此专栏主要记录一些关于数据库的一些相关内容。比如 MySQL 数据库、mongoDB 数据库等。</p>
 			</div>
 			<ArticleList :content="contentData" @on-change-page="changePage" @on-size-page="changeSizePage" />

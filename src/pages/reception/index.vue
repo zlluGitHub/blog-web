@@ -3,8 +3,8 @@
     <!-- 左半部分 -->
     <section>
       <div class="whitebg lanmu">
-        <img src="../../assets/image/web.jpg" />
-        <h1>{{type}}</h1>
+        <!-- <img src="../../assets/image/web.jpg" /> -->
+        <h1><Icon type="md-desktop" size="16"/>{{type}}</h1>
         <p>记录 pc端 和 移动端 开发周边技术栈。比如 html5、css3、JavaScript 以及目前在用 Vue、React、各种 UI 框架及建站 CMS。另外总结在开发过程中所遇到的技术问题等。</p>
       </div>
       <ArticleList

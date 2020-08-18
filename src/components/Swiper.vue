@@ -50,7 +50,7 @@ export default {
 .swiperBox {
   img {
     width: 100%;
-    height: 390px;
+    height: 540px;
     display: block;
     cursor: pointer;
   }

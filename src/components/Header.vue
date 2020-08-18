@@ -2,8 +2,8 @@
   <div>
     <div class="heade" :class="isFixed?'heade-fixed':''">
       <div class="warp">
-        <span class="navicon" @click.stop="handleNavShow" :class="[navShow?'open':'']"></span>
-        <Icon type="ios-search" class="search" @click.stop="SearchShow" size="40" />
+        <!-- <span class="navicon" @click.stop="handleNavShow" :class="[navShow?'open':'']"></span>
+        <Icon type="ios-search" class="search" @click.stop="SearchShow" size="40" /> -->
         <div class="logo">
           <div class="logo-top">Hi,&nbsp;&nbsp;{{textDate}}&nbsp;现在是 {{time}}</div>
           <div class="logo-inner">
@@ -313,6 +313,7 @@ export default {
 }
 .heade {
   position: fixed;
+  justify-content: center;
   width: 100%;
   z-index: 100;
   height: 105px;
@@ -321,7 +322,7 @@ export default {
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.17);
   transition: all 0.3s ease;
   .warp {
-    width: 1200px;
+    width: 1700px;
     display: flex;
     position: relative;
     justify-content: space-between;
@@ -467,14 +468,14 @@ export default {
         }
         ul.nav-ul {
           > li.active > a {
-            color: #45b6f7;
+            color: #ef4868;
           }
           > li {
             position: relative;
             padding-bottom: 12px;
-            margin-left: 15px;
+            margin-left: 30px;
             a:hover {
-              color: #45b6f7;
+              color: #ef4868;
             }
             a {
               margin: 0px 2px;
@@ -504,12 +505,14 @@ export default {
                   text-align: center;
                   padding: 5px 16px;
                   font-size: 13px;
+                  transition: all .3s;
                 }
               }
               li:hover {
-                background-color: #45b6f7;
+                // background-color: #45b6f7;
                 a {
-                  color: #fff;
+                  color: #ef4868;
+                  transform: scale(1.1);
                 }
               }
             }

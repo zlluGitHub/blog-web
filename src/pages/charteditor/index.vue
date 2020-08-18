@@ -111,10 +111,7 @@
               </div>
             </Option>
           </Select>
-        </div>
-
-        <div>
-          请求地址：
+          <span class="qingqiu">请求地址：</span>
           <Select v-model="urlType" value="GET" style="width:75px;">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
@@ -138,9 +135,12 @@
               </p>
             </div>
           </Tooltip>
-          <Button type="info" ghost @click="getUrlData">请求</Button>
-          <Button type="success" ghost @click="handleClear">重置</Button>
-          <Button type="primary" ghost @click="handleRouter">关闭</Button>
+          <Button class="qingqiu" type="info" @click="getUrlData">请求</Button>
+          <Button type="success" @click="handleClear">重置</Button>
+        </div>
+
+        <div>
+          <Button type="primary" @click="handleRouter">关闭</Button>
         </div>
       </div>
       <EchartsTemplate ref="template" />
@@ -195,7 +195,7 @@ export default {
   name: "jsedition",
   components: {
     EchartsTemplate,
-    AceEditor
+    AceEditor,
   },
   data: () => ({
     drawer: false,
@@ -211,12 +211,12 @@ export default {
     cityList: [
       {
         label: "GET",
-        value: "GET"
+        value: "GET",
       },
       {
         label: "POST",
-        value: "POST"
-      }
+        value: "POST",
+      },
     ],
 
     title: "",
@@ -231,7 +231,7 @@ export default {
     explain: "",
     bid: "",
     date: "",
-    chartClass: "0"
+    chartClass: "0",
   }),
   props: ["id"],
   // computed:{
@@ -243,7 +243,7 @@ export default {
     id(val) {
       this.bid = val;
       this.getBidData();
-    }
+    },
   },
   created() {
     this.tooltipContent = `返回的数据可以在左侧 API编辑 中查看或编辑。`;
@@ -258,7 +258,7 @@ export default {
     // 获取某个主题
     getTheme(name) {
       if (this.themeList.length) {
-        this.themeList.forEach(item => {
+        this.themeList.forEach((item) => {
           if (item.name === name) {
             this.theme = item;
             this.themeType = name;
@@ -271,18 +271,18 @@ export default {
     getThemeName() {
       this.$axios
         .get(this.$url + "/zll/chart/theme")
-        .then(res => {
+        .then((res) => {
           let data = res.data.data;
-          this.themeList = data.map(item => {
+          this.themeList = data.map((item) => {
             item.colorArr = JSON.parse(item.color).slice(0, 5);
             return item;
           });
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           this.$Message["error"]({
             background: true,
-            content: "主题加载错误！"
+            content: "主题加载错误！",
           });
         });
     },
@@ -309,40 +309,40 @@ export default {
         if (!this.urlValue && this.urlValue !== "http://") {
           this.$axios
             .get(this.urlValue)
-            .then(res => {
+            .then((res) => {
               this.handleData(res);
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
               this.$Message["error"]({
                 background: true,
-                content: "请输入正确的请求地址！"
+                content: "请输入正确的请求地址！",
               });
             });
         } else {
           this.$Message["error"]({
             background: true,
-            content: "请输入正确的请求地址！"
+            content: "请输入正确的请求地址！",
           });
         }
       } else {
         if (!this.urlValue && this.urlValue !== "http://") {
           this.$axios
             .post(this.urlValue)
-            .then(res => {
+            .then((res) => {
               this.handleData(res);
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
               this.$Message["error"]({
                 background: true,
-                content: "请输入正确的请求地址！"
+                content: "请输入正确的请求地址！",
               });
             });
         } else {
           this.$Message["error"]({
             background: true,
-            content: "请输入正确的请求地址！"
+            content: "请输入正确的请求地址！",
           });
         }
       }
@@ -353,7 +353,7 @@ export default {
       if (data) {
         this.$Message["success"]({
           background: true,
-          content: "数据请求成功！"
+          content: "数据请求成功！",
         });
         if (data.list) {
           data = data.list;
@@ -364,7 +364,7 @@ export default {
         } else {
           this.$Message["error"]({
             background: true,
-            content: "数据格式错误！可在左侧 Api编辑 处手动修正！"
+            content: "数据格式错误！可在左侧 Api编辑 处手动修正！",
           });
         }
         let objStr = JSON.stringify(data, null, 4);
@@ -373,7 +373,7 @@ export default {
       } else {
         this.$Message["error"]({
           background: true,
-          content: "返回数据为空！"
+          content: "返回数据为空！",
         });
       }
     },
@@ -397,7 +397,7 @@ export default {
       if (this.bid) {
         this.$axios
           .get(this.$url + "/zll/subunit/chart", { params: { bid: this.bid } })
-          .then(res => {
+          .then((res) => {
             if (res.data.result) {
               let content = res.data.content;
               this.title = content.title;
@@ -416,14 +416,14 @@ export default {
             } else {
               this.$Message["error"]({
                 background: true,
-                content: "数据请求失败！"
+                content: "数据请求失败！",
               });
             }
-					this.$event.emit("inLoading", false);
-            	let time = window.setTimeout(() => {
-							window.clearTimeout(time);
-							this.$event.emit("pageLoading", false);
-						}, this.$loadingTime);
+            this.$event.emit("inLoading", false);
+            let time = window.setTimeout(() => {
+              window.clearTimeout(time);
+              this.$event.emit("pageLoading", false);
+            }, this.$loadingTime);
           });
       }
     },
@@ -464,8 +464,8 @@ export default {
     },
     handleDrawer() {
       this.drawer = !this.drawer;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -476,32 +476,38 @@ export default {
   .left {
     width: 35%;
     height: 100%;
-    border-right: 3px solid #ccc;
+    // border-right: 3px solid #ccc;
+    border-right: 1px solid #ccc;
     position: relative;
     .menu {
       display: flex;
       justify-content: space-between;
-      background-color: #ebebeb;
-      margin-top: 1px;
+      // background-color: #ebebeb;
+      //   background: #e12f3f;
+      background: #515a6e;
+      //   margin-top: 1px;
+      color: #fff;
+      line-height: 33px;
+      //   border-right: 1px solid #ccc;
       .me-left {
         width: 47px;
-        border: 1px solid #ccc;
+        border-right: 1px solid #ccc;
       }
       .me-right {
         width: calc(100% - 47px);
         display: flex;
         //  box-shadow: 0 1px 3px rgba(26,26,26,.1);
         li {
-          width: 33.3%;
+          flex-grow: 1;
           padding: 11.5px 0;
           text-align: center;
-          border: 1px solid #ccc;
+          // border: 1px solid #ccc;
           cursor: pointer;
         }
         li.action {
           border: 0px;
-          color: #19be6b;
-          background-color: #fff;
+          // color: #19be6b;
+          background-color: rgba(0, 0, 0, 0.1);
         }
       }
     }
@@ -510,13 +516,13 @@ export default {
       height: 100%;
     }
     .tab {
-      height: calc(100% - 50px);
+      height: calc(100% - 60px);
       ul {
         overflow-y: auto;
       }
     }
     .handle-box {
-      top: 60px;
+      top: 85px;
       right: 32px;
     }
   }
@@ -540,35 +546,40 @@ export default {
     // display: flex;
     // justify-content: center;
     // align-items: center;
-    background-color: #fff;
+    // background-color: #fff;
+    color: #fff;
     position: relative;
     .handle-box {
       top: 55px;
       right: 32px;
     }
     .title {
-      background: #fcfcfc;
-      padding: 6px 16px;
-      background-color: #ebebeb;
-      margin-top: 1px;
-      border: 1px solid #ccc;
+      // background: #fcfcfc;
+      padding: 12px 16px;
+      //    line-height: 32px;
+      //   background-image: linear-gradient(
+      //     143deg,
+      //     #e12f3f 10%,
+      //     #f79275 90%,
+      //     #ffc107
+      //   );
+      background: #515a6e;
+      //   margin-top: 1px;
+      //   border: 1px solid #ccc;
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 24px;
+      .qingqiu {
+        margin-left: 40px;
+      }
+      .button-n-k {
+        margin-left: 20px;
+        display: inline-block;
+      }
       > div {
         display: flex;
         align-items: center;
-        .ivu-input-wrapper {
-          margin-right: 10px;
-        }
-        label {
-          padding: 5px 10px;
-          background: #f7f9fa;
-          height: 32px;
-          border: 1px solid #dcdee2;
-          border-right: 0px;
-        }
         button {
           margin: 0 5px;
         }
@@ -645,9 +656,14 @@ export default {
     margin-left: 5px;
   }
 }
-</style>
-<style lang="scss">
-.ivu-tooltip-inner-with-width {
+/deep/ .ivu-tooltip-inner-with-width {
   white-space: initial;
+}
+/deep/ .ivu-select-selection {
+  border-radius: 0;
+}
+/deep/ .ivu-input {
+  border-radius: 0;
+  //   border-left: 0;
 }
 </style>
